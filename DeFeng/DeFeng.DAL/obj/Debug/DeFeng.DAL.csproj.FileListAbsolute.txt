@@ -7,3 +7,12 @@ D:\Project\DeFeng\DeFeng.DAL\bin\Debug\DeFeng.Model.pdb
 D:\Project\DeFeng\DeFeng.DAL\obj\Debug\DeFeng.DAL.csprojResolveAssemblyReference.cache
 D:\Project\DeFeng\DeFeng.DAL\obj\Debug\DeFeng.DAL.dll
 D:\Project\DeFeng\DeFeng.DAL\obj\Debug\DeFeng.DAL.pdb
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\bin\Debug\DeFeng.DAL.dll
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\bin\Debug\DeFeng.DAL.pdb
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\bin\Debug\DeFeng.Common.dll
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\bin\Debug\DeFeng.Model.dll
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\bin\Debug\DeFeng.Common.pdb
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\bin\Debug\DeFeng.Model.pdb
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\obj\Debug\DeFeng.DAL.csprojResolveAssemblyReference.cache
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\obj\Debug\DeFeng.DAL.dll
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\obj\Debug\DeFeng.DAL.pdb
