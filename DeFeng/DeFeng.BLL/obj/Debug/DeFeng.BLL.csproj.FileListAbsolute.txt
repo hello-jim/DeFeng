@@ -1,0 +1,11 @@
+D:\Project\DeFeng\DeFeng.BLL\bin\Debug\DeFeng.BLL.dll
+D:\Project\DeFeng\DeFeng.BLL\bin\Debug\DeFeng.BLL.pdb
+D:\Project\DeFeng\DeFeng.BLL\bin\Debug\DeFeng.Common.dll
+D:\Project\DeFeng\DeFeng.BLL\bin\Debug\DeFeng.DAL.dll
+D:\Project\DeFeng\DeFeng.BLL\bin\Debug\DeFeng.Model.dll
+D:\Project\DeFeng\DeFeng.BLL\bin\Debug\DeFeng.DAL.pdb
+D:\Project\DeFeng\DeFeng.BLL\bin\Debug\DeFeng.Model.pdb
+D:\Project\DeFeng\DeFeng.BLL\bin\Debug\DeFeng.Common.pdb
+D:\Project\DeFeng\DeFeng.BLL\obj\Debug\DeFeng.BLL.csprojResolveAssemblyReference.cache
+D:\Project\DeFeng\DeFeng.BLL\obj\Debug\DeFeng.BLL.dll
+D:\Project\DeFeng\DeFeng.BLL\obj\Debug\DeFeng.BLL.pdb

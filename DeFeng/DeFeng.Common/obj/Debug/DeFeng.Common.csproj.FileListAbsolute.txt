@@ -1,0 +1,7 @@
+D:\Project\DeFeng\DeFeng.Common\bin\Debug\DeFeng.Common.dll
+D:\Project\DeFeng\DeFeng.Common\bin\Debug\DeFeng.Common.pdb
+D:\Project\DeFeng\DeFeng.Common\bin\Debug\DeFeng.Model.dll
+D:\Project\DeFeng\DeFeng.Common\bin\Debug\DeFeng.Model.pdb
+D:\Project\DeFeng\DeFeng.Common\obj\Debug\DeFeng.Common.csprojResolveAssemblyReference.cache
+D:\Project\DeFeng\DeFeng.Common\obj\Debug\DeFeng.Common.dll
+D:\Project\DeFeng\DeFeng.Common\obj\Debug\DeFeng.Common.pdb

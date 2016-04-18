@@ -1,0 +1,4 @@
+D:\Project\DeFeng\DeFeng.Model\bin\Debug\DeFeng.Model.dll
+D:\Project\DeFeng\DeFeng.Model\bin\Debug\DeFeng.Model.pdb
+D:\Project\DeFeng\DeFeng.Model\obj\Debug\DeFeng.Model.dll
+D:\Project\DeFeng\DeFeng.Model\obj\Debug\DeFeng.Model.pdb

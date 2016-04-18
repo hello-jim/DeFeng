@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3BC63D91-E648-4C65-8BF3-3B4282F245FA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DeFeng.DAL</RootNamespace>
+    <AssemblyName>DeFeng.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Appliance_DAL.cs" />
+    <Compile Include="Area_DAL.cs" />
+    <Compile Include="City_DAL.cs" />
+    <Compile Include="CommissionPayType_DAL.cs" />
+    <Compile Include="Current_DAL.cs" />
+    <Compile Include="Customer_DAL.cs" />
+    <Compile Include="DecorationType_DAL.cs" />
+    <Compile Include="Department_DAL.cs" />
+    <Compile Include="District_DAL.cs" />
+    <Compile Include="EntrustType_DAL.cs" />
+    <Compile Include="FollowType_DAL.cs" />
+    <Compile Include="Furniture_DAL.cs" />
+    <Compile Include="HouseDocumentType_DAL.cs" />
+    <Compile Include="HouseFollowRecord_DAL.cs" />
+    <Compile Include="HousePayType_DAL.cs" />
+    <Compile Include="HouseQuality_DAL.cs" />
+    <Compile Include="HouseStatus_DAL.cs" />
+    <Compile Include="HouseTableColChecked_DAL.cs" />
+    <Compile Include="HouseType_DAL.cs" />
+    <Compile Include="HouseUseType_DAL.cs" />
+    <Compile Include="House_DAL.cs" />
+    <Compile Include="HousingLetter_DAL.cs" />
+    <Compile Include="Image_DAL.cs" />
+    <Compile Include="LookHouseType_DAL.cs" />
+    <Compile Include="Orientation_DAL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyOwn_DAL.cs" />
+    <Compile Include="Province_DAL.cs" />
+    <Compile Include="ResidentialDistrict_DAL.cs" />
+    <Compile Include="Source_DAL.cs" />
+    <Compile Include="Supporting_DAL.cs" />
+    <Compile Include="TaxPayType_DAL.cs" />
+    <Compile Include="TransactionType_DAL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DeFeng.Common\DeFeng.Common.csproj">
+      <Project>{dc21fc54-9d9e-42cc-b8bb-e7256da37c52}</Project>
+      <Name>DeFeng.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DeFeng.Model\DeFeng.Model.csproj">
+      <Project>{cf6d2478-8b58-4b6c-9107-f483b9108ea6}</Project>
+      <Name>DeFeng.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
