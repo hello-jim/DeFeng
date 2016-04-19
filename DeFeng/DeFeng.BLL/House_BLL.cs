@@ -11,7 +11,7 @@ namespace DeFeng.BLL
 {
     public class House_BLL
     {
-        House_DAL dal = new House_DAL();
+
         /// <summary>
         /// 按条件筛选客源
         /// </summary>
@@ -19,6 +19,7 @@ namespace DeFeng.BLL
         /// <returns></returns>
         public List<House> SearchHouse(House house)
         {
+            House_DAL dal = new House_DAL();
             List<House> houseList = new List<House>();
             try
             {
@@ -35,8 +36,10 @@ namespace DeFeng.BLL
             }
             return houseList;
         }
+
         public bool AddHouse(House house)
         {
+            House_DAL dal = new House_DAL();
             var result = false;
             try
             {
@@ -54,6 +57,7 @@ namespace DeFeng.BLL
 
         public bool UpdateHouse(House house)
         {
+            House_DAL dal = new House_DAL();
             var result = false;
             try
             {
@@ -65,6 +69,7 @@ namespace DeFeng.BLL
 
         public bool DeleteHouse(List<int> idArr)
         {
+            House_DAL dal = new House_DAL();
             var result = false;
             try
             {
@@ -83,6 +88,7 @@ namespace DeFeng.BLL
         /// <returns></returns>
         public List<House> HouseDistributionCustomer(House house)
         {
+            House_DAL dal = new House_DAL();
             List<House> houseList = new List<House>();
             try
             {

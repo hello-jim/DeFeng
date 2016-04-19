@@ -65,6 +65,7 @@
     <Compile Include="HouseUseType.cs" />
     <Compile Include="HousingLetter.cs" />
     <Compile Include="Image.cs" />
+    <Compile Include="Intention.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="LookHouseType.cs" />
     <Compile Include="Orientation.cs" />

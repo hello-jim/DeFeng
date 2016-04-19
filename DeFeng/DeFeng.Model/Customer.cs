@@ -17,7 +17,6 @@ namespace DeFeng.Model
         private string presentAddress;//现在住址
         private string customerDemand;//客户需求
         private string customerStatus;//客户状态(例如已租、已购)
-        private string customerQuality;//客户质量
         private TransactionType transactionType;//交易类型(如求购、求租)
         private int isPrivateCustomer;//是否是私客
         private int isQualityCustomer;//是否是优质客
@@ -46,7 +45,7 @@ namespace DeFeng.Model
         private int floor;//楼层
         private int floorFrom;
         private int floorTo;
-        private string intention;//客户意向
+        private Intention intention;//客户意向
         private DecorationType decorationType;//装修
         private HousePayType housePayType;//支付类型(例如一次性支付)
         private string supporting;//配套设施
@@ -176,19 +175,7 @@ namespace DeFeng.Model
             }
         }
 
-        public string CustomerQuality
-        {
-            get
-            {
-                return customerQuality;
-            }
-
-            set
-            {
-                customerQuality = value;
-            }
-        }
-
+      
         public TransactionType TransactionType
         {
             get
@@ -514,7 +501,7 @@ namespace DeFeng.Model
             }
         }
 
-        public string Intention
+        public Intention Intention
         {
             get
             {
