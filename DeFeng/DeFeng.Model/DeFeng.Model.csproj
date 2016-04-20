@@ -46,6 +46,7 @@
     <Compile Include="CommissionPayType.cs" />
     <Compile Include="Current.cs" />
     <Compile Include="Customer.cs" />
+    <Compile Include="CustomerType.cs" />
     <Compile Include="DecorationType.cs" />
     <Compile Include="Department.cs" />
     <Compile Include="District.cs" />

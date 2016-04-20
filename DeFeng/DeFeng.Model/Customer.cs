@@ -36,7 +36,6 @@ namespace DeFeng.Model
         private decimal priceFrom;//价格从...
         private decimal priceTo;//价格至...
         private DateTime entrustStartDate;//委托开始时间
-        private DateTime proxyEndDate;//代理结束时间
         private string source;//客户来源
         private string grade;//等级
         private Orientation orientation;//房屋朝向
@@ -407,19 +406,6 @@ namespace DeFeng.Model
             set
             {
                 entrustStartDate = value;
-            }
-        }
-
-        public DateTime ProxyEndDate
-        {
-            get
-            {
-                return proxyEndDate;
-            }
-
-            set
-            {
-                proxyEndDate = value;
             }
         }
 
