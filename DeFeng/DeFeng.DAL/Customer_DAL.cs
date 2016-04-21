@@ -135,12 +135,12 @@ namespace DeFeng.DAL
                 #endregion
 
                 #region 交易类型
-                if (customer.TransactionType != null)
+                if (customer.CustomerTransactionType != null)
                 {
                     var str = "([transactionType]=@transactionType OR [transactionType]=3) AND ";
                     search.Append(str);
                     search2.Append(str);
-                    sqlParList.Add(new SqlParameter("@transactionType", customer.TransactionType.ID));
+                    sqlParList.Add(new SqlParameter("@transactionType", customer.CustomerTransactionType.ID));
                 }
                 #endregion
 
@@ -248,12 +248,73 @@ namespace DeFeng.DAL
                 #endregion
                 var searchStr = search.ToString();
                 var searchStr2 = search2.ToString();
-                var sql = string.Format("SELECT TOP {0} Count(*) OVER() AS totalHouseCount, District.ID AS disID, District.DisName, District.CityID AS disCityID, Area.ID AS areaID, areaName, ResidentialDistrict.ID AS rdID, ResidentialDistrict.name AS rdName, address, TransactionType.ID AS transactionTypeID, transactionTypeName, Orientation.ID AS orientationID, orientationName, HouseUseType.ID AS useTypeID, HouseUseType.typeName AS useTypeName, HouseType.ID AS houseTypeID, HouseType.typeName AS houseTypeName, CustomerStatus.ID AS statusID, CustomerStatus.statusName,DecorationType.ID AS decorationTypeID, DecorationType.typeName AS decorationTypeName, HousePayType.ID AS housePayTypeID, HousePayType.typeName AS housePayTypeName, CommissionPayType.ID AS commissionPayTypeID, CommissionPayType.typeName AS commissionPayTypeName, c.ID as cID,[customerName],[contacts],[customerPhone],[contactsPhone],[IDCard],[presentAddress],[customerDemand],[customerStatus],[customerQuality],[isPrivateCustomer],[isQualityCustomer],[roomCount],[hallCount],[toiletCount],[entrustStartDate],[houseSize],[housePrice],[supporting],[entrustOverDate],[remarks],c.createDate, c.lastUpdateDate FROM [Customer] AS c,[District],[Area],[ResidentialDistrict],[TransactionType],[HouseUseType],[HouseType],[Orientation],[Intention],[DecorationType],[HousePayType],[CommissionPayType] WHERE h.province = Province.ProID AND h.city = City.CityID AND h.district = District.Id AND h.residentialDistrict = ResidentialDistrict.ID AND h.housingLetter = HousingLetter.ID AND h.houseQuality = HouseQuality.ID AND h.transactionType = TransactionType.ID AND h.houseUseType = HouseUseType.ID AND h.houseType = HouseType.ID AND h.houseStatus = HouseStatus.ID AND h.taxPayType = TaxPayType.ID AND h.decorationType = DecorationType.ID AND h.houseDocumentType = HouseDocumentType.ID AND h.housePayType = HousePayType.ID AND h.commissionPayType = CommissionPayType.ID AND h.lookHouseType = LookHouseType.ID AND h.orientation = Orientation.ID AND h.area = Area.ID AND h.source = Source.ID AND {1} h.ID NOT IN (SELECT TOP ({2} * ({3}-1)) ID FROM Customer  {4}) ", houseMaxCount, searchStr, houseMaxCount, customer.PageIndex, searchStr2 != "" ? (" WHERE " + (searchStr2.Substring(0, searchStr2.LastIndexOf("AND")))) : "");
-                var result = SqlHelper.ExecuteReader(sqlConn, System.Data.CommandType.Text, sql, sqlParList.ToArray());
+                var sql = new StringBuilder();
+                sql.Append("SELECT TOP {0} Count(*) OVER() AS totalHouseCount,CustomerDemand.item,CustomerDemand.ID AS cusDemandID,CustomerStatus.statusName,CustomerStatus.ID AS cusStatusID,CustomerTransactionType.typeName AS cTypeName,District.Id AS disID, District.DisName, Area.ID AS areaID, areaName, ResidentialDistrict.ID AS rdID, ResidentialDistrict.name AS rdName, address, TransactionType.ID AS transactionTypeID, transactionTypeName, Orientation.ID AS orientationID, orientationName, HouseUseType.ID AS useTypeID, HouseUseType.typeName AS useTypeName, HouseType.ID AS houseTypeID, HouseType.typeName AS houseTypeName, CustomerStatus.ID AS statusID, CustomerStatus.statusName,DecorationType.ID AS decorationTypeID, DecorationType.typeName AS decorationTypeName, HousePayType.ID AS housePayTypeID, HousePayType.typeName AS housePayTypeName, CommissionPayType.ID AS commissionPayTypeID, CommissionPayType.typeName AS commissionPayTypeName, Source.ID AS sourceID,Source.sourceName,");
+                sql.Append("c.ID as cID,[customerName],[contacts],[customerPhone],[contactsPhone],[IDCard],[presentAddress],[customerDemand],[customerStatus],[customerQuality],[isPrivateCustomer],[isQualityCustomer],[roomCount],[hallCount],[toiletCount],[entrustStartDate],[houseSize],[housePrice],[supporting],[entrustOverDate],[remarks],c.createDate, c.lastUpdateDate ");
+                sql.Append("FROM [Customer] AS c,[District],[Area],[ResidentialDistrict],[CustomerDemand],[CustomerStatus],[CustomerTransactionType],[HouseUseType],[HouseType],[Source],[Grade],[Intention],[Nationality],[Orientation],[DecorationType],[HousePayType],[CommissionPayType] WHERE ");
+                sql.Append(" h.district = District.Id AND h.residentialDistrict = ResidentialDistrict.ID AND  h.area = Area.ID AND h.customerDemand h.customerTransactionType = CustomerTransactionType.ID AND  h.houseUseType = HouseUseType.ID AND h.houseType = HouseType.ID AND h.source = Source.ID AND h.houseStatus = HouseStatus.ID AND h.taxPayType = TaxPayType.ID AND ");
+                sql.Append("h.decorationType = DecorationType.ID AND h.houseDocumentType = HouseDocumentType.ID AND h.housePayType = HousePayType.ID AND h.commissionPayType = CommissionPayType.ID AND h.lookHouseType = LookHouseType.ID AND h.orientation = Orientation.ID AND ");
+                sql.Append(string.Format("AND {1} h.ID NOT IN (SELECT TOP ({2} * ({3}-1)) ID FROM Customer  {4}) ", houseMaxCount, searchStr, houseMaxCount, customer.PageIndex, searchStr2 != "" ? (" WHERE " + (searchStr2.Substring(0, searchStr2.LastIndexOf("AND")))) : "")); 
+                var result = SqlHelper.ExecuteReader(sqlConn, System.Data.CommandType.Text, sql.ToString(), sqlParList.ToArray());
                 while (result.Read())
                 {
                     var obj = new Customer();
-                    obj.ID = Convert.ToInt32(result["ID"]);
+                    obj.ID = Convert.ToInt32(result["cID"]);
+                    obj.CustomerName = Convert.ToString(result["customerName"]);
+                    obj.Contacts = Convert.ToString(result["contacts"]);
+                    obj.ContactsPhone = Convert.ToString(result["contactsPhone"]);
+                    obj.IdCard = Convert.ToString(result["IDCard"]);
+                    obj.PresentAddress = Convert.ToString(result["presentAddress"]);
+                    obj.CustomerDemand = new CustomerDemand
+                    {
+                        ID = Convert.ToInt32(result["cusDemandID"]),
+                        Item = Convert.ToString(result["item"])
+                    };
+                    obj.CustomerStatus = new CustomerStatus
+                    {
+                        ID = Convert.ToInt32(result["cusStatusID"]),
+                        StatusName = Convert.ToString(result["statusName"])
+                    };
+                    obj.CustomerTransactionType = new CustomerTransactionType
+                    {
+                        TypeName = Convert.ToString(result["cTypeName"])
+                    };
+                    obj.IsPrivateCustomer = Convert.ToBoolean(result["isPrivateCustomer"]);
+                    obj.IsQualityCustomer = Convert.ToBoolean(result["isQualityCustomer"]);
+                    obj.IsPubliceCustomer = Convert.ToBoolean(result["isPubliceCustomer"]);
+                    obj.District = new District
+                    {
+                        ID = Convert.ToInt32(result["disID"]),
+                        Name = Convert.ToString(result["DisName"])
+                    };
+                    obj.Area = new Area
+                    {
+                        ID = Convert.ToInt32(result["areaID"]),
+                        AreaName = Convert.ToString(result["areaName"])
+                    };
+                    obj.Position = Convert.ToString(result["position"]);
+                    obj.HouseUseType = new HouseUseType
+                    {
+                        ID = Convert.ToInt32(result["useTypeID"]),
+                        TypeName = Convert.ToString(result["useTypeName"])
+                    };
+                    obj.HouseType = new HouseType
+                    {
+                        ID = Convert.ToInt32(result["houseTypeID"]),
+                        TypeName = Convert.ToString(result["houseTypeName"])
+                    };
+                    obj.RoomCount = Convert.ToInt32(result["roomCount"]);
+                    obj.HallCount = Convert.ToInt32(result["hallCount"]);
+                    obj.ToiletCount = Convert.ToInt32(result["toiletCount"]);
+                    obj.BalconyCount = Convert.ToInt32(result["balconyCount"]);
+                    obj.EntrustStartDate = Convert.ToDateTime(result["entrustStartDate"]);
+                    obj.HouseSize = Convert.ToSingle(result["houseSize"]);
+                    obj.Price = Convert.ToDecimal(result["price"]);
+                    obj.Source = new Source
+                    {
+                        ID = Convert.ToInt32(result["sourceID"]),
+                        SourceName = Convert.ToString(result["sourceName"])
+                    };
                     customerList.Add(obj);
                 }
             }

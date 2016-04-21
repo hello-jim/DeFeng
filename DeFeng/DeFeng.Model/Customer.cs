@@ -15,14 +15,16 @@ namespace DeFeng.Model
         private string contactsPhone;//联系人电话
         private string idCard;//身份证
         private string presentAddress;//现在住址
-        private string customerDemand;//客户需求
-        private string customerStatus;//客户状态(例如已租、已购)
-        private TransactionType transactionType;//交易类型(如求购、求租)
-        private int isPrivateCustomer;//是否是私客
-        private int isQualityCustomer;//是否是优质客
+        private CustomerDemand customerDemand;//客户需求
+        private CustomerStatus customerStatus;//客户状态(例如已租、已购)
+        private CustomerTransactionType customerTransactionType;//交易类型(如求购、求租)
+        private bool isPrivateCustomer;//是否是私客
+        private bool isQualityCustomer;//是否是优质客
+        private bool isPubliceCustomer;//是否是公客
         private District district;//城区
         private Area area;//片区
-        private ResidentialDistrict residentialDistrict;//楼盘地址
+        private ResidentialDistrict residentialDistrict;//楼盘
+        private string position;//位置
         private HouseUseType houseUseType;//房屋使用类型
         private HouseType houseType;//房屋类型
         private int roomCount;//房间数量
@@ -36,7 +38,7 @@ namespace DeFeng.Model
         private decimal priceFrom;//价格从...
         private decimal priceTo;//价格至...
         private DateTime entrustStartDate;//委托开始时间
-        private string source;//客户来源
+        private Source source;//客户来源
         private string grade;//等级
         private Orientation orientation;//房屋朝向
         private string nationality;//客户国籍
@@ -148,7 +150,7 @@ namespace DeFeng.Model
             }
         }
 
-        public string CustomerDemand
+        public CustomerDemand CustomerDemand
         {
             get
             {
@@ -161,7 +163,7 @@ namespace DeFeng.Model
             }
         }
 
-        public string CustomerStatus
+        public CustomerStatus CustomerStatus
         {
             get
             {
@@ -174,21 +176,21 @@ namespace DeFeng.Model
             }
         }
 
-      
-        public TransactionType TransactionType
+
+        public CustomerTransactionType CustomerTransactionType
         {
             get
             {
-                return transactionType;
+                return customerTransactionType;
             }
 
             set
             {
-                transactionType = value;
+                customerTransactionType = value;
             }
         }
 
-        public int IsPrivateCustomer
+        public bool IsPrivateCustomer
         {
             get
             {
@@ -201,7 +203,7 @@ namespace DeFeng.Model
             }
         }
 
-        public int IsQualityCustomer
+        public bool IsQualityCustomer
         {
             get
             {
@@ -409,7 +411,7 @@ namespace DeFeng.Model
             }
         }
 
-        public string Source
+        public Source Source
         {
             get
             {
@@ -679,6 +681,32 @@ namespace DeFeng.Model
             set
             {
                 pageIndex = value;
+            }
+        }
+
+        public bool IsPubliceCustomer
+        {
+            get
+            {
+                return isPubliceCustomer;
+            }
+
+            set
+            {
+                isPubliceCustomer = value;
+            }
+        }
+
+        public string Position
+        {
+            get
+            {
+                return position;
+            }
+
+            set
+            {
+                position = value;
             }
         }
     }

@@ -10,7 +10,6 @@ namespace DeFeng.Model
     {
         private int id;
         private string sourceName;
-        private int sourceType;
 
         public int ID
         {
@@ -35,19 +34,6 @@ namespace DeFeng.Model
             set
             {
                 sourceName = value;
-            }
-        }
-
-        public int SourceType
-        {
-            get
-            {
-                return sourceType;
-            }
-
-            set
-            {
-                sourceType = value;
             }
         }
     }

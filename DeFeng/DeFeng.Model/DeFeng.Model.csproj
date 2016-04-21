@@ -46,6 +46,10 @@
     <Compile Include="CommissionPayType.cs" />
     <Compile Include="Current.cs" />
     <Compile Include="Customer.cs" />
+    <Compile Include="CustomerDemand.cs" />
+    <Compile Include="CustomerQuality.cs" />
+    <Compile Include="CustomerStatus.cs" />
+    <Compile Include="CustomerTransactionType.cs" />
     <Compile Include="CustomerType.cs" />
     <Compile Include="DecorationType.cs" />
     <Compile Include="Department.cs" />
@@ -54,6 +58,7 @@
     <Compile Include="Furniture.cs" />
     <Compile Include="Global\GlobalDictionary.cs" />
     <Compile Include="Global\GlobalQueue.cs" />
+    <Compile Include="Grade.cs" />
     <Compile Include="House.cs" />
     <Compile Include="HouseDocumentType.cs" />
     <Compile Include="HouseFollowRecord.cs" />
