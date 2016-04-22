@@ -57,6 +57,7 @@ namespace DeFeng.Model
         private DateTime lastUpdateDate;//最后修改时间
         private DateTime createDate;//客户创建日期
         private Staff createStaff;//创建员工      
+        private DateTime lastFollowDate;
         private int pageIndex;
 
         public int ID
@@ -707,6 +708,19 @@ namespace DeFeng.Model
             set
             {
                 position = value;
+            }
+        }
+
+        public DateTime LastFollowDate
+        {
+            get
+            {
+                return lastFollowDate;
+            }
+
+            set
+            {
+                lastFollowDate = value;
             }
         }
     }
