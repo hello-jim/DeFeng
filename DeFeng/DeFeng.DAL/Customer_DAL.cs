@@ -11,7 +11,7 @@ namespace DeFeng.DAL
 {
     public class Customer_DAL
     {
-        string sqlConn = "";
+        string sqlConn = Common.CommonClass.GetSysConfig("DeFengDBConStr");
         public List<Customer> Search(Customer customer)
         {
             List<Customer> customerList = new List<Customer>();
@@ -115,13 +115,13 @@ namespace DeFeng.DAL
                 #endregion
 
                 #region 房屋状态
-                if (customer.CustomerStatus != null)
-                {
-                    var str = "[houseStatus]=@houseStatus AND ";
-                    search.Append(str);
-                    search2.Append(str);
-                    //sqlParList.Add(new SqlParameter("@houseStatus", customer.CustomerStatus.ID));
-                }
+                //if (customer.CustomerStatus != null)
+                //{
+                //    var str = "[houseStatus]=@houseStatus AND ";
+                //    search.Append(str);
+                //    search2.Append(str);
+                //    //sqlParList.Add(new SqlParameter("@houseStatus", customer.CustomerStatus.ID));
+                //}
                 #endregion
 
                 #region 房源品质
@@ -135,13 +135,13 @@ namespace DeFeng.DAL
                 #endregion
 
                 #region 交易类型
-                if (customer.CustomerTransactionType != null)
-                {
-                    var str = "([transactionType]=@transactionType OR [transactionType]=3) AND ";
-                    search.Append(str);
-                    search2.Append(str);
-                    sqlParList.Add(new SqlParameter("@transactionType", customer.CustomerTransactionType.ID));
-                }
+                //if (customer.CustomerTransactionType != null)
+                //{
+                //    var str = "([transactionType]=@transactionType OR [transactionType]=3) AND ";
+                //    search.Append(str);
+                //    search2.Append(str);
+                //    sqlParList.Add(new SqlParameter("@transactionType", customer.CustomerTransactionType.ID));
+                //}
                 #endregion
 
                 #region 房屋用途
@@ -269,11 +269,11 @@ namespace DeFeng.DAL
                         ID = Convert.ToInt32(result["cusDemandID"]),
                         Item = Convert.ToString(result["item"])
                     };
-                    obj.CustomerStatus = new CustomerStatus
-                    {
-                        ID = Convert.ToInt32(result["cusStatusID"]),
-                        StatusName = Convert.ToString(result["statusName"])
-                    };
+                    //obj.CustomerStatus = new CustomerStatus
+                    //{
+                    //    ID = Convert.ToInt32(result["cusStatusID"]),
+                    //    StatusName = Convert.ToString(result["statusName"])
+                    //};
                     obj.CustomerTransactionType = new CustomerTransactionType
                     {
                         TypeName = Convert.ToString(result["cTypeName"])

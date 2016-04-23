@@ -16,7 +16,7 @@ namespace DeFeng.Model
         private string idCard;//身份证
         private string presentAddress;//现在住址
         private CustomerDemand customerDemand;//客户需求
-        private CustomerStatus customerStatus;//客户状态(例如已租、已购)
+      //  private CustomerStatus customerStatus;//客户状态(例如已租、已购)
         private CustomerTransactionType customerTransactionType;//交易类型(如求购、求租)
         private bool isPrivateCustomer;//是否是私客
         private bool isQualityCustomer;//是否是优质客
@@ -164,18 +164,18 @@ namespace DeFeng.Model
             }
         }
 
-        public CustomerStatus CustomerStatus
-        {
-            get
-            {
-                return customerStatus;
-            }
+        //public CustomerStatus CustomerStatus
+        //{
+        //    get
+        //    {
+        //        return customerStatus;
+        //    }
 
-            set
-            {
-                customerStatus = value;
-            }
-        }
+        //    set
+        //    {
+        //        customerStatus = value;
+        //    }
+        //}
 
 
         public CustomerTransactionType CustomerTransactionType
