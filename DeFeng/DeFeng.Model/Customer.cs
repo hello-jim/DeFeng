@@ -16,7 +16,7 @@ namespace DeFeng.Model
         private string idCard;//身份证
         private string presentAddress;//现在住址
         private CustomerDemand customerDemand;//客户需求
-      //  private CustomerStatus customerStatus;//客户状态(例如已租、已购)
+        private CustomerStatus customerStatus;//  private CustomerStatus customerStatus;//客户状态(例如已租、已购)
         private CustomerTransactionType customerTransactionType;//交易类型(如求购、求租)
         private bool isPrivateCustomer;//是否是私客
         private bool isQualityCustomer;//是否是优质客
@@ -39,7 +39,7 @@ namespace DeFeng.Model
         private decimal priceTo;//价格至...
         private DateTime entrustStartDate;//委托开始时间
         private Source source;//客户来源
-        private string grade;//等级
+        private Grade grade;//等级
         private Orientation orientation;//房屋朝向
         private string nationality;//客户国籍
         private string entrustOverDate;//期限
@@ -51,6 +51,8 @@ namespace DeFeng.Model
         private HousePayType housePayType;//支付类型(例如一次性支付)
         private string supporting;//配套设施
         private CommissionPayType commissionPayType;//佣金支付类型
+        private EntrustType entrustType;//委托类型
+        private CustomerType customerType;//客户类型
         private string remarks;//备注
         private Department department;//部门
         private Staff lastUpdateStaff;//最后修改人
@@ -58,7 +60,7 @@ namespace DeFeng.Model
         private DateTime createDate;//客户创建日期
         private Staff createStaff;//创建员工      
         private DateTime lastFollowDate;
-        private int pageIndex;
+        private int pageIndex = 1;
 
         public int ID
         {
@@ -164,18 +166,18 @@ namespace DeFeng.Model
             }
         }
 
-        //public CustomerStatus CustomerStatus
-        //{
-        //    get
-        //    {
-        //        return customerStatus;
-        //    }
+        public CustomerStatus CustomerStatus
+        {
+            get
+            {
+                return customerStatus;
+            }
 
-        //    set
-        //    {
-        //        customerStatus = value;
-        //    }
-        //}
+            set
+            {
+                customerStatus = value;
+            }
+        }
 
 
         public CustomerTransactionType CustomerTransactionType
@@ -425,7 +427,7 @@ namespace DeFeng.Model
             }
         }
 
-        public string Grade
+        public Grade Grade
         {
             get
             {
@@ -721,6 +723,32 @@ namespace DeFeng.Model
             set
             {
                 lastFollowDate = value;
+            }
+        }
+
+        public EntrustType EntrustType
+        {
+            get
+            {
+                return entrustType;
+            }
+
+            set
+            {
+                entrustType = value;
+            }
+        }
+
+        public CustomerType CustomerType
+        {
+            get
+            {
+                return customerType;
+            }
+
+            set
+            {
+                customerType = value;
             }
         }
     }

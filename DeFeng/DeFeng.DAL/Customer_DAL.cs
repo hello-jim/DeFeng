@@ -103,45 +103,45 @@ namespace DeFeng.DAL
                 }
                 #endregion
 
-                #region 代理开始日期
+                #region 委托开始日期
                 if (customer.EntrustStartDate != NullDate && customer.EntrustStartDate < DateTime.Now)
                 {
                     var day = (DateTime.Now - customer.EntrustStartDate).Days;
-                    var str = string.Format("[proxyStartDate]>=GETDATE()-@proxyStartDate AND ");
+                    var str = string.Format("[entrustStartDate]>=GETDATE()-@entrustStartDate AND ");
                     search.Append(str);
                     search2.Append(str);
-                    sqlParList.Add(new SqlParameter("@proxyStartDate", day));
+                    sqlParList.Add(new SqlParameter("@entrustStartDate", day));
                 }
                 #endregion
 
                 #region 房屋状态
-                //if (customer.CustomerStatus != null)
-                //{
-                //    var str = "[houseStatus]=@houseStatus AND ";
-                //    search.Append(str);
-                //    search2.Append(str);
-                //    //sqlParList.Add(new SqlParameter("@houseStatus", customer.CustomerStatus.ID));
-                //}
+                if (customer.CustomerStatus != null)
+                {
+                    var str = "[customerStatus]=@customerStatus AND ";
+                    search.Append(str);
+                    search2.Append(str);
+                    sqlParList.Add(new SqlParameter("@customerStatus", customer.CustomerStatus.ID));
+                }
                 #endregion
 
-                #region 房源品质
-                //if (customer.CustomerQuality != null)
+                #region 私客
+                //if (customer.IsPrivateCustomer != null)
                 //{
                 //    var str = "[houseQuality]=@houseQuality AND ";
                 //    search.Append(str);
                 //    search2.Append(str);
-                //  //  sqlParList.Add(new SqlParameter("@houseQuality", customer.CustomerQuality.ID));
+                //    //  sqlParList.Add(new SqlParameter("@houseQuality", customer.CustomerQuality.ID));
                 //}
                 #endregion
 
                 #region 交易类型
-                //if (customer.CustomerTransactionType != null)
-                //{
-                //    var str = "([transactionType]=@transactionType OR [transactionType]=3) AND ";
-                //    search.Append(str);
-                //    search2.Append(str);
-                //    sqlParList.Add(new SqlParameter("@transactionType", customer.CustomerTransactionType.ID));
-                //}
+                if (customer.CustomerTransactionType != null)
+                {
+                    var str = "([customerTransactionType]=@customerTransactionType OR [customerTransactionType]=3) AND ";
+                    search.Append(str);
+                    search2.Append(str);
+                    sqlParList.Add(new SqlParameter("@customerTransactionType", customer.CustomerTransactionType.ID));
+                }
                 #endregion
 
                 #region 房屋用途
@@ -177,14 +177,14 @@ namespace DeFeng.DAL
                 #region 价格
                 if (customer.Price != 0 || customer.Price != 0)
                 {
-                    search.Append("[saleTotalPrice] >=@salePriceFrom");
-                    search2.Append("[saleTotalPrice] >=@salePriceFrom");
-                    sqlParList.Add(new SqlParameter("@salePriceFrom", customer.Price));
+                    search.Append("[price] >=@priceFrom");
+                    search2.Append("[price] >=@priceFrom");
+                    sqlParList.Add(new SqlParameter("@priceFrom", customer.PriceFrom));
                     if (customer.Price != 0)
                     {
-                        search.Append(" AND [saleTotalPrice] <=@salePriceTo");
-                        search2.Append(" AND [saleTotalPrice] <=@salePriceTo");
-                        sqlParList.Add(new SqlParameter("@salePriceTo", customer.Price));
+                        search.Append(" AND [price] <=@priceTo");
+                        search2.Append(" AND [price] <=@priceTo");
+                        sqlParList.Add(new SqlParameter("@priceTo", customer.PriceTo));
                     }
                     search.Append(" AND ");
                     search2.Append(" AND ");
@@ -249,11 +249,28 @@ namespace DeFeng.DAL
                 var searchStr = search.ToString();
                 var searchStr2 = search2.ToString();
                 var sql = new StringBuilder();
-                sql.Append("SELECT TOP {0} Count(*) OVER() AS totalHouseCount,CustomerDemand.item,CustomerDemand.ID AS cusDemandID,CustomerStatus.statusName,CustomerStatus.ID AS cusStatusID,CustomerTransactionType.typeName AS cTypeName,District.Id AS disID, District.DisName, Area.ID AS areaID, areaName, ResidentialDistrict.ID AS rdID, ResidentialDistrict.name AS rdName, address, TransactionType.ID AS transactionTypeID, transactionTypeName, Orientation.ID AS orientationID, orientationName, HouseUseType.ID AS useTypeID, HouseUseType.typeName AS useTypeName, HouseType.ID AS houseTypeID, HouseType.typeName AS houseTypeName, CustomerStatus.ID AS statusID, CustomerStatus.statusName,DecorationType.ID AS decorationTypeID, DecorationType.typeName AS decorationTypeName, HousePayType.ID AS housePayTypeID, HousePayType.typeName AS housePayTypeName, CommissionPayType.ID AS commissionPayTypeID, CommissionPayType.typeName AS commissionPayTypeName, Source.ID AS sourceID,Source.sourceName,");
-                sql.Append("c.ID as cID,[customerName],[contacts],[customerPhone],[contactsPhone],[IDCard],[presentAddress],[customerDemand],[customerStatus],[customerQuality],[isPrivateCustomer],[isQualityCustomer],[roomCount],[hallCount],[toiletCount],[entrustStartDate],[houseSize],[housePrice],[supporting],[entrustOverDate],[remarks],c.createDate, c.lastUpdateDate ");
-                sql.Append("FROM [Customer] AS c,[District],[Area],[ResidentialDistrict],[CustomerDemand],[CustomerStatus],[CustomerTransactionType],[HouseUseType],[HouseType],[Source],[Grade],[Intention],[Nationality],[Orientation],[DecorationType],[HousePayType],[CommissionPayType] WHERE ");
-                sql.Append(" h.district = District.Id AND h.residentialDistrict = ResidentialDistrict.ID AND  h.area = Area.ID AND h.customerDemand=CustomerDemand.ID AND h.customerStatus=CustomerStatus.ID AND h.customerTransactionType = CustomerTransactionType.ID AND  h.houseUseType = HouseUseType.ID AND h.houseType = HouseType.ID AND h.source = Source.ID AND h.grade=Grade.ID AND h.intention=Intention.ID AND h.Nationality=Nationality.ID AND h.Orientation=Orientation.ID AND h.DecorationType=DecorationType.ID h.taxPayType = TaxPayType.ID AND  h.housePayType = HousePayType.ID AND h.commissionPayType = CommissionPayType.ID AND ");             
-                sql.Append(string.Format("AND {1} h.ID NOT IN (SELECT TOP ({2} * ({3}-1)) ID FROM Customer  {4}) ", houseMaxCount, searchStr, houseMaxCount, customer.PageIndex, searchStr2 != "" ? (" WHERE " + (searchStr2.Substring(0, searchStr2.LastIndexOf("AND")))) : "")); 
+                sql.Append(string.Format("SELECT TOP {0} Count(*) OVER() AS totalHouseCount,CustomerDemand.item,CustomerDemand.ID AS cusDemandID,CustomerStatus.statusName,CustomerStatus.ID AS cusStatusID,CustomerTransactionType.ID AS customerTransactionTypeID,CustomerTransactionType.typeName AS cTypeName,District.Id AS disID, District.DisName, Area.ID AS areaID, areaName, ResidentialDistrict.ID AS rdID, ResidentialDistrict.name AS rdName, [address], Orientation.ID AS orientationID,orientationName,Country.ID AS countryID,chineseName, HouseUseType.ID AS useTypeID, HouseUseType.typeName AS useTypeName, HouseType.ID AS houseTypeID, HouseType.typeName AS houseTypeName, CustomerStatus.ID AS statusID, CustomerStatus.statusName,DecorationType.ID AS decorationTypeID, DecorationType.typeName AS decorationTypeName, HousePayType.ID AS housePayTypeID, HousePayType.typeName AS housePayTypeName, CommissionPayType.ID AS commissionPayTypeID, CommissionPayType.typeName AS commissionPayTypeName, Source.ID AS sourceID,Source.sourceName, Grade.ID AS gradeID,gradeName,Intention.ID AS intentionID,intentionName,EntrustType.ID AS entrustTypeID,EntrustType.typeName AS entrustTypeName,CustomerType.ID AS customerTypeID,CustomerType.typeName AS customerTypeName,", houseMaxCount));
+                sql.Append("c.ID as cID,[customerName],[contacts],[customerPhone],[contactsPhone],[IDCard],[presentAddress],[customerDemand],[customerStatus],[isPrivateCustomer],[isQualityCustomer],[isPubliceCustomer],[position],[roomCount],[hallCount],[toiletCount],[balconyCount],[entrustStartDate],[houseSize],[price],[supporting],[remarks],c.createDate, c.lastUpdateDate,c.lastFollowDate ");
+                sql.Append("FROM [Customer] AS c ");
+                sql.Append("LEFT JOIN [District] ON c.district=[District].ID ");
+                sql.Append("LEFT JOIN [Area] ON c.area=[Area].ID ");
+                sql.Append("LEFT JOIN [ResidentialDistrict] ON c.residentialDistrict=[ResidentialDistrict].ID ");
+                sql.Append("LEFT JOIN [CustomerDemand] ON c.customerDemand=[CustomerDemand].ID ");
+                sql.Append("LEFT JOIN [CustomerStatus] ON c.customerStatus=[CustomerStatus].ID ");
+                sql.Append("LEFT JOIN [CustomerTransactionType] ON c.customerTransactionType=[CustomerTransactionType].ID ");
+                sql.Append("LEFT JOIN [HouseUseType] ON c.houseUseType=[HouseUseType].ID ");
+                sql.Append("LEFT JOIN [HouseType] ON c.houseType=[HouseType].ID ");
+                sql.Append("LEFT JOIN [Source] ON c.source=[Source].ID ");
+                sql.Append("LEFT JOIN [Grade] ON c.grade=[Grade].ID ");
+                sql.Append("LEFT JOIN [Intention] ON c.intention=[Intention].ID ");
+                sql.Append("LEFT JOIN [Country] ON c.nationality=[Country].ID ");
+                sql.Append("LEFT JOIN [Orientation] ON c.orientation=[Orientation].ID ");
+                sql.Append("LEFT JOIN [DecorationType] ON c.decorationType=[DecorationType].ID ");
+                sql.Append("LEFT JOIN [HousePayType] ON c.housePayType=[HousePayType].ID ");
+                sql.Append("LEFT JOIN [CommissionPayType] ON c.commissionPayType=[CommissionPayType].ID ");
+                sql.Append("LEFT JOIN [EntrustType] ON c.entrustType=[EntrustType].ID ");
+                sql.Append("LEFT JOIN [CustomerType] ON c.customerType=[CustomerType].ID ");
+                sql.Append(string.Format("WHERE {0} c.ID NOT IN (SELECT TOP ({1} * ({2}-1)) ID FROM Customer  {3}) ", searchStr, houseMaxCount, customer.PageIndex, searchStr2 != "" ? (" WHERE " + (searchStr2.Substring(0, searchStr2.LastIndexOf("AND")))) : ""));
                 var result = SqlHelper.ExecuteReader(sqlConn, System.Data.CommandType.Text, sql.ToString(), sqlParList.ToArray());
                 while (result.Read())
                 {
@@ -266,41 +283,47 @@ namespace DeFeng.DAL
                     obj.PresentAddress = Convert.ToString(result["presentAddress"]);
                     obj.CustomerDemand = new CustomerDemand
                     {
-                        ID = Convert.ToInt32(result["cusDemandID"]),
-                        Item = Convert.ToString(result["item"])
+                        ID = Convert.ToInt32(Convert.IsDBNull(result["cusDemandID"]) ? 0 : result["cusDemandID"]),
+                        Item = Convert.ToString(Convert.IsDBNull(result["item"]) ? "" : result["item"])
                     };
-                    //obj.CustomerStatus = new CustomerStatus
-                    //{
-                    //    ID = Convert.ToInt32(result["cusStatusID"]),
-                    //    StatusName = Convert.ToString(result["statusName"])
-                    //};
+                    obj.CustomerStatus = new CustomerStatus
+                    {
+                        ID = Convert.ToInt32(Convert.IsDBNull(result["cusStatusID"]) ? 0 : result["cusStatusID"]),
+                        StatusName = Convert.ToString(Convert.IsDBNull(result["statusName"]) ? "" : result["statusName"])
+                    };
                     obj.CustomerTransactionType = new CustomerTransactionType
                     {
-                        TypeName = Convert.ToString(result["cTypeName"])
+                        ID = Convert.IsDBNull(result["customerTransactionTypeID"]) ? 0 : Convert.ToInt32(result["customerTransactionTypeID"]),
+                        TypeName = Convert.IsDBNull(result["cTypeName"]) ? "" : Convert.ToString(result["cTypeName"])
                     };
                     obj.IsPrivateCustomer = Convert.ToBoolean(result["isPrivateCustomer"]);
                     obj.IsQualityCustomer = Convert.ToBoolean(result["isQualityCustomer"]);
                     obj.IsPubliceCustomer = Convert.ToBoolean(result["isPubliceCustomer"]);
                     obj.District = new District
                     {
-                        ID = Convert.ToInt32(result["disID"]),
-                        Name = Convert.ToString(result["DisName"])
+                        ID = Convert.IsDBNull(result["disID"]) ? 0 : Convert.ToInt32(result["disID"]),
+                        Name = Convert.IsDBNull(result["DisName"]) ? "" : Convert.ToString(result["DisName"])
                     };
                     obj.Area = new Area
                     {
-                        ID = Convert.ToInt32(result["areaID"]),
-                        AreaName = Convert.ToString(result["areaName"])
+                        ID = Convert.IsDBNull(result["areaID"]) ? 0 : Convert.ToInt32(result["areaID"]),
+                        AreaName = Convert.IsDBNull(result["areaName"]) ? "" : Convert.ToString(result["areaName"])
+                    };
+                    obj.ResidentialDistrict = new ResidentialDistrict
+                    {
+                        ID = Convert.IsDBNull(result["rdID"]) ? 0 : Convert.ToInt32(result["rdID"]),
+                        Name = Convert.IsDBNull(result["rdName"]) ? "" : Convert.ToString(result["rdName"]),
                     };
                     obj.Position = Convert.ToString(result["position"]);
                     obj.HouseUseType = new HouseUseType
                     {
-                        ID = Convert.ToInt32(result["useTypeID"]),
-                        TypeName = Convert.ToString(result["useTypeName"])
+                        ID = Convert.IsDBNull(result["useTypeID"]) ? 0 : Convert.ToInt32(result["useTypeID"]),
+                        TypeName = Convert.IsDBNull(result["useTypeName"]) ? "" : Convert.ToString(result["useTypeName"])
                     };
                     obj.HouseType = new HouseType
                     {
-                        ID = Convert.ToInt32(result["houseTypeID"]),
-                        TypeName = Convert.ToString(result["houseTypeName"])
+                        ID = Convert.IsDBNull(result["houseTypeID"]) ? 0 : Convert.ToInt32(result["houseTypeID"]),
+                        TypeName = Convert.IsDBNull(result["houseTypeName"]) ? "" : Convert.ToString(result["houseTypeName"])
                     };
                     obj.RoomCount = Convert.ToInt32(result["roomCount"]);
                     obj.HallCount = Convert.ToInt32(result["hallCount"]);
@@ -311,9 +334,51 @@ namespace DeFeng.DAL
                     obj.Price = Convert.ToDecimal(result["price"]);
                     obj.Source = new Source
                     {
-                        ID = Convert.ToInt32(result["sourceID"]),
-                        SourceName = Convert.ToString(result["sourceName"])
+                        ID = Convert.IsDBNull(result["sourceID"]) ? 0 : Convert.ToInt32(result["sourceID"]),
+                        SourceName = Convert.IsDBNull(result["sourceName"]) ? "" : Convert.ToString(result["sourceName"])
                     };
+                    obj.Grade = new Grade
+                    {
+                        ID = Convert.IsDBNull(result["gradeID"]) ? 0 : Convert.ToInt32(result["gradeID"]),
+                        GradeName = Convert.IsDBNull(result["gradeName"]) ? "" : Convert.ToString(result["gradeName"])
+                    };
+                    obj.Intention = new Intention
+                    {
+                        ID = Convert.IsDBNull(result["intentionID"]) ? 0 : Convert.ToInt32(result["intentionID"]),
+                        IntentionName = Convert.IsDBNull(result["intentionName"]) ? "" : Convert.ToString(result["intentionName"])
+                    };
+                    obj.Orientation = new Orientation
+                    {
+                        ID = Convert.IsDBNull(result["orientationID"]) ? 0 : Convert.ToInt32(result["orientationID"]),
+                        OrientationName = Convert.IsDBNull(result["orientationName"]) ? "" : Convert.ToString(result["orientationName"])
+                    };
+                    obj.DecorationType = new DecorationType
+                    {
+                        ID = Convert.IsDBNull(result["decorationTypeID"]) ? 0 : Convert.ToInt32(result["decorationTypeID"]),
+                        TypeName = Convert.IsDBNull(result["decorationTypeName"]) ? "" : Convert.ToString(result["decorationTypeName"])
+                    };
+                    obj.HousePayType = new HousePayType
+                    {
+                        ID = Convert.IsDBNull(result["housePayTypeID"]) ? 0 : Convert.ToInt32(result["housePayTypeID"]),
+                        TypeName = Convert.IsDBNull(result["housePayTypeName"]) ? "" : Convert.ToString(result["housePayTypeName"])
+                    };
+                    obj.CommissionPayType = new CommissionPayType
+                    {
+                        ID = Convert.IsDBNull(result["commissionPayTypeID"]) ? 0 : Convert.ToInt32(result["commissionPayTypeID"]),
+                        TypeName = Convert.IsDBNull(result["commissionPayTypeName"]) ? "" : Convert.ToString(result["commissionPayTypeName"])
+                    };
+                    obj.EntrustType = new EntrustType
+                    {
+                        ID = Convert.IsDBNull(result["entrustTypeID"]) ? 0 : Convert.ToInt32(result["entrustTypeID"]),
+                        TypeName = Convert.IsDBNull(result["entrustTypeName"]) ? "" : Convert.ToString(result["entrustTypeName"])
+                    };
+                    obj.CustomerType = new CustomerType
+                    {
+                        ID = Convert.IsDBNull(result["customerTypeID"]) ? 0 : Convert.ToInt32(result["customerTypeID"]),
+                        TypeName = Convert.IsDBNull(result["customerTypeName"]) ? "" : Convert.ToString(result["customerTypeName"])
+                    };
+                    obj.Remarks = Convert.IsDBNull(result["remarks"]) ? "" : Convert.ToString(result["remarks"]);
+                    obj.LastFollowDate = Convert.ToDateTime(result["lastFollowDate"]);
                     customerList.Add(obj);
                 }
             }
