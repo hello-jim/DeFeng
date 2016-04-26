@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using DeFeng.Model;
 using DeFeng.Model.Global;
 using DeFeng.DAL;
+using DeFeng.Common;
 namespace DeFeng.BLL
 {
     public class Customer_BLL
     {
+        private static int customerMaxCount = Convert.ToInt32(CommonClass.GetSysConfig("customerMaxCount"));
         Customer_DAL dal = new Customer_DAL();
         public List<Customer> Search(Customer customer)
         {
@@ -17,6 +19,7 @@ namespace DeFeng.BLL
             try
             {
                 customerList = dal.Search(customer);
+                customerList[0].TotalCustomerCount = customerList[0].TotalCustomerCount + ((customer.PageIndex - 1) * customerMaxCount);
             }
             catch (Exception ex)
             {

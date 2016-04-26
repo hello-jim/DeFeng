@@ -61,6 +61,7 @@ namespace DeFeng.Model
         private Staff createStaff;//创建员工      
         private DateTime lastFollowDate;
         private int pageIndex = 1;
+        private int totalCustomerCount;
 
         public int ID
         {
@@ -749,6 +750,19 @@ namespace DeFeng.Model
             set
             {
                 customerType = value;
+            }
+        }
+
+        public int TotalCustomerCount
+        {
+            get
+            {
+                return totalCustomerCount;
+            }
+
+            set
+            {
+                totalCustomerCount = value;
             }
         }
     }

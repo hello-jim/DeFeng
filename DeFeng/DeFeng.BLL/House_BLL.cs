@@ -11,7 +11,7 @@ namespace DeFeng.BLL
 {
     public class House_BLL
     {
-
+        private static int houseMaxCount = Convert.ToInt32(CommonClass.GetSysConfig("houseMaxCount"));
         /// <summary>
         /// 按条件筛选客源
         /// </summary>
@@ -23,7 +23,6 @@ namespace DeFeng.BLL
             List<House> houseList = new List<House>();
             try
             {
-                var houseMaxCount = Convert.ToInt32(CommonClass.GetSysConfig("houseMaxCount"));
                 houseList = dal.SearchHouse(house);
                 houseList[0].TotalHouseCount = houseList[0].TotalHouseCount + ((house.PageIndex - 1) * houseMaxCount);
             }

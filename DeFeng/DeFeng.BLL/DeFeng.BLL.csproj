@@ -49,6 +49,9 @@
     <Compile Include="City_BLL.cs" />
     <Compile Include="CommissionPayType_BLL.cs" />
     <Compile Include="Current_BLL.cs" />
+    <Compile Include="CustomerStatus_BLL.cs" />
+    <Compile Include="CustomerTransactionType_BLL.cs" />
+    <Compile Include="CustomerType_BLL.cs" />
     <Compile Include="Customer_BLL.cs" />
     <Compile Include="DecorationType_BLL.cs" />
     <Compile Include="Department_BLL.cs" />

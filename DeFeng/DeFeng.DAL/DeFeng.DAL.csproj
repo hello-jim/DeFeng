@@ -45,6 +45,9 @@
     <Compile Include="City_DAL.cs" />
     <Compile Include="CommissionPayType_DAL.cs" />
     <Compile Include="Current_DAL.cs" />
+    <Compile Include="CustomerStatus_DAL.cs" />
+    <Compile Include="CustomerTransactionType_DAL.cs" />
+    <Compile Include="CustomerType_DAL.cs" />
     <Compile Include="Customer_DAL.cs" />
     <Compile Include="DecorationType_DAL.cs" />
     <Compile Include="Department_DAL.cs" />
