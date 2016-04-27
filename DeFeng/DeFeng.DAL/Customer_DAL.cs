@@ -46,7 +46,7 @@ namespace DeFeng.DAL
                 #region 城区
                 if (districtList.Count != 0)
                 {
-                    search.Append(" h.id IN(SELECT  ID FROM House WHERE ");
+                    search.Append(" c.id IN(SELECT  ID FROM Customer WHERE ");
                     for (int i = 0; i < districtList.Count; i++)
                     {
                         var parName = string.Format("@district{0}", i);
@@ -125,13 +125,33 @@ namespace DeFeng.DAL
                 #endregion
 
                 #region 私客
-                //if (customer.IsPrivateCustomer != null)
-                //{
-                //    var str = "[houseQuality]=@houseQuality AND ";
-                //    search.Append(str);
-                //    search2.Append(str);
-                //    //  sqlParList.Add(new SqlParameter("@houseQuality", customer.CustomerQuality.ID));
-                //}
+                if (customer.IsPrivateCustomer)
+                {
+                    var str = "[isPrivateCustomer]=@isPrivateCustomer AND ";
+                    search.Append(str);
+                    search2.Append(str);
+                    sqlParList.Add(new SqlParameter("@isPrivateCustomer", customer.IsPrivateCustomer));
+                }
+                #endregion
+
+                #region 公客
+                if (customer.IsPubliceCustomer)
+                {
+                    var str = "[isPubliceCustomer]=@isPubliceCustomer AND ";
+                    search.Append(str);
+                    search2.Append(str);
+                    sqlParList.Add(new SqlParameter("@isPubliceCustomer", customer.IsPubliceCustomer));
+                }
+                #endregion
+
+                #region 优质客
+                if (customer.IsQualityCustomer)
+                {
+                    var str = "[isQualityCustomer]=@isQualityCustomer AND ";
+                    search.Append(str);
+                    search2.Append(str);
+                    sqlParList.Add(new SqlParameter("@isQualityCustomer", customer.IsQualityCustomer));
+                }
                 #endregion
 
                 #region 交易类型
@@ -175,12 +195,12 @@ namespace DeFeng.DAL
                 #endregion
 
                 #region 价格
-                if (customer.Price != 0 || customer.Price != 0)
+                if (customer.PriceFrom != 0 || customer.PriceTo != 0)
                 {
                     search.Append("[price] >=@priceFrom");
                     search2.Append("[price] >=@priceFrom");
                     sqlParList.Add(new SqlParameter("@priceFrom", customer.PriceFrom));
-                    if (customer.Price != 0)
+                    if (customer.PriceTo != 0)
                     {
                         search.Append(" AND [price] <=@priceTo");
                         search2.Append(" AND [price] <=@priceTo");
@@ -249,7 +269,7 @@ namespace DeFeng.DAL
                 var searchStr = search.ToString();
                 var searchStr2 = search2.ToString();
                 var sql = new StringBuilder();
-                sql.Append(string.Format("SELECT TOP {0} Count(*) OVER() AS totalCustomerCount,CustomerDemand.item,CustomerDemand.ID AS cusDemandID,CustomerStatus.statusName,CustomerStatus.ID AS cusStatusID,CustomerTransactionType.ID AS customerTransactionTypeID,CustomerTransactionType.typeName AS cTypeName,District.Id AS disID, District.DisName, Area.ID AS areaID, areaName, ResidentialDistrict.ID AS rdID, ResidentialDistrict.name AS rdName, [address], Orientation.ID AS orientationID,orientationName,Country.ID AS countryID,chineseName, HouseUseType.ID AS useTypeID, HouseUseType.typeName AS useTypeName, HouseType.ID AS houseTypeID, HouseType.typeName AS houseTypeName, CustomerStatus.ID AS statusID, CustomerStatus.statusName,DecorationType.ID AS decorationTypeID, DecorationType.typeName AS decorationTypeName, HousePayType.ID AS housePayTypeID, HousePayType.typeName AS housePayTypeName, CommissionPayType.ID AS commissionPayTypeID, CommissionPayType.typeName AS commissionPayTypeName, Source.ID AS sourceID,Source.sourceName, Grade.ID AS gradeID,gradeName,Intention.ID AS intentionID,intentionName,EntrustType.ID AS entrustTypeID,EntrustType.typeName AS entrustTypeName,CustomerType.ID AS customerTypeID,CustomerType.typeName AS customerTypeName,", houseMaxCount));
+                sql.Append(string.Format("SELECT * FROM (SELECT TOP {0} Count(*) OVER() AS totalCustomerCount,CustomerDemand.item,CustomerDemand.ID AS cusDemandID,CustomerTransactionType.ID AS customerTransactionTypeID,CustomerTransactionType.typeName AS cTypeName,District.Id AS disID, District.DisName, Area.ID AS areaID, areaName, ResidentialDistrict.ID AS rdID, ResidentialDistrict.name AS rdName, [address], Orientation.ID AS orientationID,orientationName,Country.ID AS countryID,chineseName, HouseUseType.ID AS useTypeID, HouseUseType.typeName AS useTypeName, HouseType.ID AS houseTypeID, HouseType.typeName AS houseTypeName, CustomerStatus.ID AS statusID, CustomerStatus.statusName,DecorationType.ID AS decorationTypeID, DecorationType.typeName AS decorationTypeName, HousePayType.ID AS housePayTypeID, HousePayType.typeName AS housePayTypeName, CommissionPayType.ID AS commissionPayTypeID, CommissionPayType.typeName AS commissionPayTypeName, Source.ID AS sourceID,Source.sourceName, Grade.ID AS gradeID,gradeName,Intention.ID AS intentionID,intentionName,EntrustType.ID AS entrustTypeID,EntrustType.typeName AS entrustTypeName,CustomerType.ID AS customerTypeID,CustomerType.typeName AS customerTypeName,", houseMaxCount));
                 sql.Append("c.ID as cID,[customerName],[contacts],[customerPhone],[contactsPhone],[IDCard],[presentAddress],[customerDemand],[customerStatus],[isPrivateCustomer],[isQualityCustomer],[isPubliceCustomer],[position],[roomCount],[hallCount],[toiletCount],[balconyCount],[entrustStartDate],[houseSize],[price],[supporting],[remarks],c.createDate, c.lastUpdateDate,c.lastFollowDate ");
                 sql.Append("FROM [Customer] AS c ");
                 sql.Append("LEFT JOIN [District] ON c.district=[District].ID ");
@@ -271,6 +291,7 @@ namespace DeFeng.DAL
                 sql.Append("LEFT JOIN [EntrustType] ON c.entrustType=[EntrustType].ID ");
                 sql.Append("LEFT JOIN [CustomerType] ON c.customerType=[CustomerType].ID ");
                 sql.Append(string.Format("WHERE {0} c.ID NOT IN (SELECT TOP ({1} * ({2}-1)) ID FROM Customer  {3}) ", searchStr, houseMaxCount, customer.PageIndex, searchStr2 != "" ? (" WHERE " + (searchStr2.Substring(0, searchStr2.LastIndexOf("AND")))) : ""));
+                sql.Append(" ORDER BY c.ID)temp ORDER BY temp.entrustStartDate");
                 var result = SqlHelper.ExecuteReader(sqlConn, System.Data.CommandType.Text, sql.ToString(), sqlParList.ToArray());
                 while (result.Read())
                 {
@@ -288,7 +309,7 @@ namespace DeFeng.DAL
                     };
                     obj.CustomerStatus = new CustomerStatus
                     {
-                        ID = Convert.ToInt32(Convert.IsDBNull(result["cusStatusID"]) ? 0 : result["cusStatusID"]),
+                        ID = Convert.ToInt32(Convert.IsDBNull(result["statusID"]) ? 0 : result["statusID"]),
                         StatusName = Convert.ToString(Convert.IsDBNull(result["statusName"]) ? "" : result["statusName"])
                     };
                     obj.CustomerTransactionType = new CustomerTransactionType
