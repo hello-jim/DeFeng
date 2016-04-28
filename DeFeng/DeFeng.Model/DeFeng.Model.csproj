@@ -72,8 +72,11 @@
     <Compile Include="HousingLetter.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="Intention.cs" />
+    <Compile Include="LandPlan.cs" />
+    <Compile Include="LandType.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="LookHouseType.cs" />
+    <Compile Include="OfficeLevel.cs" />
     <Compile Include="Orientation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyOwn.cs" />
@@ -81,11 +84,13 @@
     <Compile Include="Province.cs" />
     <Compile Include="EntrustType.cs" />
     <Compile Include="ResidentialDistrict.cs" />
+    <Compile Include="ShopLocation.cs" />
     <Compile Include="Source.cs" />
     <Compile Include="Staff.cs" />
     <Compile Include="Supporting.cs" />
     <Compile Include="TaxPayType.cs" />
     <Compile Include="TransactionType.cs" />
+    <Compile Include="Wall.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
