@@ -2,3 +2,8 @@ D:\Project\DeFeng\DeFeng.Model\bin\Debug\DeFeng.Model.dll
 D:\Project\DeFeng\DeFeng.Model\bin\Debug\DeFeng.Model.pdb
 D:\Project\DeFeng\DeFeng.Model\obj\Debug\DeFeng.Model.dll
 D:\Project\DeFeng\DeFeng.Model\obj\Debug\DeFeng.Model.pdb
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.Model\bin\Debug\DeFeng.Model.dll
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.Model\bin\Debug\DeFeng.Model.pdb
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.Model\obj\Debug\DeFeng.Model.csprojResolveAssemblyReference.cache
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.Model\obj\Debug\DeFeng.Model.dll
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.Model\obj\Debug\DeFeng.Model.pdb
