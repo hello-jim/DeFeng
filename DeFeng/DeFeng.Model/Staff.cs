@@ -11,6 +11,9 @@ namespace DeFeng.Model
         private int id;
         private string name;
         private Department department;
+        private string password;//密码
+        private string idCard;//身份证号码
+        private string phone;//电话号码
 
         public int ID
         {
@@ -50,5 +53,49 @@ namespace DeFeng.Model
                 department = value;
             }
         }
+
+
+        public string Password
+        {
+            get
+            {
+                return password;
+            }
+
+            set
+            {
+                password = value;
+            }
+        }
+
+
+        public string IdCard
+        {
+            get
+            {
+                return idCard;
+            }
+
+            set
+            {
+                idCard = value;
+            }
+        }
+
+        public string Phone
+        {
+            get
+            {
+                return phone;
+            }
+
+            set
+            {
+                phone = value;
+            }
+        }
+
     }
 }
+
+

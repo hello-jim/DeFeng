@@ -70,6 +70,7 @@
     <Compile Include="Province_DAL.cs" />
     <Compile Include="ResidentialDistrict_DAL.cs" />
     <Compile Include="Source_DAL.cs" />
+    <Compile Include="Staff_DAL.cs" />
     <Compile Include="Supporting_DAL.cs" />
     <Compile Include="TaxPayType_DAL.cs" />
     <Compile Include="TransactionType_DAL.cs" />
