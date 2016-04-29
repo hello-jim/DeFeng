@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Appliance_DAL.cs" />
     <Compile Include="Area_DAL.cs" />
+    <Compile Include="CarPark_DAL.cs" />
     <Compile Include="City_DAL.cs" />
     <Compile Include="CommissionPayType_DAL.cs" />
     <Compile Include="Current_DAL.cs" />
@@ -66,7 +67,9 @@
     <Compile Include="House_DAL.cs" />
     <Compile Include="HousingLetter_DAL.cs" />
     <Compile Include="Image_DAL.cs" />
+    <Compile Include="LandType_DAL.cs" />
     <Compile Include="LookHouseType_DAL.cs" />
+    <Compile Include="OfficeLevel_DAL.cs" />
     <Compile Include="Orientation_DAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyOwn_DAL.cs" />

@@ -41,11 +41,12 @@ namespace DeFeng.Model
         private Source source;//客户来源
         private Grade grade;//等级
         private Orientation orientation;//房屋朝向
-        private string nationality;//客户国籍
+        private Country nationality;//客户国籍
         private string entrustOverDate;//期限
         private int floor;//楼层
         private int floorFrom;
         private int floorTo;
+        private int totalFloor;//总层
         private Intention intention;//客户意向
         private DecorationType decorationType;//装修
         private HousePayType housePayType;//支付类型(例如一次性支付)
@@ -70,7 +71,9 @@ namespace DeFeng.Model
         private int dormCount;//宿舍数量
         private int officeCount;//办公室数量
         private int clearingCount;//空地数量
-        private OfficeLevel officeLevel;
+        private OfficeLevel officeLevel;//办公楼级别
+        private CarPark carPark;//停车位
+        private Current current;//现状
         private int pageIndex = 1;
         private int totalCustomerCount;
 
@@ -465,7 +468,7 @@ namespace DeFeng.Model
             }
         }
 
-        public string Nationality
+        public Country Nationality
         {
             get
             {
@@ -852,6 +855,110 @@ namespace DeFeng.Model
             set
             {
                 landType = value;
+            }
+        }
+
+        public int WorkerCount
+        {
+            get
+            {
+                return workerCount;
+            }
+
+            set
+            {
+                workerCount = value;
+            }
+        }
+
+        public int DormCount
+        {
+            get
+            {
+                return dormCount;
+            }
+
+            set
+            {
+                dormCount = value;
+            }
+        }
+
+        public int OfficeCount
+        {
+            get
+            {
+                return officeCount;
+            }
+
+            set
+            {
+                officeCount = value;
+            }
+        }
+
+        public int ClearingCount
+        {
+            get
+            {
+                return clearingCount;
+            }
+
+            set
+            {
+                clearingCount = value;
+            }
+        }
+
+        public OfficeLevel OfficeLevel
+        {
+            get
+            {
+                return officeLevel;
+            }
+
+            set
+            {
+                officeLevel = value;
+            }
+        }
+
+        public CarPark CarPark
+        {
+            get
+            {
+                return carPark;
+            }
+
+            set
+            {
+                carPark = value;
+            }
+        }
+
+        public Current Current
+        {
+            get
+            {
+                return current;
+            }
+
+            set
+            {
+                current = value;
+            }
+        }
+
+        public int TotalFloor
+        {
+            get
+            {
+                return totalFloor;
+            }
+
+            set
+            {
+                totalFloor = value;
             }
         }
     }

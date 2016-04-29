@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Appliance_BLL.cs" />
     <Compile Include="Area_BLL.cs" />
+    <Compile Include="CarPark_BLL.cs" />
     <Compile Include="City_BLL.cs" />
     <Compile Include="CommissionPayType_BLL.cs" />
     <Compile Include="Current_BLL.cs" />
@@ -70,7 +71,9 @@
     <Compile Include="House_BLL.cs" />
     <Compile Include="HousingLetter_BLL.cs" />
     <Compile Include="Image_BLL.cs" />
+    <Compile Include="LandType_BLL.cs" />
     <Compile Include="LookHouseType_BLL.cs" />
+    <Compile Include="OfficeLevel_BLL.cs" />
     <Compile Include="Orientation_BLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyOwn_BLL.cs" />
