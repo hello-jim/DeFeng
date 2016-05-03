@@ -61,6 +61,7 @@ namespace DeFeng.Model
         private DateTime createDate;//客户创建日期
         private Staff createStaff;//创建员工      
         private DateTime lastFollowDate;//最后跟进日期
+        private ShopArea shopArea;//商铺区域(如热闹，冷清等)
         private ShopLocation shopLocation;//商铺位置
         private string industry;//行业
         private Wall wall;//围墙
@@ -73,6 +74,7 @@ namespace DeFeng.Model
         private int clearingCount;//空地数量
         private OfficeLevel officeLevel;//办公楼级别
         private CarPark carPark;//停车位
+        private LandPlan landPlan;//规划
         private Current current;//现状
         private int pageIndex = 1;
         private int totalCustomerCount;
@@ -959,6 +961,32 @@ namespace DeFeng.Model
             set
             {
                 totalFloor = value;
+            }
+        }
+
+        public LandPlan LandPlan
+        {
+            get
+            {
+                return landPlan;
+            }
+
+            set
+            {
+                landPlan = value;
+            }
+        }
+
+        public ShopArea ShopArea
+        {
+            get
+            {
+                return shopArea;
+            }
+
+            set
+            {
+                shopArea = value;
             }
         }
     }

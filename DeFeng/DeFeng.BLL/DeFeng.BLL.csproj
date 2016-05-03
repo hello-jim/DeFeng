@@ -49,6 +49,7 @@
     <Compile Include="CarPark_BLL.cs" />
     <Compile Include="City_BLL.cs" />
     <Compile Include="CommissionPayType_BLL.cs" />
+    <Compile Include="Country_BLL.cs" />
     <Compile Include="Current_BLL.cs" />
     <Compile Include="CustomerStatus_BLL.cs" />
     <Compile Include="CustomerTransactionType_BLL.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="EntrustType_BLL.cs" />
     <Compile Include="FollowType_BLL.cs" />
     <Compile Include="Furniture_BLL.cs" />
+    <Compile Include="Grade_BLL.cs" />
     <Compile Include="HouseDocumentType_BLL.cs" />
     <Compile Include="HouseFollowRecord_BLL.cs" />
     <Compile Include="HousePayType_BLL.cs" />
@@ -71,6 +73,8 @@
     <Compile Include="House_BLL.cs" />
     <Compile Include="HousingLetter_BLL.cs" />
     <Compile Include="Image_BLL.cs" />
+    <Compile Include="Intention_BLL.cs" />
+    <Compile Include="LandPlan_BLL.cs" />
     <Compile Include="LandType_BLL.cs" />
     <Compile Include="LookHouseType_BLL.cs" />
     <Compile Include="OfficeLevel_BLL.cs" />
@@ -79,10 +83,13 @@
     <Compile Include="PropertyOwn_BLL.cs" />
     <Compile Include="Province_BLL.cs" />
     <Compile Include="ResidentialDistrict_BLL.cs" />
+    <Compile Include="ShopArea_BLL.cs" />
+    <Compile Include="ShopLocation_BLL.cs" />
     <Compile Include="Source_BLL.cs" />
     <Compile Include="Supporting_BLL.cs" />
     <Compile Include="TaxPayType_BLL.cs" />
     <Compile Include="TransactionType_BLL.cs" />
+    <Compile Include="Wall_BLL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DeFeng.DAL\DeFeng.DAL.csproj">

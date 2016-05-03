@@ -86,6 +86,7 @@
     <Compile Include="Province.cs" />
     <Compile Include="EntrustType.cs" />
     <Compile Include="ResidentialDistrict.cs" />
+    <Compile Include="ShopArea.cs" />
     <Compile Include="ShopLocation.cs" />
     <Compile Include="Source.cs" />
     <Compile Include="Staff.cs" />

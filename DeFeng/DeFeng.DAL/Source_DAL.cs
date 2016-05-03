@@ -17,10 +17,8 @@ namespace DeFeng.DAL
             List<Source> list = new List<Source>();
             try
             {
-                var sql = "SELECT [ID],[sourceName] FROM Source WHERE sourceType=@sourceType";
-                var sqlPars = new List<SqlParameter>();
-                sqlPars.Add(new SqlParameter("@sourceType", sourceType));
-                var result = SqlHelper.ExecuteReader(dbConn, System.Data.CommandType.Text, sql, sqlPars.ToArray());
+                var sql = "SELECT [ID],[sourceName] FROM Source";
+                var result = SqlHelper.ExecuteReader(dbConn, System.Data.CommandType.Text, sql);
                 while (result.Read())
                 {
                     var obj = new Source();

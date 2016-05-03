@@ -197,13 +197,13 @@ namespace DeFeng.DAL
                 #region 价格
                 if (customer.PriceFrom != 0 || customer.PriceTo != 0)
                 {
-                    search.Append("[price] >=@priceFrom");
-                    search2.Append("[price] >=@priceFrom");
+                    search.Append("[priceFrom] >=@priceFrom");
+                    search2.Append("[priceFrom] >=@priceFrom");
                     sqlParList.Add(new SqlParameter("@priceFrom", customer.PriceFrom));
                     if (customer.PriceTo != 0)
                     {
-                        search.Append(" AND [price] <=@priceTo");
-                        search2.Append(" AND [price] <=@priceTo");
+                        search.Append(" AND [priceTo] <=@priceTo");
+                        search2.Append(" AND [priceTo] <=@priceTo");
                         sqlParList.Add(new SqlParameter("@priceTo", customer.PriceTo));
                     }
                     search.Append(" AND ");
@@ -214,13 +214,13 @@ namespace DeFeng.DAL
                 #region 面积
                 if (customer.HouseSizeFrom != 0 || customer.HouseSizeTo != 0)
                 {
-                    search.Append("[houseSize] >=@houseSizeFrom");
-                    search2.Append("[houseSize] >=@houseSizeFrom");
+                    search.Append("[houseSizeFrom] >=@houseSizeFrom");
+                    search2.Append("[houseSizeFrom] >=@houseSizeFrom");
                     sqlParList.Add(new SqlParameter("@houseSizeFrom", customer.HouseSizeFrom));
                     if (customer.HouseSizeTo != 0)
                     {
-                        search.Append(" AND [houseSize] <=@houseSizeTo");
-                        search2.Append(" AND [houseSize] <=@houseSizeTo");
+                        search.Append(" AND [houseSizeTo] <=@houseSizeTo");
+                        search2.Append(" AND [houseSizeTo] <=@houseSizeTo");
                         sqlParList.Add(new SqlParameter("@houseSizeTo", customer.HouseSizeTo));
                     }
                     search.Append(" AND ");
@@ -270,7 +270,7 @@ namespace DeFeng.DAL
                 var searchStr2 = search2.ToString();
                 var sql = new StringBuilder();
                 sql.Append(string.Format("SELECT * FROM (SELECT TOP {0} Count(*) OVER() AS totalCustomerCount,CustomerDemand.item,CustomerDemand.ID AS cusDemandID,CustomerTransactionType.ID AS customerTransactionTypeID,CustomerTransactionType.typeName AS cTypeName,District.Id AS disID, District.DisName, Area.ID AS areaID, areaName, ResidentialDistrict.ID AS rdID, ResidentialDistrict.name AS rdName, [address], Orientation.ID AS orientationID,orientationName,Country.ID AS countryID,chineseName, HouseUseType.ID AS useTypeID, HouseUseType.typeName AS useTypeName, HouseType.ID AS houseTypeID, HouseType.typeName AS houseTypeName, CustomerStatus.ID AS statusID, CustomerStatus.statusName,DecorationType.ID AS decorationTypeID, DecorationType.typeName AS decorationTypeName, HousePayType.ID AS housePayTypeID, HousePayType.typeName AS housePayTypeName, CommissionPayType.ID AS commissionPayTypeID, CommissionPayType.typeName AS commissionPayTypeName, Source.ID AS sourceID,Source.sourceName, Grade.ID AS gradeID,gradeName,Intention.ID AS intentionID,intentionName,EntrustType.ID AS entrustTypeID,EntrustType.typeName AS entrustTypeName,CustomerType.ID AS customerTypeID,CustomerType.typeName AS customerTypeName,", houseMaxCount));
-                sql.Append("c.ID as cID,[customerName],[contacts],[customerPhone],[contactsPhone],[IDCard],[presentAddress],[customerDemand],[customerStatus],[isPrivateCustomer],[isQualityCustomer],[isPubliceCustomer],[position],[roomCount],[hallCount],[toiletCount],[balconyCount],[entrustStartDate],[houseSize],[price],[supporting],[remarks],c.createDate, c.lastUpdateDate,c.lastFollowDate ");
+                sql.Append("c.ID as cID,[customerName],[contacts],[customerPhone],[contactsPhone],[IDCard],[presentAddress],[customerDemand],[customerStatus],[isPrivateCustomer],[isQualityCustomer],[isPubliceCustomer],[position],[roomCount],[hallCount],[toiletCount],[balconyCount],[entrustStartDate],[houseSizeFrom],[houseSizeTo],[priceFrom],[priceTo],[supporting],[remarks],c.createDate, c.lastUpdateDate,c.lastFollowDate ");
                 sql.Append("FROM [Customer] AS c ");
                 sql.Append("LEFT JOIN [District] ON c.district=[District].ID ");
                 sql.Append("LEFT JOIN [Area] ON c.area=[Area].ID ");
@@ -351,8 +351,9 @@ namespace DeFeng.DAL
                     obj.ToiletCount = Convert.ToInt32(result["toiletCount"]);
                     obj.BalconyCount = Convert.ToInt32(result["balconyCount"]);
                     obj.EntrustStartDate = Convert.ToDateTime(result["entrustStartDate"]);
-                    obj.HouseSize = Convert.ToSingle(result["houseSize"]);
-                    obj.Price = Convert.ToDecimal(result["price"]);
+                    obj.HouseSizeFrom = Convert.ToSingle(result["houseSizeFrom"]);
+                    obj.HouseSizeTo = Convert.ToSingle(result["houseSizeTo"]);
+                    obj.PriceFrom = Convert.ToDecimal(result["price"]);
                     obj.Source = new Source
                     {
                         ID = Convert.IsDBNull(result["sourceID"]) ? 0 : Convert.ToInt32(result["sourceID"]),
@@ -510,6 +511,85 @@ namespace DeFeng.DAL
                 GlobalQueue.LogGlobalQueue.Enqueue(log);
             }
             return customerList;
+        }
+
+        public int AddCutomer(Customer customer)
+        {
+            var result = 0;
+            try
+            {
+                var sql = "INSERT INTO Customer([customerName],[contacts],[customerPhone],[contactsPhone],[customerMobile],[IDCard],[presentAddress],[district],[area],[residentialDistrict] ,[customerDemand],[customerStatus],[customerTransactionType],[isPrivateCustomer],[isQualityCustomer],[isPubliceCustomer],[position],[houseUseType],[houseType],[roomCount],[hallCount],[toiletCount],[balconyCount],[entrustStartDate],[houseSizeFrom],[houseSizeTo],[priceFrom],[priceTo],[source],[grade] ,[intention],[nationality] ,[floor],[orientation],[decorationType],[housePayType],[supporting],[commissionPayType],[entrustType] ,[customerType],[shopLocation],[industry],[totalFloor],[wall],[electricity],[park],[landType],[OfficeLevel],[workerCount],[dormCount],[officeCount],[clearingCount],[current],[carPark],[landPlan],[remarks],[createDate],[lastFollowDate],[lastUpdateStaff],[lastUpdateDate]) VALUES(@customerName,@contacts,@customerPhone,@contactsPhone,@customerMobile,@IDCard,@presentAddress,@district,@area,@residentialDistrict ,@customerDemand,@customerStatus,@customerTransactionType,@isPrivateCustomer,@isQualityCustomer,@isPubliceCustomer,@position,@houseUseType,@houseType,@roomCount,@hallCount,@toiletCount,@balconyCount,@entrustStartDate,@houseSizeFrom,@houseSizeTo,@priceFrom,@priceTo,@source,@grade ,@intention,@nationality,@floor,@orientation,@decorationType,@housePayType,@supporting,@commissionPayType,@entrustType ,@customerType,@shopLocation,@industry,@totalFloor,@wall,@electricity,@park,@landType,@OfficeLevel,@workerCount,@dormCount,@officeCount,@clearingCount,@current,@carPark,@landPlan,@remarks,@createDate,@lastFollowDate,@lastUpdateStaff,@lastUpdateDate)";
+                var sqlPars = new List<SqlParameter>();
+                sqlPars.Add(new SqlParameter("@customerName", customer.CustomerName));
+                sqlPars.Add(new SqlParameter("@contacts", customer.Contacts));
+                sqlPars.Add(new SqlParameter("@customerPhone", customer.CustomerPhone));
+                sqlPars.Add(new SqlParameter("@contactsPhone", ""));
+                sqlPars.Add(new SqlParameter("@customerMobile", ""));
+                sqlPars.Add(new SqlParameter("@IDCard", customer.IdCard));
+                sqlPars.Add(new SqlParameter("@presentAddress", customer.PresentAddress));
+                sqlPars.Add(new SqlParameter("@district", customer.District.ID));
+                sqlPars.Add(new SqlParameter("@area", customer.Area.ID));
+                sqlPars.Add(new SqlParameter("@residentialDistrict", customer.ResidentialDistrict.ID));
+                sqlPars.Add(new SqlParameter("@customerDemand", customer.CustomerDemand.ID));
+                sqlPars.Add(new SqlParameter("@customerStatus", customer.CustomerStatus.ID));
+                sqlPars.Add(new SqlParameter("@customerTransactionType", customer.CustomerTransactionType.ID));
+                sqlPars.Add(new SqlParameter("@isPrivateCustomer", customer.IsPrivateCustomer));
+                sqlPars.Add(new SqlParameter("@isQualityCustomer", customer.IsQualityCustomer));
+                sqlPars.Add(new SqlParameter("@isPubliceCustomer", customer.IsPubliceCustomer));
+                sqlPars.Add(new SqlParameter("@position", ""));
+                sqlPars.Add(new SqlParameter("@houseUseType", customer.HouseUseType.ID));
+                sqlPars.Add(new SqlParameter("@houseType", customer.HouseType.ID));
+                sqlPars.Add(new SqlParameter("@roomCount", customer.RoomCount));
+                sqlPars.Add(new SqlParameter("@hallCount", customer.HallCount));
+                sqlPars.Add(new SqlParameter("@toiletCount", customer.ToiletCount));
+                sqlPars.Add(new SqlParameter("@balconyCount", customer.BalconyCount));
+                sqlPars.Add(new SqlParameter("@entrustStartDate", customer.EntrustStartDate));
+                sqlPars.Add(new SqlParameter("@houseSizeFrom", customer.HouseSizeFrom));
+                sqlPars.Add(new SqlParameter("@houseSizeTo", customer.HouseSizeTo));
+                sqlPars.Add(new SqlParameter("@priceFrom", customer.PriceFrom));
+                sqlPars.Add(new SqlParameter("@priceTo", customer.PriceTo));
+                sqlPars.Add(new SqlParameter("@source", customer.Source.ID));
+                sqlPars.Add(new SqlParameter("@grade", customer.Grade.ID));
+                sqlPars.Add(new SqlParameter("@intention", customer.Intention.ID));
+                sqlPars.Add(new SqlParameter("@nationality", customer.Nationality.ID));
+                // sqlPars.Add(new SqlParameter("@entrustOverDate", customer.EntrustOverDate));
+                sqlPars.Add(new SqlParameter("@floor", customer.Floor));
+                sqlPars.Add(new SqlParameter("@orientation", customer.Orientation.ID));
+                sqlPars.Add(new SqlParameter("@decorationType", customer.DecorationType.ID));
+                sqlPars.Add(new SqlParameter("@housePayType", customer.HousePayType.ID));
+                sqlPars.Add(new SqlParameter("@supporting", customer.Supporting));
+                sqlPars.Add(new SqlParameter("@commissionPayType", customer.CommissionPayType.ID));
+                sqlPars.Add(new SqlParameter("@entrustType", customer.EntrustType.ID));
+                sqlPars.Add(new SqlParameter("@customerType", customer.CustomerType.ID));
+                sqlPars.Add(new SqlParameter("@shopLocation", customer.ShopLocation.ID));
+                sqlPars.Add(new SqlParameter("@industry", customer.Industry));
+                sqlPars.Add(new SqlParameter("@totalFloor", customer.TotalFloor));
+                sqlPars.Add(new SqlParameter("@wall", customer.Wall.ID));
+                sqlPars.Add(new SqlParameter("@electricity", customer.Electricity));
+                sqlPars.Add(new SqlParameter("@park", customer.Park));
+                sqlPars.Add(new SqlParameter("@landType", customer.LandType.ID));
+                sqlPars.Add(new SqlParameter("@OfficeLevel", customer.OfficeLevel.ID));
+                sqlPars.Add(new SqlParameter("@workerCount", customer.WorkerCount));
+                sqlPars.Add(new SqlParameter("@dormCount", customer.DormCount));
+                sqlPars.Add(new SqlParameter("@officeCount", customer.OfficeCount));
+                sqlPars.Add(new SqlParameter("@clearingCount", customer.ClearingCount));
+                sqlPars.Add(new SqlParameter("@current", customer.Current.ID));
+                sqlPars.Add(new SqlParameter("@carPark", customer.CarPark.ID));
+                sqlPars.Add(new SqlParameter("@landPlan", customer.LandPlan.ID));
+                sqlPars.Add(new SqlParameter("@remarks", customer.Remarks));
+                // sqlPars.Add(new SqlParameter("@department", customer.Department.ID));
+                // sqlPars.Add(new SqlParameter("@createStaff", customer.CreateStaff.ID));
+                sqlPars.Add(new SqlParameter("@createDate", DateTime.Now));
+                sqlPars.Add(new SqlParameter("@lastFollowDate", ""));
+                sqlPars.Add(new SqlParameter("@lastUpdateStaff", "0"));
+                sqlPars.Add(new SqlParameter("@lastUpdateDate", DateTime.Now));
+                result = SqlHelper.ExecuteNonQuery(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray());
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return result;
         }
     }
 }

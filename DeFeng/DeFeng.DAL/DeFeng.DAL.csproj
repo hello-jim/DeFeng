@@ -45,6 +45,7 @@
     <Compile Include="CarPark_DAL.cs" />
     <Compile Include="City_DAL.cs" />
     <Compile Include="CommissionPayType_DAL.cs" />
+    <Compile Include="Country_DAL.cs" />
     <Compile Include="Current_DAL.cs" />
     <Compile Include="CustomerStatus_DAL.cs" />
     <Compile Include="CustomerTransactionType_DAL.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="EntrustType_DAL.cs" />
     <Compile Include="FollowType_DAL.cs" />
     <Compile Include="Furniture_DAL.cs" />
+    <Compile Include="Grade_DAL.cs" />
     <Compile Include="HouseDocumentType_DAL.cs" />
     <Compile Include="HouseFollowRecord_DAL.cs" />
     <Compile Include="HousePayType_DAL.cs" />
@@ -67,6 +69,8 @@
     <Compile Include="House_DAL.cs" />
     <Compile Include="HousingLetter_DAL.cs" />
     <Compile Include="Image_DAL.cs" />
+    <Compile Include="Intention_DAL.cs" />
+    <Compile Include="LandPlan_DAL.cs" />
     <Compile Include="LandType_DAL.cs" />
     <Compile Include="LookHouseType_DAL.cs" />
     <Compile Include="OfficeLevel_DAL.cs" />
@@ -75,10 +79,13 @@
     <Compile Include="PropertyOwn_DAL.cs" />
     <Compile Include="Province_DAL.cs" />
     <Compile Include="ResidentialDistrict_DAL.cs" />
+    <Compile Include="ShopArea_DAL.cs" />
+    <Compile Include="ShopLocation_DAL.cs" />
     <Compile Include="Source_DAL.cs" />
     <Compile Include="Supporting_DAL.cs" />
     <Compile Include="TaxPayType_DAL.cs" />
     <Compile Include="TransactionType_DAL.cs" />
+    <Compile Include="Wall_DAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DeFeng.Common\DeFeng.Common.csproj">
