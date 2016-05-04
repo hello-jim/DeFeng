@@ -21,6 +21,7 @@ namespace DeFeng.Model
         private bool isPrivateCustomer;//是否是私客
         private bool isQualityCustomer;//是否是优质客
         private bool isPubliceCustomer;//是否是公客
+        private City city;//城市
         private District district;//城区
         private Area area;//片区
         private ResidentialDistrict residentialDistrict;//楼盘
@@ -987,6 +988,19 @@ namespace DeFeng.Model
             set
             {
                 shopArea = value;
+            }
+        }
+
+        public City City
+        {
+            get
+            {
+                return city;
+            }
+
+            set
+            {
+                city = value;
             }
         }
     }

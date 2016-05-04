@@ -45,6 +45,20 @@ namespace DeFeng.BLL
             return result;
         }
 
+        public int UpdateCustomer(Customer customer)
+        {
+            var result = 0;
+            try
+            {
+                result = dal.UpdateCustomer(customer);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return result;
+        }
+
         public List<Customer> CustomerDistributionCustomer(Customer customer)
         {
             List<Customer> customerList = new List<Customer>();
