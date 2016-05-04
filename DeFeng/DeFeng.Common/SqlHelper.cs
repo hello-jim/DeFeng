@@ -182,6 +182,11 @@ namespace DeFeng.Common
             cmd = null;
         }
 
+        public static object ExecuteReader(string sqlConn, CommandType text, SqlParameter[] sqlParameter)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 执行一条返回第一条记录第一列的SqlCommand命令，通过已经存在的数据库连接。
         /// 使用参数数组提供参数
