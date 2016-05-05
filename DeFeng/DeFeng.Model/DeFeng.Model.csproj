@@ -51,6 +51,7 @@
     <Compile Include="CustomerDemand.cs" />
     <Compile Include="CustomerQuality.cs" />
     <Compile Include="CustomerStatus.cs" />
+    <Compile Include="CustomerTableColChecked.cs" />
     <Compile Include="CustomerTransactionType.cs" />
     <Compile Include="CustomerType.cs" />
     <Compile Include="DecorationType.cs" />

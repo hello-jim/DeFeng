@@ -48,6 +48,7 @@
     <Compile Include="Country_DAL.cs" />
     <Compile Include="Current_DAL.cs" />
     <Compile Include="CustomerStatus_DAL.cs" />
+    <Compile Include="CustomerTableColChecked_DAL.cs" />
     <Compile Include="CustomerTransactionType_DAL.cs" />
     <Compile Include="CustomerType_DAL.cs" />
     <Compile Include="Customer_DAL.cs" />

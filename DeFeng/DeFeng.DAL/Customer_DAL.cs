@@ -657,7 +657,7 @@ namespace DeFeng.DAL
                 sqlPars.Add(new SqlParameter("@customerName", customer.CustomerName));
                 sqlPars.Add(new SqlParameter("@contacts", customer.Contacts));
                 sqlPars.Add(new SqlParameter("@customerPhone", customer.CustomerPhone));
-                sqlPars.Add(new SqlParameter("@contactsPhone", ""));
+                sqlPars.Add(new SqlParameter("@contactsPhone", customer.ContactsPhone));
                 sqlPars.Add(new SqlParameter("@customerMobile", ""));
                 sqlPars.Add(new SqlParameter("@IDCard", customer.IdCard));
                 sqlPars.Add(new SqlParameter("@presentAddress", customer.PresentAddress));
@@ -724,5 +724,7 @@ namespace DeFeng.DAL
             }
             return result;
         }
+
+        
     }
 }
