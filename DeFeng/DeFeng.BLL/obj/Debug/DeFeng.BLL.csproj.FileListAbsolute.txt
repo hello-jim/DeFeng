@@ -15,8 +15,8 @@ D:\Project_GIT\DeFeng\DeFeng\DeFeng.BLL\bin\Debug\DeFeng.Common.dll
 D:\Project_GIT\DeFeng\DeFeng\DeFeng.BLL\bin\Debug\DeFeng.DAL.dll
 D:\Project_GIT\DeFeng\DeFeng\DeFeng.BLL\bin\Debug\DeFeng.Model.dll
 D:\Project_GIT\DeFeng\DeFeng\DeFeng.BLL\bin\Debug\DeFeng.DAL.pdb
-D:\Project_GIT\DeFeng\DeFeng\DeFeng.BLL\bin\Debug\DeFeng.Model.pdb
 D:\Project_GIT\DeFeng\DeFeng\DeFeng.BLL\bin\Debug\DeFeng.Common.pdb
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.BLL\bin\Debug\DeFeng.Model.pdb
 D:\Project_GIT\DeFeng\DeFeng\DeFeng.BLL\obj\Debug\DeFeng.BLL.csprojResolveAssemblyReference.cache
 D:\Project_GIT\DeFeng\DeFeng\DeFeng.BLL\obj\Debug\DeFeng.BLL.dll
 D:\Project_GIT\DeFeng\DeFeng\DeFeng.BLL\obj\Debug\DeFeng.BLL.pdb
