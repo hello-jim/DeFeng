@@ -75,12 +75,12 @@ namespace DeFeng.DAL
                         var parName = string.Format("@area{0}", i);
                         if (i == 0)
                         {
-                            search.Append(string.Format(" [area]={0}", parName));
+                            search.Append(string.Format(" c.[area]={0}", parName));
                             search2.Append(string.Format(" [area]={0}", parName));
                         }
                         else
                         {
-                            search.Append(string.Format(" OR [area]={0}", parName));
+                            search.Append(string.Format(" OR c.[area]={0}", parName));
                             search2.Append(string.Format(" OR [area]={0}", parName));
                         }
                         sqlParList.Add(new SqlParameter(parName, Convert.ToInt32(areaList[i])));
@@ -177,10 +177,10 @@ namespace DeFeng.DAL
                 #region 房屋类型
                 if (customer.HouseType != null)
                 {
-                    var str = "[houseUseType]=@houseUseType AND ";
+                    var str = "[houseType]=@houseType AND ";
                     search.Append(str);
                     search2.Append(str);
-                    sqlParList.Add(new SqlParameter("@houseUseType", customer.HouseType.ID));
+                    sqlParList.Add(new SqlParameter("@houseType", customer.HouseType.ID));
                 }
                 #endregion
 

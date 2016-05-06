@@ -249,18 +249,34 @@ namespace DeFeng.DAL
                 #endregion
                 var searchStr = search.ToString();
                 var searchStr2 = search2.ToString();
-                var sql = string.Format("SELECT TOP {0} Count(*) OVER() AS totalHouseCount, Province.ProID, Province.ProName, City.CityID, City.ProID AS cityProID, City.CityName, District.ID AS disID, District.DisName, District.CityID AS disCityID, Area.ID AS areaID, areaName, ResidentialDistrict.ID AS rdID, ResidentialDistrict.name AS rdName, address, HousingLetter.ID AS letterID, HousingLetter.letterName, HouseQuality.ID AS qualityID, qualityName, TransactionType.ID AS transactionTypeID, transactionTypeName, Orientation.ID AS orientationID, orientationName, HouseUseType.ID AS useTypeID, HouseUseType.typeName AS useTypeName, HouseType.ID AS houseTypeID, HouseType.typeName AS houseTypeName, HouseStatus.ID AS statusID, HouseStatus.statusName, TaxPayType.ID AS taxPayTypeID, TaxPayType.typeName AS taxPayTypeName, DecorationType.ID AS decorationTypeID, DecorationType.typeName AS decorationTypeName, HouseDocumentType.ID AS houseDocumentTypeID, HouseDocumentType.typeName AS houseDocumentTypeName, HousePayType.ID AS housePayTypeID, HousePayType.typeName AS housePayTypeName, CommissionPayType.ID AS commissionPayTypeID, CommissionPayType.typeName AS commissionPayTypeName, LookHouseType.ID AS lookHouseTypeID, LookHouseType.typeName AS lookHouseTypeName, Source.ID AS sourceID, sourceName, h.ID as hID,[housePosition],[totalFloor],[houseNumber],[roomCount],[hallCount],[toiletCount],[balconyCount],[houseSize],[houseUseSize],[orientation],[saleTotalPrice],[leaseTotalPrice],[proxyStartDate],[proxyOverDate],[lastFollowDate],[houseCreateDate],[originalPrice],[supporting],[ownerName],[ownerPhone],[contacts],[contactPhone],[remarks], h.lastUpdateDate, h.createDate FROM[House] AS h,[Province],[City],[District],[Area],[ResidentialDistrict],[HousingLetter],[Orientation],[HouseQuality],[TransactionType],[HouseUseType],[HouseType],[HouseStatus],[TaxPayType],[DecorationType],[HouseDocumentType],[HousePayType],[CommissionPayType],[LookHouseType],[Source] WHERE h.province = Province.ProID AND h.city = City.CityID AND h.district = District.Id AND h.residentialDistrict = ResidentialDistrict.ID AND h.housingLetter = HousingLetter.ID AND h.houseQuality = HouseQuality.ID AND h.transactionType = TransactionType.ID AND h.houseUseType = HouseUseType.ID AND h.houseType = HouseType.ID AND h.houseStatus = HouseStatus.ID AND h.taxPayType = TaxPayType.ID AND h.decorationType = DecorationType.ID AND h.houseDocumentType = HouseDocumentType.ID AND h.housePayType = HousePayType.ID AND h.commissionPayType = CommissionPayType.ID AND h.lookHouseType = LookHouseType.ID AND h.orientation = Orientation.ID AND h.area = Area.ID AND h.source = Source.ID AND {1} h.ID NOT IN (SELECT TOP ({2} * ({3}-1)) ID FROM House  {4}) ", houseMaxCount, searchStr, houseMaxCount, house.PageIndex, searchStr2 != "" ? (" WHERE " + (searchStr2.Substring(0, searchStr2.LastIndexOf("AND")))) : "");
-                var result = SqlHelper.ExecuteReader(sqlConn, System.Data.CommandType.Text, sql, sqlParList.ToArray());
+                var sql = new StringBuilder();
+                sql.Append(string.Format("SELECT * FROM (SELECT TOP {0} Count(*) OVER() AS totalHouseCount, City.CityID, City.ProID AS cityProID, City.CityName, District.ID AS disID, District.DisName, District.CityID AS disCityID, Area.ID AS areaID, areaName, ResidentialDistrict.ID AS rdID, ResidentialDistrict.name AS rdName, address, HousingLetter.ID AS letterID, HousingLetter.letterName, HouseQuality.ID AS qualityID, qualityName, TransactionType.ID AS transactionTypeID, transactionTypeName, Orientation.ID AS orientationID, orientationName, HouseUseType.ID AS useTypeID, HouseUseType.typeName AS useTypeName, HouseType.ID AS houseTypeID, HouseType.typeName AS houseTypeName, HouseStatus.ID AS statusID, HouseStatus.statusName, TaxPayType.ID AS taxPayTypeID, TaxPayType.typeName AS taxPayTypeName, DecorationType.ID AS decorationTypeID, DecorationType.typeName AS decorationTypeName, HouseDocumentType.ID AS houseDocumentTypeID, HouseDocumentType.typeName AS houseDocumentTypeName, HousePayType.ID AS housePayTypeID, HousePayType.typeName AS housePayTypeName, CommissionPayType.ID AS commissionPayTypeID, CommissionPayType.typeName AS commissionPayTypeName, LookHouseType.ID AS lookHouseTypeID, LookHouseType.typeName AS lookHouseTypeName, Source.ID AS sourceID, sourceName, h.ID as hID,[housePosition],[totalFloor],[houseNumber],[roomCount],[hallCount],[toiletCount],[balconyCount],[houseSize],[houseUseSize],[orientation],[saleTotalPrice],[leaseTotalPrice],[proxyStartDate],[proxyOverDate],[lastFollowDate],[houseCreateDate],[originalPrice],[supporting],[ownerName],[ownerPhone],[contacts],[contactPhone],[remarks], h.lastUpdateDate, h.createDate FROM[House] AS h ", houseMaxCount));     
+                sql.Append("LEFT JOIN [City] ON h.city=[City].CityID ");
+                sql.Append("LEFT JOIN [District] ON h.district=[District].Id ");
+                sql.Append("LEFT JOIN [Area] ON h.area=[Area].ID ");
+                sql.Append("LEFT JOIN [ResidentialDistrict] ON h.residentialDistrict=[ResidentialDistrict].ID ");
+                sql.Append("LEFT JOIN [HousingLetter] ON h.housingLetter=[HousingLetter].ID ");
+                sql.Append("LEFT JOIN [Orientation] ON h.orientation=[Orientation].ID ");
+                sql.Append("LEFT JOIN [HouseQuality] ON h.houseQuality=[HouseQuality].ID ");
+                sql.Append("LEFT JOIN [TransactionType] ON h.transactionType=[TransactionType].ID ");
+                sql.Append("LEFT JOIN [HouseUseType] ON h.houseUseType=[HouseUseType].ID ");
+                sql.Append("LEFT JOIN [HouseType] ON h.houseType=[HouseType].ID ");
+                sql.Append("LEFT JOIN [HouseStatus] ON h.houseStatus=[HouseStatus].ID ");
+                sql.Append("LEFT JOIN [TaxPayType] ON h.taxPayType=[TaxPayType].ID ");
+                sql.Append("LEFT JOIN [DecorationType] ON h.decorationType=[DecorationType].ID ");
+                sql.Append("LEFT JOIN [HouseDocumentType] ON h.houseDocumentType=[HouseDocumentType].ID ");
+                sql.Append("LEFT JOIN [HousePayType] ON h.housePayType=[HousePayType].ID ");
+                sql.Append("LEFT JOIN [CommissionPayType] ON h.commissionPayType=[CommissionPayType].ID ");
+                sql.Append("LEFT JOIN [LookHouseType] ON h.lookHouseType=[LookHouseType].ID ");
+                sql.Append("LEFT JOIN [Source] ON h.source=[Source].ID ");
+                sql.Append(string.Format("WHERE {0} h.ID NOT IN (SELECT TOP ({1} * ({2}-1)) ID FROM House {3}) ", searchStr, houseMaxCount, house.PageIndex, searchStr2 != "" ? (" WHERE " + (searchStr2.Substring(0, searchStr2.LastIndexOf("AND")))) : ""));
+                sql.Append(" ORDER BY h.ID)temp ORDER BY temp.proxyStartDate");
+                var result = SqlHelper.ExecuteReader(sqlConn, System.Data.CommandType.Text, sql.ToString(), sqlParList.ToArray());
                 while (result.Read())
                 {
 
                     House obj = new House();
-                    obj.ID = Convert.ToInt32(result["hID"]);
-                    obj.Province = new Province
-                    {
-                        ID = Convert.ToInt32(result["ProID"]),
-                        Name = result["ProName"] != null ? Convert.ToString(result["ProName"]) : ""
-                    };
+                    obj.ID = Convert.ToInt32(result["hID"]);      
                     obj.City = new City
                     {
                         ID = Convert.ToInt32(result["CityID"]),
@@ -564,146 +580,6 @@ namespace DeFeng.DAL
                 result = false;
             }
             return result;
-        }
-
-        /// <summary>
-        /// 客配房
-        /// </summary>
-        /// <returns></returns>
-        public List<House> HouseDistributionCustomer(House house)
-        {
-            List<House> houseList = new List<House>();
-            try
-            {
-                #region Search条件
-
-                StringBuilder sqlStr = new StringBuilder("SELECT * FROM House WHERE ");
-                List<SqlParameter> sqlParList = new List<SqlParameter>();
-                var isNeedAddAnd = false;
-                var cityProperArr = house.District.Name.Split(',');
-                var areaArr = house.Area.AreaName.Split(',');
-
-                #region 城区
-                if (cityProperArr.Length != 0)
-                {
-                    for (int i = 0; i < cityProperArr.Length; i++)
-                    {
-                        var parName = string.Format("@city_proper{0}", i);
-                        if (i == 0)
-                        {
-                            sqlStr.Append(string.Format("city_proper={0}", parName));
-                        }
-                        else
-                        {
-                            sqlStr.Append(string.Format(" OR city_proper={0}", parName));
-                        }
-                        sqlParList.Add(new SqlParameter(parName, cityProperArr[i]));
-                    }
-                    isNeedAddAnd = true;
-                }
-                #endregion
-
-                #region 片区
-                if (areaArr.Length != 0)
-                {
-                    var and = isNeedAddAnd ? " AND " : " ";
-                    sqlStr.Append(and);
-                    for (int i = 0; i < areaArr.Length; i++)
-                    {
-                        var parName = string.Format("@area{0}", i);
-                        if (i == 0)
-                        {
-                            sqlStr.Append(string.Format(" area={0}", parName));
-                        }
-                        else
-                        {
-                            sqlStr.Append(string.Format(" OR area={0}", parName));
-                        }
-                        sqlParList.Add(new SqlParameter(parName, areaArr[i]));
-                    }
-                }
-                #endregion
-
-                #region 交易类型
-                if (house.TransactionType != null)
-                {
-                    var and = isNeedAddAnd ? " AND " : " ";
-                    sqlStr.Append(and);
-                    sqlStr.Append("[transaction_type]=@transactionType");
-                    sqlParList.Add(new SqlParameter("@transactionType", house.TransactionType));
-                }
-                #endregion
-
-                #region 住宅小区
-                if (house.ResidentialDistrict != null)
-                {
-                    var and = isNeedAddAnd ? " AND " : " ";
-                    sqlStr.Append(and);
-                    sqlStr.Append("[residential_district]=@residentialDistrict");
-                    sqlParList.Add(new SqlParameter("@residentialDistrict", house.ResidentialDistrict));
-                }
-
-                #endregion
-
-                #region 房屋用途
-                if (house.HouseUseType != null)
-                {
-                    var and = isNeedAddAnd ? " AND " : " ";
-                    sqlStr.Append(and);
-                    sqlStr.Append("[house_use_type]=@houseUseType");
-                    sqlParList.Add(new SqlParameter("@houseUseType", house.HouseUseType));
-                }
-                #endregion
-
-                #region 房型
-                if (!(house.RoomCount == 0 && house.HallCount == 0 && house.ToiletCount == 0))//当房型不为空时
-                {
-                    var and = isNeedAddAnd ? " AND " : " ";
-                    sqlStr.Append(and);
-                    sqlStr.Append("[room_count]=@room_count AND [hall_count]=@hall_count AND [toilet_count]=@toilet_count");
-                    sqlParList.Add(new SqlParameter("@room_count", house.RoomCount));
-                    sqlParList.Add(new SqlParameter("@hall_count", house.HallCount));
-                    sqlParList.Add(new SqlParameter("@toilet_count", house.ToiletCount));
-                }
-                #endregion
-
-                #region 房屋面积
-                if (house.HouseSize != 0)
-                {
-                    var and = isNeedAddAnd ? " AND " : " ";
-                    sqlStr.Append(and);
-                    sqlStr.Append("[house_size]=@houseSize");
-                    sqlParList.Add(new SqlParameter("@houseSize", house.HouseSize));
-                }
-                #endregion
-
-                #region 房屋价格
-                if (house.SaleTotalPrice != 0)
-                {
-                    var and = isNeedAddAnd ? " AND " : " ";
-                    sqlStr.Append(and);
-                    sqlStr.Append("[sale_total_price]=@saleTotalPrice");
-                    sqlParList.Add(new SqlParameter("@saleTotalPrice", house.SaleTotalPrice));
-                }
-                #endregion
-
-                #endregion
-
-                var result = SqlHelper.ExecuteReader(sqlConn, System.Data.CommandType.Text, sqlStr.ToString(), sqlParList.ToArray());
-                while (result.Read())
-                {
-                    House obj = new House();
-                    houseList.Add(obj);
-                }
-            }
-            catch (Exception ex)
-            {
-                Log log = new Log();
-                log.Msg = ex.StackTrace;
-                log.Type = LogType.Error;
-                GlobalQueue.LogGlobalQueue.Enqueue(log);
-            }
-            return houseList;
         }
     }
 }
