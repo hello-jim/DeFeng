@@ -80,27 +80,5 @@ namespace DeFeng.BLL
             }
             return result;
         }
-
-        /// <summary>
-        /// 房配客
-        /// </summary>
-        /// <returns></returns>
-        public List<House> HouseDistributionCustomer(House house)
-        {
-            House_DAL dal = new House_DAL();
-            List<House> houseList = new List<House>();
-            try
-            {
-                houseList = dal.HouseDistributionCustomer(house);
-            }
-            catch (Exception ex)
-            {
-                Log log = new Log();
-                log.Msg = ex.StackTrace;
-                log.Type = LogType.Error;
-                GlobalQueue.LogGlobalQueue.Enqueue(log);
-            }
-            return houseList;
-        }
     }
 }

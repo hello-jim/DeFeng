@@ -49,6 +49,7 @@
     <Compile Include="Current.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerDemand.cs" />
+    <Compile Include="CustomerFollowRecord.cs" />
     <Compile Include="CustomerQuality.cs" />
     <Compile Include="CustomerStatus.cs" />
     <Compile Include="CustomerTableColChecked.cs" />

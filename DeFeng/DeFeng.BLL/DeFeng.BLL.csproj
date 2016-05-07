@@ -51,6 +51,7 @@
     <Compile Include="CommissionPayType_BLL.cs" />
     <Compile Include="Country_BLL.cs" />
     <Compile Include="Current_BLL.cs" />
+    <Compile Include="CustomerFollowRecord_BLL.cs" />
     <Compile Include="CustomerStatus_BLL.cs" />
     <Compile Include="CustomerTableColChecked_BLL.cs" />
     <Compile Include="CustomerTransactionType_BLL.cs" />

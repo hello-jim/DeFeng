@@ -47,6 +47,7 @@
     <Compile Include="CommissionPayType_DAL.cs" />
     <Compile Include="Country_DAL.cs" />
     <Compile Include="Current_DAL.cs" />
+    <Compile Include="CustomerFollowRecord_DAL.cs" />
     <Compile Include="CustomerStatus_DAL.cs" />
     <Compile Include="CustomerTableColChecked_DAL.cs" />
     <Compile Include="CustomerTransactionType_DAL.cs" />

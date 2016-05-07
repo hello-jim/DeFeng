@@ -470,103 +470,6 @@ namespace DeFeng.DAL
             return customerList;
         }
 
-        /// <summary>
-        /// 房配客
-        /// </summary>
-        /// <returns></returns>
-        public List<Customer> HouseMatchCustomer(House house)
-        {
-            List<Customer> customerList = new List<Customer>();
-            try
-            {
-                #region 搜索条件
-                var search = new StringBuilder();
-                var sqlPars = new List<SqlParameter>();
-                #region 交易
-                if (house.TransactionType != null)
-                {
-                    search.Append(" transactionType=@transactionType AND ");
-                    sqlPars.Add(new SqlParameter("@transactionType", house.TransactionType.ID));
-                }
-                #endregion
-
-                #region 城区
-                if (house.District != null)
-                {
-                    search.Append(" district=@district AND ");
-                    sqlPars.Add(new SqlParameter("@district", house.District.ID));
-                }
-                #endregion
-
-                #region 片区
-                if (house.Area != null)
-                {
-                    search.Append(" area=@area AND ");
-                    sqlPars.Add(new SqlParameter("@area", house.Area.ID));
-                }
-                #endregion
-
-                #region 楼盘
-                if (house.ResidentialDistrict != null)
-                {
-                    search.Append(" residentialDistrict=@residentialDistrict AND ");
-                    sqlPars.Add(new SqlParameter("@residentialDistrict", house.ResidentialDistrict.ID));
-                }
-                #endregion
-
-                #region 用途
-                if (house.HouseUseType != null)
-                {
-                    search.Append(" houseUseType=@houseUseType AND ");
-                    sqlPars.Add(new SqlParameter("@houseUseType", house.HouseUseType.ID));
-                }
-                #endregion
-
-                #region 房型
-                if (house.RoomCount != 0)
-                {
-
-                }
-                #endregion
-
-                #region 价格
-                if (house.SaleTotalPrice != 0)
-                {
-                    search.Append(" price=@price AND ");
-                    sqlPars.Add(new SqlParameter("@price", house.SaleTotalPrice));
-                }
-                #endregion
-
-                #region 面积
-                if (house.HouseSize != 0)
-                {
-                    search.Append(" price=@price AND ");
-                    sqlPars.Add(new SqlParameter("@price", house.HouseSize));
-                }
-                #endregion
-
-                var sql = search.ToString();
-                sql = string.Format("SELECT * FROM Customer WHERE {0} c.ID NOT IN(SELECT * FROM Customer)");
-                #endregion
-
-
-                var result = SqlHelper.ExecuteReader(sqlConn, System.Data.CommandType.Text, "", sqlPars.ToArray());
-                while (result.Read())
-                {
-                    Customer obj = new Customer();
-                    customerList.Add(obj);
-                }
-            }
-            catch (Exception ex)
-            {
-                Log log = new Log();
-                log.Msg = ex.StackTrace;
-                log.Type = LogType.Error;
-                GlobalQueue.LogGlobalQueue.Enqueue(log);
-            }
-            return customerList;
-        }
-
         public int AddCutomer(Customer customer)
         {
             var result = 0;
@@ -725,6 +628,26 @@ namespace DeFeng.DAL
             return result;
         }
 
-        
+        public bool DeleteCustomer(List<int> idArr)
+        {
+            var result = false;
+            try
+            {
+                var sql = "DELETE FROM Customer WHERE ID=@ID";
+                for (int i = 0; i < idArr.Count(); i++)
+                {
+                    var sqlPars = new List<SqlParameter>();
+                    sqlPars.Add(new SqlParameter("@ID", idArr[i]));
+                    result = SqlHelper.ExecuteNonQuery(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray()) > 0;
+                }
+                result = true;
+            }
+            catch (Exception ex)
+            {
+                result = false;
+            }
+            return result;
+        }
+
     }
 }

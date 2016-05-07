@@ -572,8 +572,7 @@ namespace DeFeng.DAL
                     sqlPars.Add(new SqlParameter("@ID", idArr[i]));
                     result = SqlHelper.ExecuteNonQuery(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray()) > 0;
                 }
-
-
+                result = true;
             }
             catch (Exception ex)
             {

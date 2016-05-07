@@ -59,21 +59,19 @@ namespace DeFeng.BLL
             return result;
         }
 
-        public List<Customer> CustomerDistributionCustomer(Customer customer)
+        public bool DeleteCustomer(List<int> idArr)
         {
-            List<Customer> customerList = new List<Customer>();
+            Customer_DAL dal = new Customer_DAL();
+            var result = false;
             try
             {
-                customerList = dal.Search(customer);
+                result = dal.DeleteCustomer(idArr);
             }
             catch (Exception ex)
             {
-                Log log = new Log();
-                log.Msg = ex.StackTrace;
-                log.Type = LogType.Error;
-                GlobalQueue.LogGlobalQueue.Enqueue(log);
+                result = false;
             }
-            return customerList;
+            return result;
         }
     }
 }
