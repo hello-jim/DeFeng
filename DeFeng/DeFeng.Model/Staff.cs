@@ -9,7 +9,7 @@ namespace DeFeng.Model
     public class Staff
     {
         private int id;
-        private string name;
+        private string account;
         private Department department;
         private string password;//密码
         private string staffNumber; //员工号
@@ -76,18 +76,6 @@ namespace DeFeng.Model
             }
         }
 
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-
-            set
-            {
-                name = value;
-            }
-        }
 
         public Department Department
         {
@@ -751,6 +739,19 @@ namespace DeFeng.Model
             set
             {
                 access_authority = value;
+            }
+        }
+
+        public string Account
+        {
+            get
+            {
+                return account;
+            }
+
+            set
+            {
+                account = value;
             }
         }
     }
