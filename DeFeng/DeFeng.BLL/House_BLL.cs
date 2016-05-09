@@ -17,13 +17,13 @@ namespace DeFeng.BLL
         /// </summary>
         /// <param name="house"></param>
         /// <returns></returns>
-        public List<House> SearchHouse(House house)
+        public List<House> Search(House house)
         {
             House_DAL dal = new House_DAL();
             List<House> houseList = new List<House>();
             try
             {
-                houseList = dal.SearchHouse(house);
+                houseList = dal.Search(house);
                 houseList[0].TotalHouseCount = houseList[0].TotalHouseCount + ((house.PageIndex - 1) * houseMaxCount);
             }
             catch (Exception ex)
@@ -79,6 +79,21 @@ namespace DeFeng.BLL
                 result = false;
             }
             return result;
+        }
+
+        public List<House> SameOwnerHouse(House house)
+        {
+            var list = new List<House>();
+            try
+            {
+                House_DAL dal = new House_DAL();
+                list = dal.SameOwnerHouse(house);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return list;
         }
     }
 }

@@ -41,7 +41,7 @@ namespace DeFeng.Model
         private decimal salePriceTo;//销售价格至多少....
         private DateTime proxyStartDate;//代理开始时间   
         private DateTime proxyOverDate;//代理结束时间
-        private EntrustType entrustType;//代理方式
+        private EntrustType entrustType;//委托方式
         private Department department;//所属部门
         private Staff staff;//员工ID
         private DateTime lastFollowDate;//最后跟进日期
