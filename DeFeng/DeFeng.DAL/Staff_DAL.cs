@@ -20,12 +20,12 @@ namespace DeFeng.DAL
             var result = 0;
             try
             {
-                var sql = "INSERT INTO staff (account,password,idCard,phone) VALUES (@account,@password,@idCard,@phone)";
+                var sql = "INSERT INTO staff (account,password,phone) VALUES (@account,@password,@phone)";
                 var sqlPars = new List<SqlParameter>();
                 //sqlPars.Add(new SqlParameter("@ID", staff.ID));
                 sqlPars.Add(new SqlParameter("@account", staff.Account));
                 sqlPars.Add(new SqlParameter("@password", staff.Password));
-                sqlPars.Add(new SqlParameter("@idCard", staff.IdCard));
+                //sqlPars.Add(new SqlParameter("@idCard", staff.IdCard));
                 sqlPars.Add(new SqlParameter("@phone", staff.Phone));
                 result = Convert.ToInt32(SqlHelper.ExecuteNonQuery(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray()));
             }
@@ -43,12 +43,13 @@ namespace DeFeng.DAL
             var result = 0;
             try
             {
-                var sql = "INSERT INTO Staff (staffNumber,staffName,birthdayType,submitHouseDate,sex,age,birthday,marital,education,major,bloodType,entry_time,entry_status,probation,height,probation_salary,salary,politics,title,nation,email,tel,officTel,accountType,accountAddress,place_origin,address,application_method,family_members,family_relationship,family_occupation,family_company,family_contact,entry_unit,entry_department,entry_position,leader,part_time_job,part_time_position,branch_manager,site_manager,hr_clerk,hr_manager,general_manager,login_name,access_authority) VALUES (@staffNumber,@staffName,@birthdayType,@submitHouseDate,@sex,@age,@birthday,@marital,@education,@major,@bloodType,@entry_time,@entry_status,@probation,@height,@probation_salary,@salary,@politics,@title,@nation,@email,@tel,@officTel,@accountType,@accountAddress,@place_origin,@address,@application_method,@family_members,@family_relationship,@family_occupation,@family_company,@family_contact,@entry_unit,@entry_department,@entry_position,@leader,@part_time_job,@part_time_position,@branch_manager,@site_manager,@hr_clerk,@hr_manager,@general_manager,@login_name,@access_authority)";
+                var sql = "INSERT INTO Staff (staffNumber,staffName,birthdayType,idCard,submitHouseDate,sex,age,birthday,marital,education,major,bloodType,entry_time,entry_status,probation,height,probation_salary,salary,politics,title,nation,email,tel,officTel,accountType,accountAddress,place_origin,address,application_method,family_members,family_relationship,family_occupation,family_company,family_contact,entry_unit,entry_department,entry_position,leader,part_time_job,part_time_position,branch_manager,site_manager,hr_clerk,hr_manager,general_manager,login_name,access_authority) VALUES (@staffNumber,@staffName,@birthdayType,@idCard,@submitHouseDate,@sex,@age,@birthday,@marital,@education,@major,@bloodType,@entry_time,@entry_status,@probation,@height,@probation_salary,@salary,@politics,@title,@nation,@email,@tel,@officTel,@accountType,@accountAddress,@place_origin,@address,@application_method,@family_members,@family_relationship,@family_occupation,@family_company,@family_contact,@entry_unit,@entry_department,@entry_position,@leader,@part_time_job,@part_time_position,@branch_manager,@site_manager,@hr_clerk,@hr_manager,@general_manager,@login_name,@access_authority)";
                 var sqlPars = new List<SqlParameter>();
                 //sqlPars.Add(new SqlParameter("@ID", staff.ID));
                 sqlPars.Add(new SqlParameter("@staffNumber", staff.StaffNumber));
                 sqlPars.Add(new SqlParameter("@staffName", staff.StaffName));
                 sqlPars.Add(new SqlParameter("@birthdayType", staff.BirthdayType));
+                sqlPars.Add(new SqlParameter("@idCard", staff.IdCard));
                 sqlPars.Add(new SqlParameter("@submitHouseDate", staff.SubmitHouseDate));
                 sqlPars.Add(new SqlParameter("@sex", staff.Sex));
                 sqlPars.Add(new SqlParameter("@age", staff.Age));
@@ -110,7 +111,7 @@ namespace DeFeng.DAL
             {
                 var sql = "SELECT [account],[password] FROM Staff WHERE [account]=@account AND [password]=@password";
                 var sqlPars = new List<SqlParameter>();
-                //sqlPars.Add(new SqlParameter("@ID", staff.ID));
+                sqlPars.Add(new SqlParameter("@ID", staff.ID));
                 sqlPars.Add(new SqlParameter("@account", staff.Account));
                 sqlPars.Add(new SqlParameter("@password", staff.Password));
                 var result = SqlHelper.ExecuteReader(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray());
@@ -119,6 +120,7 @@ namespace DeFeng.DAL
                 {
                     var list = new List<Staff>();
                     var obj = new Staff();
+                    obj.Account = Convert.ToString(result["id"]);
                     obj.Account = Convert.ToString(result["account"]);
                     obj.Password = Convert.ToString(result["password"]);
                     list.Add(obj);

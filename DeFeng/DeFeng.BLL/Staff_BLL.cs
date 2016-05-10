@@ -52,6 +52,7 @@ namespace DeFeng.BLL
             }
             return result;
         }
+        //0用户不存在 2密码正确
         public int UserLogin(Staff staff)
         {
             var result = 0;
