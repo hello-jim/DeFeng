@@ -40,6 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Announcement.cs" />
+    <Compile Include="AnnouncementRead.cs" />
+    <Compile Include="AnnouncementType.cs" />
+    <Compile Include="AnnouncementUnread.cs" />
     <Compile Include="Appliance.cs" />
     <Compile Include="Area.cs" />
     <Compile Include="CarPark.cs" />
@@ -57,6 +61,9 @@
     <Compile Include="CustomerType.cs" />
     <Compile Include="DecorationType.cs" />
     <Compile Include="Department.cs" />
+    <Compile Include="Dimission.cs" />
+    <Compile Include="DimissionApply.cs" />
+    <Compile Include="DimissionType.cs" />
     <Compile Include="District.cs" />
     <Compile Include="FollowType.cs" />
     <Compile Include="Furniture.cs" />
@@ -78,6 +85,7 @@
     <Compile Include="Intention.cs" />
     <Compile Include="LandPlan.cs" />
     <Compile Include="LandType.cs" />
+    <Compile Include="Leave.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="LookHouseType.cs" />
     <Compile Include="OfficeLevel.cs" />
@@ -95,6 +103,7 @@
     <Compile Include="Supporting.cs" />
     <Compile Include="TaxPayType.cs" />
     <Compile Include="TransactionType.cs" />
+    <Compile Include="TransferKong.cs" />
     <Compile Include="Wall.cs" />
   </ItemGroup>
   <ItemGroup />
