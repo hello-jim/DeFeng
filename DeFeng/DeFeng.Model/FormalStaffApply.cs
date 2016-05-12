@@ -6,23 +6,25 @@ using System.Threading.Tasks;
 
 namespace DeFeng.Model
 {
-    public class Leave
+    public class FormalStaffApply
     {
         private int id;
-        private Department department;//部门
-        private Staff staff;//员工
-        private string post;//岗位
-        private LeaveType leaveType;//请假类型
-        private DateTime leaveDateFrom;
-        private DateTime leaveDateTo;
-        private float totalLeaveCount;//总共请假天数
-        private string leaveReason;//请假原因
+        private Staff staff;
+        private string post;
+        private Department department;
+        private decimal probationPeriodWages;//转正前薪水
+        private decimal formalWages;//转正后薪水
+        private DateTime formalDate;//转正日期
+        private bool isBuySocialSecurity;//是否买社保
+        private City socialSecurityBuyCity;//社保购买城市
+        private bool isObeyAllocation;//是否服从调配
+        private string formalReason;//转正理由
         private string attachmentName;//附件
         private string shopownerComments;//店长意见
-        private string sceneManager;//现场经理
+        private string sceneManagerComments;//现场经理意见
         private string personnelDepartmentComments;//人事部意见
         private string personnelManager;//人事经理
-        private string generalManager;//总经理
+        private string viceGeneralManager;//副总
         private string processImg;//流程图
         private Staff createStaff;
         private DateTime createDate;
@@ -39,19 +41,6 @@ namespace DeFeng.Model
             set
             {
                 id = value;
-            }
-        }
-
-        public Department Department
-        {
-            get
-            {
-                return department;
-            }
-
-            set
-            {
-                department = value;
             }
         }
 
@@ -81,68 +70,107 @@ namespace DeFeng.Model
             }
         }
 
-        public LeaveType LeaveType
+        public Department Department
         {
             get
             {
-                return leaveType;
+                return department;
             }
 
             set
             {
-                leaveType = value;
+                department = value;
             }
         }
 
-        public DateTime LeaveDateFrom
+        public decimal ProbationPeriodWages
         {
             get
             {
-                return leaveDateFrom;
+                return probationPeriodWages;
             }
 
             set
             {
-                leaveDateFrom = value;
+                probationPeriodWages = value;
             }
         }
 
-        public DateTime LeaveDateTo
+        public decimal FormalWages
         {
             get
             {
-                return leaveDateTo;
+                return formalWages;
             }
 
             set
             {
-                leaveDateTo = value;
+                formalWages = value;
             }
         }
 
-        public float TotalLeaveCount
+        public DateTime FormalDate
         {
             get
             {
-                return totalLeaveCount;
+                return formalDate;
             }
 
             set
             {
-                totalLeaveCount = value;
+                formalDate = value;
             }
         }
 
-        public string LeaveReason
+        public bool IsBuySocialSecurity
         {
             get
             {
-                return leaveReason;
+                return isBuySocialSecurity;
             }
 
             set
             {
-                leaveReason = value;
+                isBuySocialSecurity = value;
+            }
+        }
+
+        public City SocialSecurityBuyCity
+        {
+            get
+            {
+                return socialSecurityBuyCity;
+            }
+
+            set
+            {
+                socialSecurityBuyCity = value;
+            }
+        }
+
+        public bool IsObeyAllocation
+        {
+            get
+            {
+                return isObeyAllocation;
+            }
+
+            set
+            {
+                isObeyAllocation = value;
+            }
+        }
+
+        public string FormalReason
+        {
+            get
+            {
+                return formalReason;
+            }
+
+            set
+            {
+                formalReason = value;
             }
         }
 
@@ -172,16 +200,16 @@ namespace DeFeng.Model
             }
         }
 
-        public string SceneManager
+        public string SceneManagerComments
         {
             get
             {
-                return sceneManager;
+                return sceneManagerComments;
             }
 
             set
             {
-                sceneManager = value;
+                sceneManagerComments = value;
             }
         }
 
@@ -211,16 +239,16 @@ namespace DeFeng.Model
             }
         }
 
-        public string GeneralManager
+        public string ViceGeneralManager
         {
             get
             {
-                return generalManager;
+                return viceGeneralManager;
             }
 
             set
             {
-                generalManager = value;
+                viceGeneralManager = value;
             }
         }
 

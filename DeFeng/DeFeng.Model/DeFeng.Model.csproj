@@ -66,6 +66,7 @@
     <Compile Include="DimissionType.cs" />
     <Compile Include="District.cs" />
     <Compile Include="FollowType.cs" />
+    <Compile Include="FormalStaffApply.cs" />
     <Compile Include="Furniture.cs" />
     <Compile Include="Global\GlobalDictionary.cs" />
     <Compile Include="Global\GlobalQueue.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="LandPlan.cs" />
     <Compile Include="LandType.cs" />
     <Compile Include="Leave.cs" />
+    <Compile Include="LeaveType.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="LookHouseType.cs" />
     <Compile Include="OfficeLevel.cs" />
