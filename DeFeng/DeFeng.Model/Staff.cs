@@ -44,6 +44,7 @@ namespace DeFeng.Model
         private string family_members;//家庭成员
         private string family_relationship;//关系
         private string family_occupation;//职业
+        private string landscape;//政治面貌
         private string family_company;//所在单位
         private string family_contact;//联系方式
         private string entry_unit;//入职单位
@@ -752,6 +753,19 @@ namespace DeFeng.Model
             set
             {
                 account = value;
+            }
+        }
+
+        public string Landscape
+        {
+            get
+            {
+                return landscape;
+            }
+
+            set
+            {
+                landscape = value;
             }
         }
     }
