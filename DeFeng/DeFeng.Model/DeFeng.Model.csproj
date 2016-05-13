@@ -98,6 +98,8 @@
     <Compile Include="Province.cs" />
     <Compile Include="EntrustType.cs" />
     <Compile Include="ResidentialDistrict.cs" />
+    <Compile Include="SecondHandHouseEarnest.cs" />
+    <Compile Include="SecondHandHouseTransferEarnest.cs" />
     <Compile Include="ShopArea.cs" />
     <Compile Include="ShopLocation.cs" />
     <Compile Include="Source.cs" />
@@ -105,6 +107,7 @@
     <Compile Include="Supporting.cs" />
     <Compile Include="TaxPayType.cs" />
     <Compile Include="TransactionType.cs" />
+    <Compile Include="TransferEarnestType.cs" />
     <Compile Include="TransferKong.cs" />
     <Compile Include="Wall.cs" />
   </ItemGroup>
