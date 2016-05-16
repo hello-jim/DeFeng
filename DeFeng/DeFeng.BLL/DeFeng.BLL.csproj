@@ -30,9 +30,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DeFeng.BLL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Project\DeFeng\DeFeng\DeFeng.BLL\bin\Debug\DeFeng.BLL.dll</HintPath>
+    </Reference>
     <Reference Include="DeFeng.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DeFeng.Common\bin\Debug\DeFeng.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="DeFeng.Model">
+      <HintPath>..\DeFeng.Model\bin\Debug\DeFeng.Model.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -88,6 +95,7 @@
     <Compile Include="ShopArea_BLL.cs" />
     <Compile Include="ShopLocation_BLL.cs" />
     <Compile Include="Source_BLL.cs" />
+    <Compile Include="Staff_BLL.cs" />
     <Compile Include="Supporting_BLL.cs" />
     <Compile Include="TaxPayType_BLL.cs" />
     <Compile Include="TransactionType_BLL.cs" />
@@ -97,10 +105,6 @@
     <ProjectReference Include="..\DeFeng.DAL\DeFeng.DAL.csproj">
       <Project>{3bc63d91-e648-4c65-8bf3-3b4282f245fa}</Project>
       <Name>DeFeng.DAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DeFeng.Model\DeFeng.Model.csproj">
-      <Project>{cf6d2478-8b58-4b6c-9107-f483b9108ea6}</Project>
-      <Name>DeFeng.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

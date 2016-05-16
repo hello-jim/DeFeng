@@ -155,6 +155,16 @@ namespace DeFeng.Common
             cmd = null;
         }
 
+        public static object ExecuteNonQuery(string sqlConn)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static object CacheParameters(string sqlConn, CommandType text, string sql)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 执行一条返回第一条记录第一列的SqlCommand命令，通过专用的连接字符串。 
         /// 使用参数数组提供参数
@@ -180,6 +190,11 @@ namespace DeFeng.Common
                 return val;
             }
             cmd = null;
+        }
+
+        public static object ExecuteReader(string sqlConn, CommandType text, SqlParameter[] sqlParameter)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
