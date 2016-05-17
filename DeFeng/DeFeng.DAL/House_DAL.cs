@@ -333,18 +333,18 @@ namespace DeFeng.DAL
                     };
                     obj.TransactionType = new TransactionType
                     {
-                        ID = result["transactionTypeID"] != null ? Convert.ToInt32(result["transactionTypeID"]) : 0,
-                        TransactionTypeName = result["transactionTypeName"] != null ? Convert.ToString(result["transactionTypeName"]) : ""
+                        ID = Convert.IsDBNull(result["transactionTypeID"]) ? 0 : Convert.ToInt32(result["transactionTypeID"]),
+                        TransactionTypeName = Convert.IsDBNull(result["transactionTypeName"]) ? "" : Convert.ToString(result["transactionTypeName"])
                     };
                     obj.HouseUseType = new HouseUseType
                     {
-                        ID = result["useTypeID"] != null ? Convert.ToInt32(result["useTypeID"]) : 0,
-                        TypeName = result["useTypeName"] != null ? Convert.ToString(result["useTypeName"]) : ""
+                        ID = Convert.IsDBNull(result["useTypeID"]) ? 0 : Convert.ToInt32(result["useTypeID"]),
+                        TypeName = Convert.IsDBNull(result["useTypeName"]) ? "" : Convert.ToString(result["useTypeName"])
                     };
                     obj.HouseType = new HouseType
                     {
-                        ID = result["houseTypeID"] != null ? Convert.ToInt32(result["houseTypeID"]) : 0,
-                        TypeName = result["houseTypeName"] != null ? Convert.ToString(result["houseTypeName"]) : ""
+                        ID = Convert.IsDBNull(result["houseTypeID"]) ? 0 : Convert.ToInt32(result["houseTypeID"]),
+                        TypeName = Convert.IsDBNull(result["houseTypeName"]) ? "" : Convert.ToString(result["houseTypeName"])
                     };
                     obj.HouseStatus = new HouseStatus
                     {
@@ -383,8 +383,8 @@ namespace DeFeng.DAL
                     };
                     obj.Source = new Source
                     {
-                        ID = Convert.ToInt32(result["sourceID"]),
-                        SourceName = Convert.ToString(result["sourceName"])
+                        ID = Convert.IsDBNull(result["sourceID"]) ? 0 : Convert.ToInt32(result["sourceID"]),
+                        SourceName = Convert.IsDBNull(result["sourceName"]) ? "" : Convert.ToString(result["sourceName"])
                     };
                     obj.OwnerName = result["ownerName"] != null ? Convert.ToString(result["ownerName"]) : "";
                     obj.OwnerPhone = result["ownerPhone"] != null ? Convert.ToString(result["ownerPhone"]) : "";
@@ -411,11 +411,11 @@ namespace DeFeng.DAL
             var result = false;
             try
             {
-                var sql = "INSERT INTO House(entrustID, province,city,district,area,residentialDistrict,totalFloor,floor,housePosition,houseNumber,roomCount,hallCount,toiletCount,balconyCount,houseSize,houseUseSize,orientation,saleTotalPrice,minSalePrice,leaseTotalPrice,minLeasePrice,managementPrice,submitHouseDate,proxyStartDate,entrustType,department,staff,lastFollowDate,houseCreateDate,housingLetter,houseQuality,transactionType,houseUseType,houseType,houseStatus,[current],taxPayType,originalPrice,decorationType,houseDocumentType,housePayType,supporting,commissionPayType,LookHouseType,ownerName,ownerPhone,contacts,contactPhone,propertyOwn,furniture,appliance,source,remarks,lastUpdateStaff,lastUpdateDate) VALUES(@entrustID, @province,@city,@district,@area,@residentialDistrict,@totalFloor,@floor,@housePosition,@houseNumber,@roomCount,@hallCount,@toiletCount,@balconyCount,@houseSize,@houseUseSize,@orientation,@saleTotalPrice,@minSalePrice,@leaseTotalPrice,@minLeasePrice,@managementPrice,@submitHouseDate,@proxyStartDate,@entrustType,@department,@staff,@lastFollowDate,@houseCreateDate,@housingLetter,@houseQuality,@transactionType,@houseUseType,@houseType,@houseStatus,@current,@taxPayType,@originalPrice,@decorationType,@houseDocumentType,@housePayType,@supporting,@commissionPayType,@LookHouseType,@ownerName,@ownerPhone,@contacts,@contactPhone,@propertyOwn,@furniture,@appliance,@source,@remarks,@lastUpdateStaff,@lastUpdateDate)";
+                var sql = "INSERT INTO House(entrustID,city,district,area,residentialDistrict,totalFloor,floor,housePosition,houseNumber,roomCount,hallCount,toiletCount,balconyCount,houseSize,houseUseSize,orientation,saleTotalPrice,minSalePrice,leaseTotalPrice,minLeasePrice,managementPrice,submitHouseDate,proxyStartDate,entrustType,department,staff,lastFollowDate,houseCreateDate,housingLetter,houseQuality,transactionType,houseUseType,houseType,houseStatus,[current],taxPayType,originalPrice,decorationType,houseDocumentType,housePayType,supporting,commissionPayType,LookHouseType,ownerName,ownerPhone,contacts,contactPhone,propertyOwn,furniture,appliance,source,remarks,lastUpdateStaff,lastUpdateDate) VALUES(@entrustID,@city,@district,@area,@residentialDistrict,@totalFloor,@floor,@housePosition,@houseNumber,@roomCount,@hallCount,@toiletCount,@balconyCount,@houseSize,@houseUseSize,@orientation,@saleTotalPrice,@minSalePrice,@leaseTotalPrice,@minLeasePrice,@managementPrice,@submitHouseDate,@proxyStartDate,@entrustType,@department,@staff,@lastFollowDate,@houseCreateDate,@housingLetter,@houseQuality,@transactionType,@houseUseType,@houseType,@houseStatus,@current,@taxPayType,@originalPrice,@decorationType,@houseDocumentType,@housePayType,@supporting,@commissionPayType,@LookHouseType,@ownerName,@ownerPhone,@contacts,@contactPhone,@propertyOwn,@furniture,@appliance,@source,@remarks,@lastUpdateStaff,@lastUpdateDate)";
                 var nowDateTime = DateTime.Now;
                 var sqlPars = new List<SqlParameter>();
                 sqlPars.Add(new SqlParameter("@entrustID", house.EntrustID));
-                sqlPars.Add(new SqlParameter("@province", house.Province.ID));
+
                 sqlPars.Add(new SqlParameter("@city", house.City.ID));
                 sqlPars.Add(new SqlParameter("@district", house.District.ID));
                 sqlPars.Add(new SqlParameter("@area", house.Area.ID));
@@ -498,11 +498,10 @@ namespace DeFeng.DAL
             var result = false;
             try
             {
-                var sql = "UPDATE House SET entrustID=@entrustID, province=@province,city=@city,district=@district,area=@area,residentialDistrict=@residentialDistrict,totalFloor=@totalFloor,floor=@floor,housePosition=@housePosition,houseNumber=@houseNumber,roomCount=@roomCount,hallCount=@hallCount,toiletCount=@toiletCount,balconyCount=@balconyCount,houseSize=@houseSize,houseUseSize=@houseUseSize,orientation=@orientation,saleTotalPrice=@saleTotalPrice,minSalePrice=@minSalePrice,leaseTotalPrice=@leaseTotalPrice,minLeasePrice=@minLeasePrice,managementPrice=@managementPrice,submitHouseDate=@submitHouseDate,entrustType=@entrustType,department=@department,staff=@staff,houseCreateDate=@houseCreateDate,housingLetter=@housingLetter,houseQuality=@houseQuality,transactionType=@transactionType,houseUseType=@houseUseType,houseType=@houseType,houseStatus=@houseStatus,[current]=@current,taxPayType=@taxPayType,originalPrice=@originalPrice,decorationType=@decorationType,houseDocumentType=@houseDocumentType,housePayType=@housePayType,supporting=@supporting,commissionPayType=@commissionPayType,LookHouseType=@LookHouseType,ownerName=@ownerName,ownerPhone=@ownerPhone,contacts=@contacts,contactPhone=@contactPhone,propertyOwn=@propertyOwn,furniture=@furniture,appliance=@appliance,source=@source,remarks=@remarks,lastUpdateStaff=@lastUpdateStaff,lastUpdateDate=@lastUpdateDate WHERE ID=@ID";
+                var sql = "UPDATE House SET entrustID=@entrustID,city=@city,district=@district,area=@area,residentialDistrict=@residentialDistrict,totalFloor=@totalFloor,floor=@floor,housePosition=@housePosition,houseNumber=@houseNumber,roomCount=@roomCount,hallCount=@hallCount,toiletCount=@toiletCount,balconyCount=@balconyCount,houseSize=@houseSize,houseUseSize=@houseUseSize,orientation=@orientation,saleTotalPrice=@saleTotalPrice,minSalePrice=@minSalePrice,leaseTotalPrice=@leaseTotalPrice,minLeasePrice=@minLeasePrice,managementPrice=@managementPrice,submitHouseDate=@submitHouseDate,entrustType=@entrustType,department=@department,staff=@staff,houseCreateDate=@houseCreateDate,housingLetter=@housingLetter,houseQuality=@houseQuality,transactionType=@transactionType,houseUseType=@houseUseType,houseType=@houseType,houseStatus=@houseStatus,[current]=@current,taxPayType=@taxPayType,originalPrice=@originalPrice,decorationType=@decorationType,houseDocumentType=@houseDocumentType,housePayType=@housePayType,supporting=@supporting,commissionPayType=@commissionPayType,LookHouseType=@LookHouseType,ownerName=@ownerName,ownerPhone=@ownerPhone,contacts=@contacts,contactPhone=@contactPhone,propertyOwn=@propertyOwn,furniture=@furniture,appliance=@appliance,source=@source,remarks=@remarks,lastUpdateStaff=@lastUpdateStaff,lastUpdateDate=@lastUpdateDate WHERE ID=@ID";
                 var sqlPars = new List<SqlParameter>();
                 sqlPars.Add(new SqlParameter("@ID", house.ID));
                 sqlPars.Add(new SqlParameter("@entrustID", house.EntrustID));
-                sqlPars.Add(new SqlParameter("@province", house.Province.ID));
                 sqlPars.Add(new SqlParameter("@city", house.City.ID));
                 sqlPars.Add(new SqlParameter("@district", house.District.ID));
                 sqlPars.Add(new SqlParameter("@area", house.Area.ID));
