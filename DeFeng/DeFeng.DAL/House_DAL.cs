@@ -176,16 +176,16 @@ namespace DeFeng.DAL
                 #endregion
 
                 #region 价格
-                if (house.SalePriceFrom != 0 || house.SalePriceTo != 0)
+                if (house.PriceFrom != 0 || house.PriceTo != 0)
                 {
-                    search.Append("[saleTotalPrice] >=@salePriceFrom");
-                    search2.Append("[saleTotalPrice] >=@salePriceFrom");
-                    sqlParList.Add(new SqlParameter("@salePriceFrom", house.SalePriceFrom));
-                    if (house.SalePriceTo != 0)
+                    search.Append("[price] >=@salePriceFrom");
+                    search2.Append("[price] >=@salePriceFrom");
+                    sqlParList.Add(new SqlParameter("@salePriceFrom", house.PriceFrom));
+                    if (house.PriceTo != 0)
                     {
-                        search.Append(" AND [saleTotalPrice] <=@salePriceTo");
-                        search2.Append(" AND [saleTotalPrice] <=@salePriceTo");
-                        sqlParList.Add(new SqlParameter("@salePriceTo", house.SalePriceTo));
+                        search.Append(" AND [price] <=@salePriceTo");
+                        search2.Append(" AND [price] <=@salePriceTo");
+                        sqlParList.Add(new SqlParameter("@salePriceTo", house.PriceTo));
                     }
                     search.Append(" AND ");
                     search2.Append(" AND ");
@@ -250,7 +250,7 @@ namespace DeFeng.DAL
                 var searchStr = search.ToString();
                 var searchStr2 = search2.ToString();
                 var sql = new StringBuilder();
-                sql.Append(string.Format("SELECT * FROM (SELECT TOP {0} Count(*) OVER() AS totalHouseCount, City.CityID, City.ProID AS cityProID, City.CityName, District.ID AS disID, District.DisName, District.CityID AS disCityID, Area.ID AS areaID, areaName, ResidentialDistrict.ID AS rdID, ResidentialDistrict.name AS rdName, address, HousingLetter.ID AS letterID, HousingLetter.letterName, HouseQuality.ID AS qualityID, qualityName, TransactionType.ID AS transactionTypeID, transactionTypeName, Orientation.ID AS orientationID, orientationName, HouseUseType.ID AS useTypeID, HouseUseType.typeName AS useTypeName, HouseType.ID AS houseTypeID, HouseType.typeName AS houseTypeName, HouseStatus.ID AS statusID, HouseStatus.statusName, TaxPayType.ID AS taxPayTypeID, TaxPayType.typeName AS taxPayTypeName, DecorationType.ID AS decorationTypeID, DecorationType.typeName AS decorationTypeName, HouseDocumentType.ID AS houseDocumentTypeID, HouseDocumentType.typeName AS houseDocumentTypeName, HousePayType.ID AS housePayTypeID, HousePayType.typeName AS housePayTypeName, CommissionPayType.ID AS commissionPayTypeID, CommissionPayType.typeName AS commissionPayTypeName, LookHouseType.ID AS lookHouseTypeID, LookHouseType.typeName AS lookHouseTypeName, Source.ID AS sourceID, sourceName, h.ID as hID,[housePosition],[totalFloor],[houseNumber],[roomCount],[hallCount],[toiletCount],[balconyCount],[houseSize],[houseUseSize],[orientation],[saleTotalPrice],[leaseTotalPrice],[proxyStartDate],[proxyOverDate],[lastFollowDate],[houseCreateDate],[originalPrice],[supporting],[ownerName],[ownerPhone],[contacts],[contactPhone],[remarks], h.lastUpdateDate, h.createDate FROM[House] AS h ", houseMaxCount));
+                sql.Append(string.Format("SELECT * FROM (SELECT TOP {0} Count(*) OVER() AS totalHouseCount, City.CityID, City.ProID AS cityProID, City.CityName, District.ID AS disID, District.DisName, District.CityID AS disCityID, Area.ID AS areaID, areaName, ResidentialDistrict.ID AS rdID, ResidentialDistrict.name AS rdName, address, HousingLetter.ID AS letterID, HousingLetter.letterName, HouseQuality.ID AS qualityID, qualityName, TransactionType.ID AS transactionTypeID, transactionTypeName, Orientation.ID AS orientationID, orientationName, HouseUseType.ID AS useTypeID, HouseUseType.typeName AS useTypeName, HouseType.ID AS houseTypeID, HouseType.typeName AS houseTypeName, HouseStatus.ID AS statusID, HouseStatus.statusName, TaxPayType.ID AS taxPayTypeID, TaxPayType.typeName AS taxPayTypeName, DecorationType.ID AS decorationTypeID, DecorationType.typeName AS decorationTypeName, HouseDocumentType.ID AS houseDocumentTypeID, HouseDocumentType.typeName AS houseDocumentTypeName, HousePayType.ID AS housePayTypeID, HousePayType.typeName AS housePayTypeName, CommissionPayType.ID AS commissionPayTypeID, CommissionPayType.typeName AS commissionPayTypeName, LookHouseType.ID AS lookHouseTypeID, LookHouseType.typeName AS lookHouseTypeName, Source.ID AS sourceID, sourceName, h.ID as hID,[housePosition],[totalFloor],[houseNumber],[roomCount],[hallCount],[toiletCount],[balconyCount],[houseSize],[houseUseSize],[orientation],[price],[leasePrice],[proxyStartDate],[proxyOverDate],[lastFollowDate],[houseCreateDate],[originalPrice],[supporting],[ownerName],[ownerPhone],[contacts],[contactPhone],[remarks], h.lastUpdateDate, h.createDate FROM[House] AS h ", houseMaxCount));
                 sql.Append("LEFT JOIN [City] ON h.city=[City].CityID ");
                 sql.Append("LEFT JOIN [District] ON h.district=[District].Id ");
                 sql.Append("LEFT JOIN [Area] ON h.area=[Area].ID ");
@@ -309,8 +309,8 @@ namespace DeFeng.DAL
                     obj.BalconyCount = result["balconyCount"] != null ? Convert.ToInt32(result["balconyCount"]) : 0;
                     obj.HouseSize = result["houseSize"] != null ? Convert.ToSingle(result["houseSize"]) : 0;
                     obj.HouseUseSize = Convert.ToString(result["houseUseSize"]) != "" ? Convert.ToSingle(result["houseUseSize"]) : 0;
-                    obj.SaleTotalPrice = result["saleTotalPrice"] != null ? Convert.ToDecimal(result["saleTotalPrice"]) : 0;
-                    obj.LeaseTotalPrice = result["leaseTotalPrice"] != null ? Convert.ToDecimal(result["leaseTotalPrice"]) : 0;
+                    obj.Price = result["price"] != null ? Convert.ToDecimal(result["price"]) : 0;
+                    obj.LeasePrice = result["leasePrice"] != null ? Convert.ToDecimal(result["leasePrice"]) : 0;
                     obj.ProxyStartDate = result["proxyStartDate"] != null ? Convert.ToDateTime(result["proxyStartDate"]) : new DateTime();
                     obj.LastFollowDate = result["lastFollowDate"] != null ? Convert.ToDateTime(result["lastFollowDate"]) : new DateTime();
                     obj.HouseCreateDate = result["houseCreateDate"] != null ? Convert.ToString(result["houseCreateDate"]) : "";
@@ -411,11 +411,10 @@ namespace DeFeng.DAL
             var result = false;
             try
             {
-                var sql = "INSERT INTO House(entrustID,city,district,area,residentialDistrict,totalFloor,floor,housePosition,houseNumber,roomCount,hallCount,toiletCount,balconyCount,houseSize,houseUseSize,orientation,saleTotalPrice,minSalePrice,leaseTotalPrice,minLeasePrice,managementPrice,submitHouseDate,proxyStartDate,entrustType,department,staff,lastFollowDate,houseCreateDate,housingLetter,houseQuality,transactionType,houseUseType,houseType,houseStatus,[current],taxPayType,originalPrice,decorationType,houseDocumentType,housePayType,supporting,commissionPayType,LookHouseType,ownerName,ownerPhone,contacts,contactPhone,propertyOwn,furniture,appliance,source,remarks,lastUpdateStaff,lastUpdateDate) VALUES(@entrustID,@city,@district,@area,@residentialDistrict,@totalFloor,@floor,@housePosition,@houseNumber,@roomCount,@hallCount,@toiletCount,@balconyCount,@houseSize,@houseUseSize,@orientation,@saleTotalPrice,@minSalePrice,@leaseTotalPrice,@minLeasePrice,@managementPrice,@submitHouseDate,@proxyStartDate,@entrustType,@department,@staff,@lastFollowDate,@houseCreateDate,@housingLetter,@houseQuality,@transactionType,@houseUseType,@houseType,@houseStatus,@current,@taxPayType,@originalPrice,@decorationType,@houseDocumentType,@housePayType,@supporting,@commissionPayType,@LookHouseType,@ownerName,@ownerPhone,@contacts,@contactPhone,@propertyOwn,@furniture,@appliance,@source,@remarks,@lastUpdateStaff,@lastUpdateDate)";
+                var sql = "INSERT INTO House(entrustID,city,district,area,residentialDistrict,totalFloor,floor,housePosition,houseNumber,roomCount,hallCount,toiletCount,balconyCount,houseSize,houseUseSize,orientation,price,minPrice,leasePrice,minLeasePrice,managementPrice,submitHouseDate,proxyStartDate,entrustType,department,staff,lastFollowDate,houseCreateDate,housingLetter,houseQuality,transactionType,houseUseType,houseType,houseStatus,[current],taxPayType,originalPrice,decorationType,houseDocumentType,housePayType,supporting,commissionPayType,LookHouseType,ownerName,ownerPhone,contacts,contactPhone,housePropertyCertificate,nationality,propertyOwn,furniture,appliance,source,remarks,lastUpdateStaff,lastUpdateDate) VALUES(@entrustID,@city,@district,@area,@residentialDistrict,@totalFloor,@floor,@housePosition,@houseNumber,@roomCount,@hallCount,@toiletCount,@balconyCount,@houseSize,@houseUseSize,@orientation,@salePrice,@minPrice,@leasePrice,@minLeasePrice,@managementPrice,@submitHouseDate,@proxyStartDate,@entrustType,@department,@staff,@lastFollowDate,@houseCreateDate,@housingLetter,@houseQuality,@transactionType,@houseUseType,@houseType,@houseStatus,@current,@taxPayType,@originalPrice,@decorationType,@houseDocumentType,@housePayType,@supporting,@commissionPayType,@LookHouseType,@ownerName,@ownerPhone,@contacts,@contactPhone,@housePropertyCertificate,@nationality,@propertyOwn,@furniture,@appliance,@source,@remarks,@lastUpdateStaff,@lastUpdateDate)";
                 var nowDateTime = DateTime.Now;
                 var sqlPars = new List<SqlParameter>();
                 sqlPars.Add(new SqlParameter("@entrustID", house.EntrustID));
-
                 sqlPars.Add(new SqlParameter("@city", house.City.ID));
                 sqlPars.Add(new SqlParameter("@district", house.District.ID));
                 sqlPars.Add(new SqlParameter("@area", house.Area.ID));
@@ -431,9 +430,9 @@ namespace DeFeng.DAL
                 sqlPars.Add(new SqlParameter("@houseSize", house.HouseSize));
                 sqlPars.Add(new SqlParameter("@houseUseSize", house.HouseUseSize));
                 sqlPars.Add(new SqlParameter("@orientation", house.Orientation.ID));
-                sqlPars.Add(new SqlParameter("@saleTotalPrice", house.SaleTotalPrice));
-                sqlPars.Add(new SqlParameter("@minSalePrice", house.MinSalePrice));
-                sqlPars.Add(new SqlParameter("@leaseTotalPrice", house.LeaseTotalPrice));
+                sqlPars.Add(new SqlParameter("@salePrice", house.Price));
+                sqlPars.Add(new SqlParameter("@minPrice", house.MinPrice));
+                sqlPars.Add(new SqlParameter("@leasePrice", house.LeasePrice));
                 sqlPars.Add(new SqlParameter("@minLeasePrice", house.MinLeasePrice));
                 sqlPars.Add(new SqlParameter("@managementPrice", house.ManagementPrice));
                 sqlPars.Add(new SqlParameter("@submitHouseDate", ""));
@@ -462,6 +461,8 @@ namespace DeFeng.DAL
                 sqlPars.Add(new SqlParameter("@ownerPhone", house.OwnerPhone));
                 sqlPars.Add(new SqlParameter("@contacts", house.Contacts));
                 sqlPars.Add(new SqlParameter("@contactPhone", house.ContactPhone));
+                sqlPars.Add(new SqlParameter("@housePropertyCertificate", house.HousePropertyCertificate));
+                sqlPars.Add(new SqlParameter("@nationality", house.Nationality.ID));               
                 sqlPars.Add(new SqlParameter("@propertyOwn", house.PropertyOwn.ID));
                 sqlPars.Add(new SqlParameter("@furniture", house.Furniture.ID));
                 sqlPars.Add(new SqlParameter("@appliance", house.Appliance.ID));
@@ -498,7 +499,7 @@ namespace DeFeng.DAL
             var result = false;
             try
             {
-                var sql = "UPDATE House SET entrustID=@entrustID,city=@city,district=@district,area=@area,residentialDistrict=@residentialDistrict,totalFloor=@totalFloor,floor=@floor,housePosition=@housePosition,houseNumber=@houseNumber,roomCount=@roomCount,hallCount=@hallCount,toiletCount=@toiletCount,balconyCount=@balconyCount,houseSize=@houseSize,houseUseSize=@houseUseSize,orientation=@orientation,saleTotalPrice=@saleTotalPrice,minSalePrice=@minSalePrice,leaseTotalPrice=@leaseTotalPrice,minLeasePrice=@minLeasePrice,managementPrice=@managementPrice,submitHouseDate=@submitHouseDate,entrustType=@entrustType,department=@department,staff=@staff,houseCreateDate=@houseCreateDate,housingLetter=@housingLetter,houseQuality=@houseQuality,transactionType=@transactionType,houseUseType=@houseUseType,houseType=@houseType,houseStatus=@houseStatus,[current]=@current,taxPayType=@taxPayType,originalPrice=@originalPrice,decorationType=@decorationType,houseDocumentType=@houseDocumentType,housePayType=@housePayType,supporting=@supporting,commissionPayType=@commissionPayType,LookHouseType=@LookHouseType,ownerName=@ownerName,ownerPhone=@ownerPhone,contacts=@contacts,contactPhone=@contactPhone,propertyOwn=@propertyOwn,furniture=@furniture,appliance=@appliance,source=@source,remarks=@remarks,lastUpdateStaff=@lastUpdateStaff,lastUpdateDate=@lastUpdateDate WHERE ID=@ID";
+                var sql = "UPDATE House SET entrustID=@entrustID,city=@city,district=@district,area=@area,residentialDistrict=@residentialDistrict,totalFloor=@totalFloor,floor=@floor,housePosition=@housePosition,houseNumber=@houseNumber,roomCount=@roomCount,hallCount=@hallCount,toiletCount=@toiletCount,balconyCount=@balconyCount,houseSize=@houseSize,houseUseSize=@houseUseSize,orientation=@orientation,price=@price,minPrice=@minPrice,leasePrice=@leasePrice,minLeasePrice=@minLeasePrice,managementPrice=@managementPrice,submitHouseDate=@submitHouseDate,entrustType=@entrustType,department=@department,staff=@staff,houseCreateDate=@houseCreateDate,housingLetter=@housingLetter,houseQuality=@houseQuality,transactionType=@transactionType,houseUseType=@houseUseType,houseType=@houseType,houseStatus=@houseStatus,[current]=@current,taxPayType=@taxPayType,originalPrice=@originalPrice,decorationType=@decorationType,houseDocumentType=@houseDocumentType,housePayType=@housePayType,supporting=@supporting,commissionPayType=@commissionPayType,LookHouseType=@LookHouseType,ownerName=@ownerName,ownerPhone=@ownerPhone,contacts=@contacts,contactPhone=@contactPhone,housePropertyCertificate=@housePropertyCertificate,nationality=@nationality,propertyOwn=@propertyOwn,furniture=@furniture,appliance=@appliance,source=@source,remarks=@remarks,lastUpdateStaff=@lastUpdateStaff,lastUpdateDate=@lastUpdateDate WHERE ID=@ID";
                 var sqlPars = new List<SqlParameter>();
                 sqlPars.Add(new SqlParameter("@ID", house.ID));
                 sqlPars.Add(new SqlParameter("@entrustID", house.EntrustID));
@@ -517,9 +518,9 @@ namespace DeFeng.DAL
                 sqlPars.Add(new SqlParameter("@houseSize", house.HouseSize));
                 sqlPars.Add(new SqlParameter("@houseUseSize", house.HouseUseSize));
                 sqlPars.Add(new SqlParameter("@orientation", house.Orientation.ID));
-                sqlPars.Add(new SqlParameter("@saleTotalPrice", house.SaleTotalPrice));
-                sqlPars.Add(new SqlParameter("@minSalePrice", house.MinSalePrice));
-                sqlPars.Add(new SqlParameter("@leaseTotalPrice", house.LeaseTotalPrice));
+                sqlPars.Add(new SqlParameter("@price", house.Price));
+                sqlPars.Add(new SqlParameter("@minPrice", house.MinPrice));
+                sqlPars.Add(new SqlParameter("@leasePrice", house.LeasePrice));
                 sqlPars.Add(new SqlParameter("@minLeasePrice", house.MinLeasePrice));
                 sqlPars.Add(new SqlParameter("@managementPrice", house.ManagementPrice));
                 sqlPars.Add(new SqlParameter("@submitHouseDate", ""));
@@ -546,6 +547,8 @@ namespace DeFeng.DAL
                 sqlPars.Add(new SqlParameter("@ownerPhone", house.OwnerPhone));
                 sqlPars.Add(new SqlParameter("@contacts", house.Contacts));
                 sqlPars.Add(new SqlParameter("@contactPhone", house.ContactPhone));
+                sqlPars.Add(new SqlParameter("@housePropertyCertificate", house.HousePropertyCertificate));
+                sqlPars.Add(new SqlParameter("@nationality", house.Nationality.ID));
                 sqlPars.Add(new SqlParameter("@propertyOwn", house.PropertyOwn.ID));
                 sqlPars.Add(new SqlParameter("@furniture", house.Furniture.ID));
                 sqlPars.Add(new SqlParameter("@appliance", house.Appliance.ID));
@@ -650,8 +653,8 @@ namespace DeFeng.DAL
                     obj.BalconyCount = result["balconyCount"] != null ? Convert.ToInt32(result["balconyCount"]) : 0;
                     obj.HouseSize = result["houseSize"] != null ? Convert.ToSingle(result["houseSize"]) : 0;
                     obj.HouseUseSize = Convert.ToString(result["houseUseSize"]) != "" ? Convert.ToSingle(result["houseUseSize"]) : 0;
-                    obj.SaleTotalPrice = result["saleTotalPrice"] != null ? Convert.ToDecimal(result["saleTotalPrice"]) : 0;
-                    obj.LeaseTotalPrice = result["leaseTotalPrice"] != null ? Convert.ToDecimal(result["leaseTotalPrice"]) : 0;
+                    obj.Price = result["price"] != null ? Convert.ToDecimal(result["price"]) : 0;
+                    obj.LeasePrice = result["leasePrice"] != null ? Convert.ToDecimal(result["leasePrice"]) : 0;
                     obj.ProxyStartDate = result["proxyStartDate"] != null ? Convert.ToDateTime(result["proxyStartDate"]) : new DateTime();
                     obj.LastFollowDate = result["lastFollowDate"] != null ? Convert.ToDateTime(result["lastFollowDate"]) : new DateTime();
                     obj.HouseCreateDate = result["houseCreateDate"] != null ? Convert.ToString(result["houseCreateDate"]) : "";

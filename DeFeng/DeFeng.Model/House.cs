@@ -31,14 +31,14 @@ namespace DeFeng.Model
         private float houseSizeFrom;//房屋面积从多少
         private float houseSizeTo;//房屋面积至多少
         private Orientation orientation;//朝向
-        private decimal saleTotalPrice;//销售总价
-        private decimal minSalePrice;//销售底价
-        private decimal leaseTotalPrice;//出租总价
+        private decimal price;//销售总价
+        private decimal minPrice;//销售底价
+        private decimal leasePrice;//出租总价
         private decimal minLeasePrice;//出租底价
         private decimal managementPrice;//管理费
         private DateTime submitHouseDate;//交房日期
-        private decimal salePriceFrom;//销售价格从多少....
-        private decimal salePriceTo;//销售价格至多少....
+        private decimal  priceFrom;//销售价格从多少....
+        private decimal priceTo;//销售价格至多少....
         private DateTime proxyStartDate;//代理开始时间   
         private DateTime proxyOverDate;//代理结束时间
         private EntrustType entrustType;//委托方式
@@ -68,6 +68,8 @@ namespace DeFeng.Model
         private string contacts="";//联系人
         private string contactPhone="";//联系人电话
         private PropertyOwn propertyOwn;//产权
+        private string housePropertyCertificate;//房产证
+        private Country nationality;//国籍
         private Furniture furniture;//家具
         private Appliance appliance;//家电
         private Source source;//房源来源
@@ -261,54 +263,54 @@ namespace DeFeng.Model
             }
         }
 
-        public decimal SaleTotalPrice
+        public decimal Price
         {
             get
             {
-                return saleTotalPrice;
+                return price;
             }
 
             set
             {
-                saleTotalPrice = value;
+                price = value;
             }
         }
 
-        public decimal LeaseTotalPrice
+        public decimal LeasePrice
         {
             get
             {
-                return leaseTotalPrice;
+                return leasePrice;
             }
 
             set
             {
-                leaseTotalPrice = value;
+                leasePrice = value;
             }
         }
-        public decimal SalePriceFrom
+        public decimal PriceFrom
         {
             get
             {
-                return salePriceFrom;
+                return priceFrom;
             }
 
             set
             {
-                salePriceFrom = value;
+                priceFrom = value;
             }
         }
 
-        public decimal SalePriceTo
+        public decimal PriceTo
         {
             get
             {
-                return salePriceTo;
+                return priceTo;
             }
 
             set
             {
-                salePriceTo = value;
+                priceTo = value;
             }
         }
         public DateTime ProxyStartDate
@@ -831,16 +833,16 @@ namespace DeFeng.Model
             }
         }
 
-        public decimal MinSalePrice
+        public decimal MinPrice
         {
             get
             {
-                return minSalePrice;
+                return minPrice;
             }
 
             set
             {
-                minSalePrice = value;
+                minPrice = value;
             }
         }
 
@@ -997,6 +999,32 @@ namespace DeFeng.Model
             set
             {
                 floorTo = value;
+            }
+        }
+
+        public string HousePropertyCertificate
+        {
+            get
+            {
+                return housePropertyCertificate;
+            }
+
+            set
+            {
+                housePropertyCertificate = value;
+            }
+        }
+
+        public Country Nationality
+        {
+            get
+            {
+                return nationality;
+            }
+
+            set
+            {
+                nationality = value;
             }
         }
     }

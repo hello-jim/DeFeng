@@ -16,7 +16,7 @@ namespace DeFeng.DAL
             List<Current> list = new List<Current>();
             try
             {
-                var sql = "SELECT [ID],[currentName] FROM Current";
+                var sql = "SELECT [ID],[currentName] FROM [Current]";
                 var result = SqlHelper.ExecuteReader(dbConn, System.Data.CommandType.Text, sql);
                 while (result.Read())
                 {
