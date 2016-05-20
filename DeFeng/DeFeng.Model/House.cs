@@ -31,14 +31,14 @@ namespace DeFeng.Model
         private float houseSizeFrom;//房屋面积从多少
         private float houseSizeTo;//房屋面积至多少
         private Orientation orientation;//朝向
-        private decimal price;//销售总价
-        private decimal minPrice;//销售底价
-        private decimal leasePrice;//出租总价
-        private decimal minLeasePrice;//出租底价
+        private decimal price;//价格
+        private decimal minPrice;//底价
+        private decimal leasePrice;//出租价
+        private decimal minLeasePrice;//出租价
         private decimal managementPrice;//管理费
         private DateTime submitHouseDate;//交房日期
-        private decimal  priceFrom;//销售价格从多少....
-        private decimal priceTo;//销售价格至多少....
+        private decimal  priceFrom;//价格从多少....
+        private decimal priceTo;//价格至多少....
         private DateTime proxyStartDate;//代理开始时间   
         private DateTime proxyOverDate;//代理结束时间
         private EntrustType entrustType;//委托方式
