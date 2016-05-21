@@ -9,12 +9,13 @@ namespace DeFeng.Model
     public class Department
     {
         private int id;
-        private string groupName;//组名
+        private string departmentName;//组名
         private int parent;//上级部门
         private int level;//层次
         private DateTime lastUpdateDate;//最后修改时间
-        private int lastUpdateStaff;//最后修改人
+        private Staff lastUpdateStaff;//最后修改人
         private DateTime createDate;//创建时间
+        private Staff createStaff;
         private int sortNo;//排序ID
 
         public int ID
@@ -30,16 +31,16 @@ namespace DeFeng.Model
             }
         }
 
-        public string GroupName
+        public string DepartmentName
         {
             get
             {
-                return groupName;
+                return departmentName;
             }
 
             set
             {
-                groupName = value;
+                departmentName = value;
             }
         }
 
@@ -69,7 +70,7 @@ namespace DeFeng.Model
             }
         }
 
-        public int LastUpdateStaff
+        public Staff LastUpdateStaff
         {
             get
             {
@@ -118,6 +119,19 @@ namespace DeFeng.Model
             set
             {
                 level = value;
+            }
+        }
+
+        public Staff CreateStaff
+        {
+            get
+            {
+                return createStaff;
+            }
+
+            set
+            {
+                createStaff = value;
             }
         }
     }

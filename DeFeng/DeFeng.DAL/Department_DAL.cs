@@ -25,7 +25,7 @@ namespace DeFeng.DAL
                     Department obj = new Department();
                     obj.ID = (int)result["ID"];
                     obj.Parent = (int)result["parent"];
-                    obj.GroupName = (string)result["group_name"];
+                    obj.DepartmentName = (string)result["group_name"];
                     obj.SortNo = (int)result["sort_no"];
                     obj.Level = (int)result["level"];
                     departmentList.Add(obj);
@@ -40,6 +40,8 @@ namespace DeFeng.DAL
             }
             return departmentList;
         }
+
+       
 
         public bool AddGroup(Department department)
         {
@@ -58,6 +60,34 @@ namespace DeFeng.DAL
                 GlobalQueue.LogGlobalQueue.Enqueue(log);
             }
             return insertSuccess;
+        }
+
+        public bool UpdateDepartment(Department department)
+        {
+            try
+            { }
+            catch (Exception ex)
+            {
+
+            }
+            return false;
+        }
+
+        public bool DeleteDepartment(int id)
+        {
+            var result = false;
+            try
+            {
+                var sql = "DELETE FROM [Department] WHERE ID=@ID";
+                var sqlPars = new List<SqlParameter>();
+                sqlPars.Add(new SqlParameter("@ID", id));
+                result = SqlHelper.ExecuteNonQuery(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray()) > 0;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return result;
         }
     }
 }

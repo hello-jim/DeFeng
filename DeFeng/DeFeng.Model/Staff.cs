@@ -60,7 +60,7 @@ namespace DeFeng.Model
         private string general_manager;//总经理
         private string login_name;//登录名
         private string access_authority;//分配权限
-        
+        private StaffStatus staffStatus;//员工状态
 
         private string phone;//电话号码
 
@@ -766,6 +766,19 @@ namespace DeFeng.Model
             set
             {
                 landscape = value;
+            }
+        }
+
+        public StaffStatus StaffStatus
+        {
+            get
+            {
+                return staffStatus;
+            }
+
+            set
+            {
+                staffStatus = value;
             }
         }
     }
