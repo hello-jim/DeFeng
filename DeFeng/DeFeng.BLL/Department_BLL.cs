@@ -10,16 +10,19 @@ namespace DeFeng.BLL
 {
     public class Department_BLL
     {
-        Department_DAL dal = new Department_DAL();
+
         public List<Department> LoadDepartment()
         {
             List<Department> departmentList = new List<Department>();
+            Department_DAL dal = new Department_DAL();
             try
             {
                 departmentList = dal.LoadDepartment();
+                dal = null;
             }
             catch (Exception ex)
             {
+                dal = null;
                 Log log = new Log();
                 log.Msg = ex.StackTrace;
                 log.Type = LogType.Error;
@@ -28,6 +31,56 @@ namespace DeFeng.BLL
             return departmentList;
         }
 
+        public bool AddDepartment(Department department)
+        {
+            var result = false;
+            Department_DAL dal = new Department_DAL();
+            try
+            {
+                result = dal.AddDepartment(department);
+                dal = null;
+            }
+            catch (Exception ex)
+            {
+                dal = null;
+                Log log = new Log();
+                log.Msg = ex.StackTrace;
+                log.Type = LogType.Error;
+                GlobalQueue.LogGlobalQueue.Enqueue(log);
+            }
+            return result;
+        }
 
+        public bool UpdateDepartment(Department department)
+        {
+            var result = false;
+            Department_DAL dal = new Department_DAL();
+            try
+            {
+                result = dal.UpdateDepartment(department);
+                dal = null;
+            }
+            catch (Exception ex)
+            {
+                dal = null;
+            }
+            return result;
+        }
+
+        public bool DeleteDepartment(int id)
+        {
+            var result = false;
+            Department_DAL dal = new Department_DAL();
+            try
+            {
+                result = dal.DeleteDepartment(id);
+                dal = null;
+            }
+            catch (Exception ex)
+            {
+                dal = null;
+            }
+            return result;
+        }
     }
 }

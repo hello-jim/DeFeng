@@ -18,16 +18,15 @@ namespace DeFeng.DAL
             List<Department> departmentList = new List<Department>();
             try
             {
-                var sql = "SELECT [ID],[group_name],[level],[parent],[sort_no] FROM [Department]";
+                var sql = "SELECT [ID],[departmentName],[level],[parent],[lastUpdateDate],[lastUpdateStaff],[createDate],[createStaff] FROM [Department]";
                 var result = SqlHelper.ExecuteReader(sqlConn, System.Data.CommandType.Text, sql);
                 while (result.Read())
                 {
                     Department obj = new Department();
-                    obj.ID = (int)result["ID"];
-                    obj.Parent = (int)result["parent"];
-                    obj.DepartmentName = (string)result["group_name"];
-                    obj.SortNo = (int)result["sort_no"];
-                    obj.Level = (int)result["level"];
+                    obj.ID = Convert.ToInt32(result["ID"]);
+                    obj.Parent = Convert.IsDBNull(result["parent"]) ? 0 : Convert.ToInt32(result["parent"]);
+                    obj.DepartmentName = Convert.IsDBNull(result["departmentName"]) ? "" : Convert.ToString(result["departmentName"]);
+                    obj.Level = Convert.IsDBNull(result["level"]) ? 0 : Convert.ToInt32(result["level"]);
                     departmentList.Add(obj);
                 }
             }
@@ -41,16 +40,24 @@ namespace DeFeng.DAL
             return departmentList;
         }
 
-       
 
-        public bool AddGroup(Department department)
+
+        public bool AddDepartment(Department department)
         {
-            var insertSuccess = false;
+            var result = false;
             try
             {
-                var sql = "INSERT INTO([group_name],[level],[parent],[last_update_date],[last_update_staff],[create_date],[create_staff],[sort_no]) [Department] VALUES(@GroupName,@Level,@Parent,@LastUpdateDate,@LastUpdateStaff,@CreateDate,@CreateStaff,@SortNo)";
+                var sql = "INSERT INTO FROM Department([departmentName],[level],[parent],[lastUpdateDate],[lastUpdateStaff],[createDate],[createStaff]) VALUES(@departmentName,@level,@parent,@lastUpdateDate,@lastUpdateStaff,@createDate,@createStaff)";
                 List<SqlParameter> sqlParsList = new List<SqlParameter>();
-                insertSuccess = SqlHelper.ExecuteNonQuery(sqlConn, System.Data.CommandType.Text, sql, sqlParsList.ToArray()) > 0;
+                var sqlPars = new List<SqlParameter>();
+                sqlPars.Add(new SqlParameter("@departmentName", department.DepartmentName));
+                sqlPars.Add(new SqlParameter("@level", department.Level));
+                sqlPars.Add(new SqlParameter("@parent", department.Parent));
+                sqlPars.Add(new SqlParameter("@lastUpdateDate", DateTime.Now));
+                sqlPars.Add(new SqlParameter("@lastUpdateStaff", department.LastUpdateStaff.ID));
+                sqlPars.Add(new SqlParameter("@createDate", DateTime.Now));
+                sqlPars.Add(new SqlParameter("@createStaff", department.CreateStaff.ID));
+                result = SqlHelper.ExecuteNonQuery(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray()) > 0;
             }
             catch (Exception ex)
             {
@@ -59,18 +66,26 @@ namespace DeFeng.DAL
                 log.Type = LogType.Error;
                 GlobalQueue.LogGlobalQueue.Enqueue(log);
             }
-            return insertSuccess;
+            return result;
         }
 
         public bool UpdateDepartment(Department department)
         {
+            var result = false;
             try
-            { }
+            {
+                var sql = "UPDATE FROM Department SET [departmentName]=@departmentName,[lastUpdateDate]=@lastUpdateDate,[lastUpdateStaff]=@lastUpdateStaff";
+                var sqlPars = new List<SqlParameter>();
+                sqlPars.Add(new SqlParameter("@departmentName", department.DepartmentName));
+                sqlPars.Add(new SqlParameter("@lastUpdateDate", DateTime.Now));
+                sqlPars.Add(new SqlParameter("@lastUpdateStaff", department.LastUpdateStaff.ID));
+                result = SqlHelper.ExecuteNonQuery(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray()) > 0;
+            }
             catch (Exception ex)
             {
 
             }
-            return false;
+            return result;
         }
 
         public bool DeleteDepartment(int id)

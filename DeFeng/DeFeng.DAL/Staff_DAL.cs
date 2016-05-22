@@ -14,7 +14,7 @@ namespace DeFeng.DAL
     {
         string sqlConn = CommonClass.GetSysConfig("DeFengDBConStr");
 
-       //注册
+        //注册
         public int Register(Staff staff)
         {
             var result = 0;
@@ -139,28 +139,30 @@ namespace DeFeng.DAL
 
 
         //登录查用户是否已存在
-        public int CheckStaff(string account) {
-                var count = 0;
-                try
+        public int CheckStaff(string account)
+        {
+            var count = 0;
+            try
+            {
+                var sql = "select count(*) from staff where account=@account";
+                var sqlPars = new List<SqlParameter>();
+                sqlPars.Add(new SqlParameter("@account", @account));
+                var result = SqlHelper.ExecuteReader(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray());
+                while (result.Read())
                 {
-                    var sql = "select count(*) from staff where account=@account";
-                    var sqlPars = new List<SqlParameter>();
-                    sqlPars.Add(new SqlParameter("@account", @account));
-                    var result = SqlHelper.ExecuteReader(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray());
-                    while (result.Read())
-                    {
-                        count = Convert.ToInt32(result[0]);
-                    }
+                    count = Convert.ToInt32(result[0]);
                 }
-                catch (Exception ex)
-                {
+            }
+            catch (Exception ex)
+            {
 
-                }
-                return count;
+            }
+            return count;
         }
 
         //查询用户是否已注册  >1已经注册
-        public int CheckUserName(string account) {
+        public int CheckUserName(string account)
+        {
             var count = 0;
             try
             {
@@ -180,6 +182,29 @@ namespace DeFeng.DAL
             }
             return count;
         }
+
+        public List<Staff> GetStaffByDepartment(int departmentID)
+        {
+            var list = new List<Staff>();
+            try
+            {
+                var sql = "SELECT [ID] ,[password] ,[account],[photo] ,[staffNumber] ,[staffName],[birthdayType],[idCard],[submitHouseDate],[sex],[age],[birthday],[marital],[education],[major] ,[bloodType],[entry_time],[entry_status],[probation],[height],[probation_salary],[salary],[politics],[title],[nation],[email],[phone],[tel],[officTel],[accountType],[accountAddress],[place_origin],[address],[application_method],[family_members],[family_relationship],[family_occupation],[landscape],[family_company],[family_contact],[entry_unit],[entry_department],[entry_position],[leader],[part_time_job],[part_time_position],[branch_manager],[site_manager],[hr_clerk],[hr_manager],[general_manager],[login_name],[access_authority] FROM Staff WHERE department=@department";
+                var sqlPars = new List<SqlParameter>();
+                sqlPars.Add(new SqlParameter("@department", departmentID));
+                var result = SqlHelper.ExecuteReader(sqlConn, CommandType.Text, sql, sqlPars.ToArray());
+                while (result.Read())
+                {
+                    var obj = new Staff();
+                    list.Add(obj);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return list;
+        }
+
 
     }
 }
