@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Announcement_DAL.cs" />
     <Compile Include="Appliance_DAL.cs" />
     <Compile Include="Area_DAL.cs" />
     <Compile Include="CarPark_DAL.cs" />

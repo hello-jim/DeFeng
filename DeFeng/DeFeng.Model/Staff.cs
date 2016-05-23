@@ -16,20 +16,20 @@ namespace DeFeng.Model
         private string staffName;//员工名
         private string birthdayType; //生日类别
         private string idCard;//身份证号码
-        private string submitHouseDate;//出生年月
-        private string sex; //性别
-        private string age; //  年龄
+        private DateTime dateBirth;//出生年月
+        private int sex; //性别
+        private int age; //  年龄
         private string birthday; //生日
         private string marital;//  婚姻状况
         private string education;//  学历
         private string major;// 专业
         private string bloodType; //  血型
-        private string entry_time;//入职时间
+        private DateTime entry_time;//入职时间
         private string entry_status;//入职状态
         private string probation;//试用期
         private string height; //高度
-        private string probation_salary;//使用薪水
-        private string salary;//转正薪水
+        private decimal probation_salary;//使用薪水
+        private decimal salary;//转正薪水
         private string politics;//政治面貌
         private string title;//职称
         private string nation;//民族
@@ -184,20 +184,20 @@ namespace DeFeng.Model
             }
         }
 
-        public string SubmitHouseDate
+        public DateTime DateBirth
         {
             get
             {
-                return submitHouseDate;
+                return dateBirth;
             }
 
             set
             {
-                submitHouseDate = value;
+                dateBirth = value;
             }
         }
 
-        public string Sex
+        public int Sex
         {
             get
             {
@@ -210,7 +210,7 @@ namespace DeFeng.Model
             }
         }
 
-        public string Age
+        public int Age
         {
             get
             {
@@ -288,7 +288,7 @@ namespace DeFeng.Model
             }
         }
 
-        public string Entry_time
+        public DateTime Entry_time
         {
             get
             {
@@ -340,7 +340,7 @@ namespace DeFeng.Model
             }
         }
 
-        public string Probation_salary
+        public decimal Probation_salary
         {
             get
             {
@@ -353,7 +353,7 @@ namespace DeFeng.Model
             }
         }
 
-        public string Salary
+        public decimal Salary
         {
             get
             {

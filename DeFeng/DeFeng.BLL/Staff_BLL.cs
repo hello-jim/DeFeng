@@ -26,8 +26,8 @@ namespace DeFeng.BLL
                 else {
 
                     result = dal.Register(staff);
- 
-                        }
+
+                }
 
             }
             catch (Exception ex)
@@ -37,7 +37,7 @@ namespace DeFeng.BLL
             return result;
         }
 
-      
+
 
         public int Information(Staff staff)
         {
@@ -58,13 +58,14 @@ namespace DeFeng.BLL
             var result = 0;
             try
             {
-                
+
                 if (CheckStaff(staff.Account) < 1)
-                { 
+                {
                     return 0;
                 }
                 else {
-                    if ((result = dal.UserLogin(staff)) > 0) {
+                    if ((result = dal.UserLogin(staff)) > 0)
+                    {
                         return 2;
                     }
                 }
@@ -101,15 +102,28 @@ namespace DeFeng.BLL
 
                 result = dal.CheckUserName(@account);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
 
             }
             return result;
 
         }
-        
 
+        public List<Staff> GetStaffByDepartment(int departmentID)
+        {
+            var list = new List<Staff>();
+            try
+            {
+                list = dal.GetStaffByDepartment(departmentID);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return list;
         }
     }
+}
 
 

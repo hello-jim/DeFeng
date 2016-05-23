@@ -12,6 +12,7 @@ namespace DeFeng.Model
         private string departmentName;//组名
         private int parent;//上级部门
         private int level;//层次
+        private bool isEnable;
         private DateTime lastUpdateDate;//最后修改时间
         private Staff lastUpdateStaff;//最后修改人
         private DateTime createDate;//创建时间
@@ -132,6 +133,19 @@ namespace DeFeng.Model
             set
             {
                 createStaff = value;
+            }
+        }
+
+        public bool IsEnable
+        {
+            get
+            {
+                return isEnable;
+            }
+
+            set
+            {
+                isEnable = value;
             }
         }
     }

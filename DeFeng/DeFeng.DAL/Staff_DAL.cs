@@ -43,7 +43,7 @@ namespace DeFeng.DAL
             var result = 0;
             try
             {
-                var sql = "UPDATE Staff set account=@account,staffNumber=@staffNumber,staffName=@staffName,birthdayType=@birthdayType,idCard=@idCard,submitHouseDate=@submitHouseDate,sex=@sex,age=@age,birthday=@birthday,marital=@marital,education=@education,major=@major,bloodType=@bloodType,entry_time=@entry_time,entry_status=@entry_status,probation=@probation,height=@height,probation_salary=@probation_salary,salary=@salary,politics=@politics,title=@title,nation=@nation,email=@email,tel=@tel,officTel=@officTel,accountType=@accountType,accountAddress=@accountAddress,place_origin=@place_origin,address=@address,application_method=@application_method,family_members=@application_method,family_relationship=@family_relationship,family_occupation=@family_occupation,landscape=@landscape,family_company=@family_company,family_contact=@family_contact,entry_unit=@entry_unit,entry_department=@entry_department,entry_position=@entry_position,leader=@leader,part_time_job=@part_time_job,part_time_position=@part_time_position,branch_manager=@branch_manager,site_manager=@site_manager,hr_clerk=@hr_clerk,hr_manager=@hr_manager,general_manager=@general_manager,login_name=@login_name,access_authority=@access_authority WHERE account=@account";
+                var sql = "UPDATE Staff set account=@account,staffNumber=@staffNumber,staffName=@staffName,birthdayType=@birthdayType,idCard=@idCard,dateBirth=@dateBirth,sex=@sex,age=@age,birthday=@birthday,marital=@marital,education=@education,major=@major,bloodType=@bloodType,entry_time=@entry_time,entry_status=@entry_status,probation=@probation,height=@height,probation_salary=@probation_salary,salary=@salary,politics=@politics,title=@title,nation=@nation,email=@email,tel=@tel,officTel=@officTel,accountType=@accountType,accountAddress=@accountAddress,place_origin=@place_origin,address=@address,application_method=@application_method,family_members=@application_method,family_relationship=@family_relationship,family_occupation=@family_occupation,landscape=@landscape,family_company=@family_company,family_contact=@family_contact,entry_unit=@entry_unit,entry_department=@entry_department,entry_position=@entry_position,leader=@leader,part_time_job=@part_time_job,part_time_position=@part_time_position,branch_manager=@branch_manager,site_manager=@site_manager,hr_clerk=@hr_clerk,hr_manager=@hr_manager,general_manager=@general_manager,login_name=@login_name,access_authority=@access_authority WHERE account=@account";
                 var sqlPars = new List<SqlParameter>();
                 //sqlPars.Add(new SqlParameter("@ID", staff.ID));
                 sqlPars.Add(new SqlParameter("@account", staff.Account));
@@ -51,7 +51,7 @@ namespace DeFeng.DAL
                 sqlPars.Add(new SqlParameter("@staffName", staff.StaffName));
                 sqlPars.Add(new SqlParameter("@birthdayType", staff.BirthdayType));
                 sqlPars.Add(new SqlParameter("@idCard", staff.IdCard));
-                sqlPars.Add(new SqlParameter("@submitHouseDate", staff.SubmitHouseDate));
+                sqlPars.Add(new SqlParameter("@dateBirth", staff.DateBirth));
                 sqlPars.Add(new SqlParameter("@sex", staff.Sex));
                 sqlPars.Add(new SqlParameter("@age", staff.Age));
                 sqlPars.Add(new SqlParameter("@birthday", staff.Birthday));
@@ -188,13 +188,61 @@ namespace DeFeng.DAL
             var list = new List<Staff>();
             try
             {
-                var sql = "SELECT [ID] ,[password] ,[account],[photo] ,[staffNumber] ,[staffName],[birthdayType],[idCard],[submitHouseDate],[sex],[age],[birthday],[marital],[education],[major] ,[bloodType],[entry_time],[entry_status],[probation],[height],[probation_salary],[salary],[politics],[title],[nation],[email],[phone],[tel],[officTel],[accountType],[accountAddress],[place_origin],[address],[application_method],[family_members],[family_relationship],[family_occupation],[landscape],[family_company],[family_contact],[entry_unit],[entry_department],[entry_position],[leader],[part_time_job],[part_time_position],[branch_manager],[site_manager],[hr_clerk],[hr_manager],[general_manager],[login_name],[access_authority] FROM Staff WHERE department=@department";
+                var sql = "SELECT [ID] ,[password] ,[account],[photo] ,[staffNumber] ,[staffName],[birthdayType],[idCard],[dateBirth],[sex],[age],[birthday],[marital],[education],[major] ,[bloodType],[entry_time],[entry_status],[probation],[height],[probation_salary],[salary],[politics],[title],[nation],[email],[phone],[tel],[officTel],[accountType],[accountAddress],[place_origin],[address],[application_method],[family_members],[family_relationship],[family_occupation],[landscape],[family_company],[family_contact],[entry_unit],[entry_department],[entry_position],[leader],[part_time_job],[part_time_position],[branch_manager],[site_manager],[hr_clerk],[hr_manager],[general_manager],[login_name],[access_authority] FROM Staff WHERE department=@department";
                 var sqlPars = new List<SqlParameter>();
                 sqlPars.Add(new SqlParameter("@department", departmentID));
                 var result = SqlHelper.ExecuteReader(sqlConn, CommandType.Text, sql, sqlPars.ToArray());
                 while (result.Read())
                 {
                     var obj = new Staff();
+                    obj.ID = Convert.ToInt32(result["ID"]);
+                    obj.StaffNumber = Convert.IsDBNull(result["staffNumber"]) ? "" : Convert.ToString(result["staffNumber"]);
+                    obj.StaffName = Convert.IsDBNull(result["staffName"]) ? "" : Convert.ToString(result["staffName"]);
+                    obj.BirthdayType = Convert.IsDBNull(result["birthdayType"]) ? "" : Convert.ToString(result["birthdayType"]);
+                    obj.IdCard = Convert.IsDBNull(result["idCard"]) ? "" : Convert.ToString(result["idCard"]);
+                    obj.DateBirth = Convert.IsDBNull(result["dateBirth"]) ? new DateTime() : Convert.ToDateTime(result["dateBirth"]);
+                    obj.Sex = Convert.IsDBNull(result["sex"]) ? 0 : Convert.ToInt32(result["sex"]);
+                    obj.Age = Convert.IsDBNull(result["age"]) ? 0 : Convert.ToInt32(result["age"]);
+                    obj.Marital = Convert.IsDBNull(result["marital"]) ? "" : Convert.ToString(result["marital"]);
+                    obj.Education = Convert.IsDBNull(result["education"]) ? "" : Convert.ToString(result["education"]);
+                    obj.BloodType = Convert.IsDBNull(result["bloodType"]) ? "" : Convert.ToString(result["bloodType"]);
+                    obj.Entry_time = Convert.IsDBNull(result["entry_time"]) ? new DateTime() : Convert.ToDateTime(result["entry_time"]);
+                    obj.Entry_status = Convert.IsDBNull(result["entry_status"]) ? "" : Convert.ToString(result["entry_status"]);
+                    obj.Probation = Convert.IsDBNull(result["probation"]) ? "" : Convert.ToString(result["probation"]);
+                    obj.Height = Convert.IsDBNull(result["height"]) ? "" : Convert.ToString(result["height"]);
+                    obj.Probation_salary = Convert.IsDBNull(result["probation_salary"]) ? 0 : Convert.ToDecimal(result["probation_salary"]);
+                    obj.Salary = Convert.IsDBNull(result["salary"]) ? 0 : Convert.ToDecimal(result["salary"]);
+                    obj.Politics = Convert.IsDBNull(result["politics"]) ? "" : Convert.ToString(result["politics"]);
+                    obj.Title = Convert.IsDBNull(result["title"]) ? "" : Convert.ToString(result["title"]);
+                    obj.Nation = Convert.IsDBNull(result["nation"]) ? "" : Convert.ToString(result["nation"]);
+                    obj.Email = Convert.IsDBNull(result["email"]) ? "" : Convert.ToString(result["email"]);
+                    obj.Phone = Convert.IsDBNull(result["phone"]) ? "" : Convert.ToString(result["phone"]);
+                    obj.Tel = Convert.IsDBNull(result["tel"]) ? "" : Convert.ToString(result["tel"]);
+                    obj.OfficTel = Convert.IsDBNull(result["officTel"]) ? "" : Convert.ToString(result["officTel"]);
+                    obj.AccountType = Convert.IsDBNull(result["accountType"]) ? "" : Convert.ToString(result["accountType"]);
+                    obj.AccountAddress = Convert.IsDBNull(result["accountAddress"]) ? "" : Convert.ToString(result["accountAddress"]);
+                    obj.Place_origin = Convert.IsDBNull(result["place_origin"]) ? "" : Convert.ToString(result["place_origin"]);
+                    obj.Address = Convert.IsDBNull(result["address"]) ? "" : Convert.ToString(result["address"]);
+                    obj.Application_method = Convert.IsDBNull(result["application_method"]) ? "" : Convert.ToString(result["application_method"]);
+                    obj.Family_members = Convert.IsDBNull(result["family_members"]) ? "" : Convert.ToString(result["family_members"]);
+                    obj.Family_relationship = Convert.IsDBNull(result["family_relationship"]) ? "" : Convert.ToString(result["family_relationship"]);
+                    obj.Family_occupation = Convert.IsDBNull(result["family_occupation"]) ? "" : Convert.ToString(result["family_occupation"]);
+                    obj.Landscape = Convert.IsDBNull(result["landscape"]) ? "" : Convert.ToString(result["landscape"]);
+                    obj.Family_company = Convert.IsDBNull(result["family_company"]) ? "" : Convert.ToString(result["family_company"]);
+                    obj.Family_contact = Convert.IsDBNull(result["family_contact"]) ? "" : Convert.ToString(result["family_contact"]);
+                    obj.Entry_unit = Convert.IsDBNull(result["entry_unit"]) ? "" : Convert.ToString(result["entry_unit"]);
+                    obj.Entry_department = Convert.IsDBNull(result["entry_department"]) ? "" : Convert.ToString(result["entry_department"]);
+                    obj.Entry_position = Convert.IsDBNull(result["entry_position"]) ? "" : Convert.ToString(result["entry_position"]);
+                    obj.Leader = Convert.IsDBNull(result["leader"]) ? "" : Convert.ToString(result["leader"]);
+                    obj.Part_time_job = Convert.IsDBNull(result["part_time_job"]) ? "" : Convert.ToString(result["part_time_job"]);
+                    obj.Part_time_position = Convert.IsDBNull(result["part_time_position"]) ? "" : Convert.ToString(result["part_time_position"]);
+                    obj.Branch_manager = Convert.IsDBNull(result["branch_manager"]) ? "" : Convert.ToString(result["branch_manager"]);
+                    obj.Site_manager = Convert.IsDBNull(result["site_manager"]) ? "" : Convert.ToString(result["site_manager"]);
+                    obj.Hr_clerk = Convert.IsDBNull(result["hr_clerk"]) ? "" : Convert.ToString(result["hr_clerk"]);
+                    obj.Hr_manager = Convert.IsDBNull(result["hr_manager"]) ? "" : Convert.ToString(result["hr_manager"]);
+                    obj.General_manager = Convert.IsDBNull(result["general_manager"]) ? "" : Convert.ToString(result["general_manager"]);
+                    obj.Login_name = Convert.IsDBNull(result["login_name"]) ? "" : Convert.ToString(result["login_name"]);
+                    obj.Access_authority = Convert.IsDBNull(result["access_authority"]) ? "" : Convert.ToString(result["access_authority"]);
                     list.Add(obj);
                 }
             }
@@ -204,7 +252,5 @@ namespace DeFeng.DAL
             }
             return list;
         }
-
-
     }
 }
