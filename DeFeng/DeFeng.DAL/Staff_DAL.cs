@@ -37,7 +37,7 @@ namespace DeFeng.DAL
         }
 
 
-        //个人信息
+        //修改个人信息
         public int Information(Staff staff)
         {
             var result = 0;
