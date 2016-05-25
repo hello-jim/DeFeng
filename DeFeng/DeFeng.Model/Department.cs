@@ -10,6 +10,7 @@ namespace DeFeng.Model
     {
         private int id;
         private string departmentName;//组名
+        private string describe;//描述
         private int parent;//上级部门
         private int level;//层次
         private bool isEnable;
@@ -146,6 +147,19 @@ namespace DeFeng.Model
             set
             {
                 isEnable = value;
+            }
+        }
+
+        public string Describe
+        {
+            get
+            {
+                return describe;
+            }
+
+            set
+            {
+                describe = value;
             }
         }
     }

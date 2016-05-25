@@ -67,7 +67,7 @@ namespace DeFeng.BLL
             return result;
         }
 
-        public bool DeleteDepartment(int id)
+        public bool DeleteDepartment(List<int> id)
         {
             var result = false;
             Department_DAL dal = new Department_DAL();

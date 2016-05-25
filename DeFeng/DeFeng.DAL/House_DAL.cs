@@ -462,7 +462,7 @@ namespace DeFeng.DAL
                 sqlPars.Add(new SqlParameter("@contacts", house.Contacts));
                 sqlPars.Add(new SqlParameter("@contactPhone", house.ContactPhone));
                 sqlPars.Add(new SqlParameter("@housePropertyCertificate", house.HousePropertyCertificate));
-                sqlPars.Add(new SqlParameter("@nationality", house.Nationality.ID));               
+                sqlPars.Add(new SqlParameter("@nationality", house.Nationality.ID));
                 sqlPars.Add(new SqlParameter("@propertyOwn", house.PropertyOwn.ID));
                 sqlPars.Add(new SqlParameter("@furniture", house.Furniture.ID));
                 sqlPars.Add(new SqlParameter("@appliance", house.Appliance.ID));
@@ -567,13 +567,24 @@ namespace DeFeng.DAL
             var result = false;
             try
             {
-                var sql = "DELETE FROM House WHERE ID=@ID";
-                for (int i = 0; i < idArr.Count(); i++)
+                var whereStr = new StringBuilder();
+                whereStr.Append(" WHERE ");
+                var sqlPars = new List<SqlParameter>();
+
+                for (int i = 0; i < idArr.Count; i++)
                 {
-                    var sqlPars = new List<SqlParameter>();
-                    sqlPars.Add(new SqlParameter("@ID", idArr[i]));
-                    result = SqlHelper.ExecuteNonQuery(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray()) > 0;
+                    sqlPars.Add(new SqlParameter("@ID" + i, idArr[i]));
+                    if ((i + 1) != idArr.Count)
+                    {
+                        whereStr.Append(string.Format(" ID=@ID{0} OR", i));
+                    }
+                    else
+                    {
+                        whereStr.Append(string.Format(" ID=@ID{0} ", i));
+                    }
                 }
+                var sql = string.Format("DELETE FROM House {0}", whereStr);
+                result = SqlHelper.ExecuteNonQuery(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray()) > 0;
                 result = true;
             }
             catch (Exception ex)
