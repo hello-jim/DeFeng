@@ -250,7 +250,7 @@ namespace DeFeng.DAL
                 var searchStr = search.ToString();
                 var searchStr2 = search2.ToString();
                 var sql = new StringBuilder();
-                sql.Append(string.Format("SELECT * FROM (SELECT TOP {0} Count(*) OVER() AS totalHouseCount, City.CityID, City.ProID AS cityProID, City.CityName, District.ID AS disID, District.DisName, District.CityID AS disCityID, Area.ID AS areaID, areaName, ResidentialDistrict.ID AS rdID, ResidentialDistrict.name AS rdName, address, HousingLetter.ID AS letterID, HousingLetter.letterName, HouseQuality.ID AS qualityID, qualityName, TransactionType.ID AS transactionTypeID, transactionTypeName, Orientation.ID AS orientationID, orientationName, HouseUseType.ID AS useTypeID, HouseUseType.typeName AS useTypeName, HouseType.ID AS houseTypeID, HouseType.typeName AS houseTypeName, HouseStatus.ID AS statusID, HouseStatus.statusName, TaxPayType.ID AS taxPayTypeID, TaxPayType.typeName AS taxPayTypeName, DecorationType.ID AS decorationTypeID, DecorationType.typeName AS decorationTypeName, HouseDocumentType.ID AS houseDocumentTypeID, HouseDocumentType.typeName AS houseDocumentTypeName, HousePayType.ID AS housePayTypeID, HousePayType.typeName AS housePayTypeName, CommissionPayType.ID AS commissionPayTypeID, CommissionPayType.typeName AS commissionPayTypeName, LookHouseType.ID AS lookHouseTypeID, LookHouseType.typeName AS lookHouseTypeName, Source.ID AS sourceID, sourceName, h.ID as hID,[housePosition],[totalFloor],[houseNumber],[roomCount],[hallCount],[toiletCount],[balconyCount],[houseSize],[houseUseSize],[orientation],[price],[leasePrice],[proxyStartDate],[proxyOverDate],[lastFollowDate],[houseCreateDate],[originalPrice],[supporting],[ownerName],[ownerPhone],[contacts],[contactPhone],[remarks], h.lastUpdateDate, h.createDate FROM[House] AS h ", houseMaxCount));
+                sql.Append(string.Format("SELECT * FROM (SELECT TOP {0} Count(*) OVER() AS totalHouseCount, City.CityID, City.ProID AS cityProID, City.CityName, District.ID AS disID, District.DisName, District.CityID AS disCityID, Area.ID AS areaID, areaName, ResidentialDistrict.ID AS rdID, ResidentialDistrict.name AS rdName, address, HousingLetter.ID AS letterID, HousingLetter.letterName, HouseQuality.ID AS qualityID, qualityName, TransactionType.ID AS transactionTypeID, transactionTypeName, Orientation.ID AS orientationID, orientationName, HouseUseType.ID AS useTypeID, HouseUseType.typeName AS useTypeName, HouseType.ID AS houseTypeID, HouseType.typeName AS houseTypeName, HouseStatus.ID AS statusID, HouseStatus.statusName, TaxPayType.ID AS taxPayTypeID, TaxPayType.typeName AS taxPayTypeName, DecorationType.ID AS decorationTypeID, DecorationType.typeName AS decorationTypeName, HouseDocumentType.ID AS houseDocumentTypeID, HouseDocumentType.typeName AS houseDocumentTypeName, HousePayType.ID AS housePayTypeID, HousePayType.typeName AS housePayTypeName, CommissionPayType.ID AS commissionPayTypeID, CommissionPayType.typeName AS commissionPayTypeName, LookHouseType.ID AS lookHouseTypeID, LookHouseType.typeName AS lookHouseTypeName, Source.ID AS sourceID, sourceName,[Current].ID AS currentID,currentName,EntrustType.ID AS entrustTypeID,EntrustType.typeName AS entrustTypeName, h.ID as hID,[housePosition],[floor],[totalFloor],[houseNumber],[roomCount],[hallCount],[toiletCount],[balconyCount],[houseSize],[houseUseSize],[orientation],[price],[minPrice],[leasePrice],[minLeasePrice],[proxyStartDate],[proxyOverDate],[lastFollowDate],[houseCreateDate],[originalPrice],[supporting],[ownerName],[ownerPhone],[contacts],[contactPhone],[remarks], h.lastUpdateDate, h.createDate FROM[House] AS h ", houseMaxCount));
                 sql.Append("LEFT JOIN [City] ON h.city=[City].CityID ");
                 sql.Append("LEFT JOIN [District] ON h.district=[District].Id ");
                 sql.Append("LEFT JOIN [Area] ON h.area=[Area].ID ");
@@ -269,6 +269,8 @@ namespace DeFeng.DAL
                 sql.Append("LEFT JOIN [CommissionPayType] ON h.commissionPayType=[CommissionPayType].ID ");
                 sql.Append("LEFT JOIN [LookHouseType] ON h.lookHouseType=[LookHouseType].ID ");
                 sql.Append("LEFT JOIN [Source] ON h.source=[Source].ID ");
+                sql.Append("LEFT JOIN [Current] ON h.[current]=[Current].ID ");
+                sql.Append("LEFT JOIN [EntrustType] ON h.entrustType=[EntrustType].ID ");
                 sql.Append(string.Format("WHERE {0} h.ID NOT IN (SELECT TOP ({1} * ({2}-1)) ID FROM House {3}) ", searchStr, houseMaxCount, house.PageIndex, searchStr2 != "" ? (" WHERE " + (searchStr2.Substring(0, searchStr2.LastIndexOf("AND")))) : ""));
                 sql.Append(" ORDER BY h.ID)temp ORDER BY temp.proxyStartDate");
                 var result = SqlHelper.ExecuteReader(sqlConn, System.Data.CommandType.Text, sql.ToString(), sqlParList.ToArray());
@@ -301,6 +303,7 @@ namespace DeFeng.DAL
                         Address = result["address"] != null ? Convert.ToString(result["address"]) : ""
                     };
                     obj.HousePosition = result["housePosition"] != null ? Convert.ToString(result["housePosition"]) : "";
+                    obj.Floor = Convert.IsDBNull(result["floor"]) ? 0 : Convert.ToInt32(result["floor"]);
                     obj.TotalFloor = Convert.ToString(result["totalFloor"]) != "" ? Convert.ToInt32(result["totalFloor"]) : 0;
                     obj.HouseNumber = result["houseNumber"] != null ? Convert.ToString(result["houseNumber"]) : "";
                     obj.RoomCount = result["roomCount"] != null ? Convert.ToInt32(result["roomCount"]) : 0;
@@ -310,7 +313,9 @@ namespace DeFeng.DAL
                     obj.HouseSize = result["houseSize"] != null ? Convert.ToSingle(result["houseSize"]) : 0;
                     obj.HouseUseSize = Convert.ToString(result["houseUseSize"]) != "" ? Convert.ToSingle(result["houseUseSize"]) : 0;
                     obj.Price = result["price"] != null ? Convert.ToDecimal(result["price"]) : 0;
+                    obj.MinPrice = Convert.IsDBNull(result["minPrice"]) ? 0 : Convert.ToDecimal(result["minPrice"]);
                     obj.LeasePrice = result["leasePrice"] != null ? Convert.ToDecimal(result["leasePrice"]) : 0;
+                    obj.MinLeasePrice = Convert.IsDBNull(result["minLeasePrice"]) ? 0 : Convert.ToDecimal(result["minLeasePrice"]);
                     obj.ProxyStartDate = result["proxyStartDate"] != null ? Convert.ToDateTime(result["proxyStartDate"]) : new DateTime();
                     obj.LastFollowDate = result["lastFollowDate"] != null ? Convert.ToDateTime(result["lastFollowDate"]) : new DateTime();
                     obj.HouseCreateDate = result["houseCreateDate"] != null ? Convert.ToString(result["houseCreateDate"]) : "";
@@ -385,6 +390,16 @@ namespace DeFeng.DAL
                     {
                         ID = Convert.IsDBNull(result["sourceID"]) ? 0 : Convert.ToInt32(result["sourceID"]),
                         SourceName = Convert.IsDBNull(result["sourceName"]) ? "" : Convert.ToString(result["sourceName"])
+                    };
+                    obj.Current = new Current
+                    {
+                        ID = Convert.IsDBNull(result["currentID"]) ? 0 : Convert.ToInt32(result["currentID"]),
+                        CurrentName = Convert.IsDBNull(result["currentName"]) ? "" : Convert.ToString(result["currentName"])
+                    };
+                    obj.EntrustType = new EntrustType
+                    {
+                        ID = Convert.IsDBNull(result["entrustTypeID"]) ? 0 : Convert.ToInt32(result["entrustTypeID"]),
+                        TypeName= Convert.IsDBNull(result["entrustTypeName"]) ? "" : Convert.ToString(result["entrustTypeName"])
                     };
                     obj.OwnerName = result["ownerName"] != null ? Convert.ToString(result["ownerName"]) : "";
                     obj.OwnerPhone = result["ownerPhone"] != null ? Convert.ToString(result["ownerPhone"]) : "";
