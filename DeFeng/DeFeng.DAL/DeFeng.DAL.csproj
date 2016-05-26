@@ -57,6 +57,7 @@
     <Compile Include="DecorationType_DAL.cs" />
     <Compile Include="Department_DAL.cs" />
     <Compile Include="District_DAL.cs" />
+    <Compile Include="EntrustOverDate_DAL.cs" />
     <Compile Include="EntrustType_DAL.cs" />
     <Compile Include="FollowType_DAL.cs" />
     <Compile Include="Furniture_DAL.cs" />

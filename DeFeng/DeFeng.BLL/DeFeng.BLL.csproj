@@ -68,6 +68,7 @@
     <Compile Include="DecorationType_BLL.cs" />
     <Compile Include="Department_BLL.cs" />
     <Compile Include="District_BLL.cs" />
+    <Compile Include="EntrustOverDate_BLL.cs" />
     <Compile Include="EntrustType_BLL.cs" />
     <Compile Include="FollowType_BLL.cs" />
     <Compile Include="Furniture_BLL.cs" />

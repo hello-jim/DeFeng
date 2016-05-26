@@ -43,7 +43,7 @@ namespace DeFeng.Model
         private Grade grade;//等级
         private Orientation orientation;//房屋朝向
         private Country nationality;//客户国籍
-        private string entrustOverDate;//期限
+        private EntrustOverDate entrustOverDate;//期限
         private int floor;//楼层
         private int floorFrom;
         private int floorTo;
@@ -484,7 +484,7 @@ namespace DeFeng.Model
             }
         }
 
-        public string EntrustOverDate
+        public EntrustOverDate EntrustOverDate
         {
             get
             {

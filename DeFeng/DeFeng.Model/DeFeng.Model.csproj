@@ -66,6 +66,7 @@
     <Compile Include="DimissionType.cs" />
     <Compile Include="District.cs" />
     <Compile Include="DrawMoney.cs" />
+    <Compile Include="EntrustOverDate.cs" />
     <Compile Include="FollowType.cs" />
     <Compile Include="FormalStaffApply.cs" />
     <Compile Include="Furniture.cs" />
