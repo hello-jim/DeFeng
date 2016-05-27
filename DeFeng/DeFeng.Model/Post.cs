@@ -13,6 +13,7 @@ namespace DeFeng.Model
         private Department department;
         private string description;//描述
         private bool isEnable;
+        private int postGrade;//岗位等级
         private Staff createStaff;
         private DateTime createDate;
         private DateTime lastUpdateDate;
@@ -132,6 +133,19 @@ namespace DeFeng.Model
             set
             {
                 lastUpdateStaff = value;
+            }
+        }
+
+        public int PostGrade
+        {
+            get
+            {
+                return postGrade;
+            }
+
+            set
+            {
+                postGrade = value;
             }
         }
     }

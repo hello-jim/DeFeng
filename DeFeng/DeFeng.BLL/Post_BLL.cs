@@ -10,13 +10,29 @@ namespace DeFeng.BLL
 {
     public class Post_BLL
     {
-        public List<Post> GetPost(int departmentID)
+        public List<Post> GetPostByDepartment(int departmentID)
         {
             var list = new List<Post>();
             Post_DAL dal = new Post_DAL();
             try
             {           
-                list = dal.GetPost(departmentID);
+                list = dal.GetPostByDepartment(departmentID);
+                dal = null;
+            }
+            catch (Exception ex)
+            {
+                dal = null;
+            }
+            return list;
+        }
+
+        public List<Post> GetPost()
+        {
+            var list = new List<Post>();
+            Post_DAL dal = new Post_DAL();
+            try
+            {
+                list = dal.GetPost();
                 dal = null;
             }
             catch (Exception ex)

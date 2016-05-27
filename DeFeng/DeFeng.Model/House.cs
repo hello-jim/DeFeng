@@ -68,7 +68,7 @@ namespace DeFeng.Model
         private string contacts="";//联系人
         private string contactPhone="";//联系人电话
         private PropertyOwn propertyOwn;//产权
-        private string housePropertyCertificate;//房产证
+        private string housePropertyCertificate="";//房产证
         private Country nationality;//国籍
         private Furniture furniture;//家具
         private Appliance appliance;//家电
