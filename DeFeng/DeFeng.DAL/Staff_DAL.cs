@@ -183,6 +183,76 @@ namespace DeFeng.DAL
             return count;
         }
 
+        public List<Staff> GetStaff() 
+        {
+            var list = new List<Staff>();
+            try
+            {
+                var sql = "SELECT [ID] ,[password] ,[account],[photo] ,[staffNumber] ,[staffName],[birthdayType],[idCard],[dateBirth],[sex],[age],[birthday],[marital],[education],[major] ,[bloodType],[entry_time],[entry_status],[probation],[height],[probation_salary],[salary],[politics],[title],[nation],[email],[phone],[tel],[officTel],[accountType],[accountAddress],[place_origin],[address],[application_method],[family_members],[family_relationship],[family_occupation],[landscape],[family_company],[family_contact],[entry_unit],[entry_department],[entry_position],[leader],[part_time_job],[part_time_position],[branch_manager],[site_manager],[hr_clerk],[hr_manager],[general_manager],[login_name],[access_authority] FROM Staff WHERE department=@department";
+                var sqlPars = new List<SqlParameter>();               
+                var result = SqlHelper.ExecuteReader(sqlConn, CommandType.Text, sql);
+                while (result.Read())
+                {
+                    var obj = new Staff();
+                    obj.ID = Convert.ToInt32(result["ID"]);
+                    obj.StaffNumber = Convert.IsDBNull(result["staffNumber"]) ? "" : Convert.ToString(result["staffNumber"]);
+                    obj.StaffName = Convert.IsDBNull(result["staffName"]) ? "" : Convert.ToString(result["staffName"]);
+                    obj.BirthdayType = Convert.IsDBNull(result["birthdayType"]) ? "" : Convert.ToString(result["birthdayType"]);
+                    obj.IdCard = Convert.IsDBNull(result["idCard"]) ? "" : Convert.ToString(result["idCard"]);
+                    obj.DateBirth = Convert.IsDBNull(result["dateBirth"]) ? new DateTime() : Convert.ToDateTime(result["dateBirth"]);
+                    obj.Sex = Convert.IsDBNull(result["sex"]) ? 0 : Convert.ToInt32(result["sex"]);
+                    obj.Age = Convert.IsDBNull(result["age"]) ? 0 : Convert.ToInt32(result["age"]);
+                    obj.Marital = Convert.IsDBNull(result["marital"]) ? "" : Convert.ToString(result["marital"]);
+                    obj.Education = Convert.IsDBNull(result["education"]) ? "" : Convert.ToString(result["education"]);
+                    obj.BloodType = Convert.IsDBNull(result["bloodType"]) ? "" : Convert.ToString(result["bloodType"]);
+                    obj.Entry_time = Convert.IsDBNull(result["entry_time"]) ? new DateTime() : Convert.ToDateTime(result["entry_time"]);
+                    obj.Entry_status = Convert.IsDBNull(result["entry_status"]) ? "" : Convert.ToString(result["entry_status"]);
+                    obj.Probation = Convert.IsDBNull(result["probation"]) ? "" : Convert.ToString(result["probation"]);
+                    obj.Height = Convert.IsDBNull(result["height"]) ? "" : Convert.ToString(result["height"]);
+                    obj.Probation_salary = Convert.IsDBNull(result["probation_salary"]) ? 0 : Convert.ToDecimal(result["probation_salary"]);
+                    obj.Salary = Convert.IsDBNull(result["salary"]) ? 0 : Convert.ToDecimal(result["salary"]);
+                    obj.Politics = Convert.IsDBNull(result["politics"]) ? "" : Convert.ToString(result["politics"]);
+                    obj.Title = Convert.IsDBNull(result["title"]) ? "" : Convert.ToString(result["title"]);
+                    obj.Nation = Convert.IsDBNull(result["nation"]) ? "" : Convert.ToString(result["nation"]);
+                    obj.Email = Convert.IsDBNull(result["email"]) ? "" : Convert.ToString(result["email"]);
+                    obj.Phone = Convert.IsDBNull(result["phone"]) ? "" : Convert.ToString(result["phone"]);
+                    obj.Tel = Convert.IsDBNull(result["tel"]) ? "" : Convert.ToString(result["tel"]);
+                    obj.OfficTel = Convert.IsDBNull(result["officTel"]) ? "" : Convert.ToString(result["officTel"]);
+                    obj.AccountType = Convert.IsDBNull(result["accountType"]) ? "" : Convert.ToString(result["accountType"]);
+                    obj.AccountAddress = Convert.IsDBNull(result["accountAddress"]) ? "" : Convert.ToString(result["accountAddress"]);
+                    obj.Place_origin = Convert.IsDBNull(result["place_origin"]) ? "" : Convert.ToString(result["place_origin"]);
+                    obj.Address = Convert.IsDBNull(result["address"]) ? "" : Convert.ToString(result["address"]);
+                    obj.Application_method = Convert.IsDBNull(result["application_method"]) ? "" : Convert.ToString(result["application_method"]);
+                    obj.Family_members = Convert.IsDBNull(result["family_members"]) ? "" : Convert.ToString(result["family_members"]);
+                    obj.Family_relationship = Convert.IsDBNull(result["family_relationship"]) ? "" : Convert.ToString(result["family_relationship"]);
+                    obj.Family_occupation = Convert.IsDBNull(result["family_occupation"]) ? "" : Convert.ToString(result["family_occupation"]);
+                    obj.Landscape = Convert.IsDBNull(result["landscape"]) ? "" : Convert.ToString(result["landscape"]);
+                    obj.Family_company = Convert.IsDBNull(result["family_company"]) ? "" : Convert.ToString(result["family_company"]);
+                    obj.Family_contact = Convert.IsDBNull(result["family_contact"]) ? "" : Convert.ToString(result["family_contact"]);
+                    obj.Entry_unit = Convert.IsDBNull(result["entry_unit"]) ? "" : Convert.ToString(result["entry_unit"]);
+                    obj.Entry_department = Convert.IsDBNull(result["entry_department"]) ? "" : Convert.ToString(result["entry_department"]);
+                    obj.Entry_position = Convert.IsDBNull(result["entry_position"]) ? "" : Convert.ToString(result["entry_position"]);
+                    obj.Leader = Convert.IsDBNull(result["leader"]) ? "" : Convert.ToString(result["leader"]);
+                    obj.Part_time_job = Convert.IsDBNull(result["part_time_job"]) ? "" : Convert.ToString(result["part_time_job"]);
+                    obj.Part_time_position = Convert.IsDBNull(result["part_time_position"]) ? "" : Convert.ToString(result["part_time_position"]);
+                    obj.Branch_manager = Convert.IsDBNull(result["branch_manager"]) ? "" : Convert.ToString(result["branch_manager"]);
+                    obj.Site_manager = Convert.IsDBNull(result["site_manager"]) ? "" : Convert.ToString(result["site_manager"]);
+                    obj.Hr_clerk = Convert.IsDBNull(result["hr_clerk"]) ? "" : Convert.ToString(result["hr_clerk"]);
+                    obj.Hr_manager = Convert.IsDBNull(result["hr_manager"]) ? "" : Convert.ToString(result["hr_manager"]);
+                    obj.General_manager = Convert.IsDBNull(result["general_manager"]) ? "" : Convert.ToString(result["general_manager"]);
+                    obj.Login_name = Convert.IsDBNull(result["login_name"]) ? "" : Convert.ToString(result["login_name"]);
+                    obj.Access_authority = Convert.IsDBNull(result["access_authority"]) ? "" : Convert.ToString(result["access_authority"]);
+                    list.Add(obj);
+                }
+            
+            }
+            catch (Exception ex) 
+            {
+                
+            }
+            return list;
+        }
+
         public List<Staff> GetStaffByDepartment(int departmentID)
         {
             var list = new List<Staff>();
@@ -251,6 +321,41 @@ namespace DeFeng.DAL
 
             }
             return list;
+        }
+
+        public bool DeleteStaff(List<int> idArr) 
+        {
+            var result = false;
+            try
+            {
+                var whereStr = new StringBuilder();
+                whereStr.Append(" WHERE ");
+                var sqlPars = new List<SqlParameter>();
+                for (int i = 0; i < idArr.Count; i++)
+                {
+                    sqlPars.Add(new SqlParameter("@ID" + i, idArr[i]));
+                    if ((i + 1) != idArr.Count)
+                    {
+                        whereStr.Append(string.Format(" ID=@ID{0} OR", i));
+                    }
+                    else
+                    {
+                        whereStr.Append(string.Format(" ID=@ID{0} ", i));
+                    }
+                }
+                var sql = string.Format("DELETE FROM [Staff] {0}", whereStr);
+                result = SqlHelper.ExecuteNonQuery(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray()) > 0;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return result;
+        }
+
+        public bool UpdateStaff() {
+
+            return true;
         }
     }
 }

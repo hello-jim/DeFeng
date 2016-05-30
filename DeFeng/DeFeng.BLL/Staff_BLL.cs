@@ -23,7 +23,8 @@ namespace DeFeng.BLL
                 {
                     return -1;
                 }
-                else {
+                else
+                {
 
                     result = dal.Register(staff);
 
@@ -63,7 +64,8 @@ namespace DeFeng.BLL
                 {
                     return 0;
                 }
-                else {
+                else
+                {
                     if ((result = dal.UserLogin(staff)) > 0)
                     {
                         return 2;
@@ -110,6 +112,22 @@ namespace DeFeng.BLL
 
         }
 
+        public List<Staff> GetStaff()
+        {
+            var list = new List<Staff>();
+            Staff_DAL bll = new Staff_DAL();
+            try
+            {
+                list = bll.GetStaff();
+                bll = null;
+            }
+            catch (Exception ex)
+            {
+                bll = null;
+            }
+            return list;
+        }
+
         public List<Staff> GetStaffByDepartment(int departmentID)
         {
             var list = new List<Staff>();
@@ -122,6 +140,22 @@ namespace DeFeng.BLL
 
             }
             return list;
+        }
+
+        public bool DeleteStaff(List<int> idArr)
+        {
+            var result = false;
+            Staff_DAL dal = new Staff_DAL();
+            try
+            {
+                result = dal.DeleteStaff(idArr);
+                dal = null;
+            }
+            catch (Exception ex)
+            {
+                dal = null;
+            }
+            return result;
         }
     }
 }

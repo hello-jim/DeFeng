@@ -74,13 +74,13 @@ namespace DeFeng.BLL
             return result;
         }
 
-        public bool DeletePost(int id)
+        public bool DeletePost(List<int> idArr)
         {
             var result = false;
             Post_DAL dal = new Post_DAL();
             try
             {
-                result = dal.DeletePost(id);
+                result = dal.DeletePost(idArr);
                 dal = null;
             }
             catch (Exception ex)

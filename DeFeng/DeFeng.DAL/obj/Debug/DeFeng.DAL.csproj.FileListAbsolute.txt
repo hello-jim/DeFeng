@@ -16,3 +16,13 @@ D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\bin\Debug\DeFeng.Model.pdb
 D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\obj\Debug\DeFeng.DAL.csprojResolveAssemblyReference.cache
 D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\obj\Debug\DeFeng.DAL.dll
 D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\obj\Debug\DeFeng.DAL.pdb
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\bin\Debug\mscorlib.dll
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\bin\Debug\System.Net.Http.dll
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\bin\Debug\System.Net.Http.xml
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\bin\Debug\zh-Hans\mscorlib.resources.dll
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\bin\Debug\zh-Hans\System.Net.Http.resources.dll
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\bin\Debug\normidna.nlp
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\bin\Debug\normnfc.nlp
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\bin\Debug\normnfd.nlp
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\bin\Debug\normnfkc.nlp
+D:\Project_GIT\DeFeng\DeFeng\DeFeng.DAL\bin\Debug\normnfkd.nlp

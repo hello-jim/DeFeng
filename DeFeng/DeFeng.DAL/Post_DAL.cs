@@ -8,7 +8,7 @@ using DeFeng.Model;
 using DeFeng.Common;
 
 namespace DeFeng.DAL
-{ 
+{
     public class Post_DAL
     {
         string sqlConn = CommonClass.GetSysConfig("DeFengDBConStr");
@@ -51,7 +51,7 @@ namespace DeFeng.DAL
             var list = new List<Post>();
             try
             {
-                var sql = "SELECT p.[ID],[Department].ID AS departmentID,[departmentName],[parent],Department.[level],[postName],[department],p.[description],p.[isEnable],[postGrade],p.[createStaff],p.[createDate],p.[lastUpdateDate],p.[lastUpdateStaff] FROM [Post] AS p LEFT JOIN [Department] ON p.department=[Department].ID ";            
+                var sql = "SELECT p.[ID],[Department].ID AS departmentID,[departmentName],[parent],Department.[level],[postName],[department],p.[description],p.[isEnable],[postGrade],p.[createStaff],p.[createDate],p.[lastUpdateDate],p.[lastUpdateStaff] FROM [Post] AS p LEFT JOIN [Department] ON p.department=[Department].ID ";
                 var result = SqlHelper.ExecuteReader(sqlConn, System.Data.CommandType.Text, sql);
                 while (result.Read())
                 {
@@ -114,7 +114,7 @@ namespace DeFeng.DAL
                 sqlPars.Add(new SqlParameter("@description", post.Description));
                 sqlPars.Add(new SqlParameter("@isEnable", post.IsEnable));
                 sqlPars.Add(new SqlParameter("@lastUpdateDate", DateTime.Now));
-                sqlPars.Add(new SqlParameter("@lastUpdateStaff", post.LastUpdateStaff.ID));
+                sqlPars.Add(new SqlParameter("@lastUpdateStaff", post.LastUpdateStaff != null ? post.LastUpdateStaff.ID : 0));
                 sqlPars.Add(new SqlParameter("@postGrade", post.PostGrade));
                 result = SqlHelper.ExecuteNonQuery(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray()) > 0;
             }
@@ -125,14 +125,27 @@ namespace DeFeng.DAL
             return result;
         }
 
-        public bool DeletePost(int id)
+        public bool DeletePost(List<int> idArr)
         {
             var result = false;
             try
             {
-                var sql = "DELETE FROM Post WHERE ID=@ID";
+                var whereStr = new StringBuilder();
+                whereStr.Append(" WHERE ");
                 var sqlPars = new List<SqlParameter>();
-                sqlPars.Add(new SqlParameter("@ID", id));    
+                for (int i = 0; i < idArr.Count; i++)
+                {
+                    sqlPars.Add(new SqlParameter("@ID" + i, idArr[i]));
+                    if ((i + 1) != idArr.Count)
+                    {
+                        whereStr.Append(string.Format(" ID=@ID{0} OR", i));
+                    }
+                    else
+                    {
+                        whereStr.Append(string.Format(" ID=@ID{0} ", i));
+                    }
+                }
+                var sql = string.Format("DELETE FROM [Post] {0}", whereStr);
                 result = SqlHelper.ExecuteNonQuery(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray()) > 0;
             }
             catch (Exception ex)
