@@ -9,8 +9,7 @@ namespace DeFeng.Model
     public class Staff
     {
         private int id;
-        private string account;
-        private Department department;
+        private string account;     
         private string password;//密码
         private string staffNumber; //员工号
         private string staffName;//员工名
@@ -48,8 +47,8 @@ namespace DeFeng.Model
         private string family_company;//所在单位
         private string family_contact;//联系方式
         private string entry_unit;//入职单位
-        private string entry_department;//入职部门
-        private string entry_position;//入职岗位
+        private Department department;//部门
+        private Post post;//入职岗位
         private string leader;//直属领导
         private string part_time_job;//兼职部门
         private string part_time_position;//兼职岗位
@@ -587,29 +586,16 @@ namespace DeFeng.Model
             }
         }
 
-        public string Entry_department
+        public Post Post
         {
             get
             {
-                return entry_department;
+                return post;
             }
 
             set
             {
-                entry_department = value;
-            }
-        }
-
-        public string Entry_position
-        {
-            get
-            {
-                return entry_position;
-            }
-
-            set
-            {
-                entry_position = value;
+                post = value;
             }
         }
 

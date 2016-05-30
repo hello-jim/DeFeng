@@ -12,6 +12,7 @@ namespace DeFeng.Model
         private Staff staff;
         private Announcement announcement;
         private AnnouncementType announcementType;
+        private bool isRead;
         private DateTime lastReadDate;
         private Staff createStaff;
         private DateTime createDate;

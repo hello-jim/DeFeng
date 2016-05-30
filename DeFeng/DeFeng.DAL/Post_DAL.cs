@@ -88,10 +88,11 @@ namespace DeFeng.DAL
                 sqlPars.Add(new SqlParameter("@postName", post.PostName));
                 sqlPars.Add(new SqlParameter("@description", post.Description));
                 sqlPars.Add(new SqlParameter("@isEnable", post.IsEnable));
-                sqlPars.Add(new SqlParameter("@createStaff", post.CreateStaff.ID));
+                sqlPars.Add(new SqlParameter("@createStaff", post.CreateStaff != null ? post.CreateStaff.ID : 0));
+                sqlPars.Add(new SqlParameter("@department", post.Department != null ? post.Department.ID : 0));
                 sqlPars.Add(new SqlParameter("@createDate", DateTime.Now));
                 sqlPars.Add(new SqlParameter("@lastUpdateDate", DateTime.Now));
-                sqlPars.Add(new SqlParameter("@lastUpdateStaff", post.LastUpdateStaff.ID));
+                sqlPars.Add(new SqlParameter("@lastUpdateStaff", post.LastUpdateStaff!=null? post.LastUpdateStaff.ID:0));
                 sqlPars.Add(new SqlParameter("@postGrade", post.PostGrade));
                 result = SqlHelper.ExecuteNonQuery(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray()) > 0;
             }
@@ -112,6 +113,7 @@ namespace DeFeng.DAL
                 sqlPars.Add(new SqlParameter("@ID", post.ID));
                 sqlPars.Add(new SqlParameter("@postName", post.PostName));
                 sqlPars.Add(new SqlParameter("@description", post.Description));
+                sqlPars.Add(new SqlParameter("@department", post.Department!=null? post.Department.ID:0));
                 sqlPars.Add(new SqlParameter("@isEnable", post.IsEnable));
                 sqlPars.Add(new SqlParameter("@lastUpdateDate", DateTime.Now));
                 sqlPars.Add(new SqlParameter("@lastUpdateStaff", post.LastUpdateStaff != null ? post.LastUpdateStaff.ID : 0));

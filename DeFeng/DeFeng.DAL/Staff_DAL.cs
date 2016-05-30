@@ -83,8 +83,8 @@ namespace DeFeng.DAL
                 sqlPars.Add(new SqlParameter("@family_company", staff.Family_company));
                 sqlPars.Add(new SqlParameter("@family_contact", staff.Family_contact));
                 sqlPars.Add(new SqlParameter("@entry_unit", staff.Entry_unit));
-                sqlPars.Add(new SqlParameter("@entry_department", staff.Entry_department));
-                sqlPars.Add(new SqlParameter("@entry_position", staff.Entry_position));
+                sqlPars.Add(new SqlParameter("@department", staff.Department != null ? staff.Department.ID : 0));
+                sqlPars.Add(new SqlParameter("@post", staff.Post!=null? staff.Post.ID:0));
                 sqlPars.Add(new SqlParameter("@leader", staff.Leader));
                 sqlPars.Add(new SqlParameter("@part_time_job", staff.Part_time_job));
                 sqlPars.Add(new SqlParameter("@part_time_position", staff.Part_time_position));
@@ -183,14 +183,17 @@ namespace DeFeng.DAL
             return count;
         }
 
-        public List<Staff> GetStaff() 
+        public List<Staff> GetStaff()
         {
             var list = new List<Staff>();
             try
             {
-                var sql = "SELECT [ID] ,[password] ,[account],[photo] ,[staffNumber] ,[staffName],[birthdayType],[idCard],[dateBirth],[sex],[age],[birthday],[marital],[education],[major] ,[bloodType],[entry_time],[entry_status],[probation],[height],[probation_salary],[salary],[politics],[title],[nation],[email],[phone],[tel],[officTel],[accountType],[accountAddress],[place_origin],[address],[application_method],[family_members],[family_relationship],[family_occupation],[landscape],[family_company],[family_contact],[entry_unit],[entry_department],[entry_position],[leader],[part_time_job],[part_time_position],[branch_manager],[site_manager],[hr_clerk],[hr_manager],[general_manager],[login_name],[access_authority] FROM Staff WHERE department=@department";
-                var sqlPars = new List<SqlParameter>();               
-                var result = SqlHelper.ExecuteReader(sqlConn, CommandType.Text, sql);
+                var sql = new StringBuilder();
+                sql.Append("SELECT Department.ID AS departmentID,departmentName,Post.ID AS postID,postName,s.[ID] ,[password] ,[account],[photo] ,[staffNumber] ,[staffName],[birthdayType],[idCard],[dateBirth],[sex],[age],[birthday],[marital],[education],[major] ,[bloodType],[entry_time],[entry_status],[probation],[height],[probation_salary],[salary],[politics],[title],[nation],[email],[phone],[tel],[officTel],[accountType],[accountAddress],[place_origin],[address],[application_method],[family_members],[family_relationship],[family_occupation],[landscape],[family_company],[family_contact],[entry_unit],[leader],[part_time_job],[part_time_position],[branch_manager],[site_manager],[hr_clerk],[hr_manager],[general_manager],[login_name],[access_authority] FROM Staff s ");
+                sql.Append("LEFT JOIN [Department] ON s.department=[Department].ID ");
+                sql.Append("LEFT JOIN [Post] ON s.post=[Post].ID ");
+                var sqlPars = new List<SqlParameter>();
+                var result = SqlHelper.ExecuteReader(sqlConn, CommandType.Text, sql.ToString());
                 while (result.Read())
                 {
                     var obj = new Staff();
@@ -230,8 +233,16 @@ namespace DeFeng.DAL
                     obj.Family_company = Convert.IsDBNull(result["family_company"]) ? "" : Convert.ToString(result["family_company"]);
                     obj.Family_contact = Convert.IsDBNull(result["family_contact"]) ? "" : Convert.ToString(result["family_contact"]);
                     obj.Entry_unit = Convert.IsDBNull(result["entry_unit"]) ? "" : Convert.ToString(result["entry_unit"]);
-                    obj.Entry_department = Convert.IsDBNull(result["entry_department"]) ? "" : Convert.ToString(result["entry_department"]);
-                    obj.Entry_position = Convert.IsDBNull(result["entry_position"]) ? "" : Convert.ToString(result["entry_position"]);
+                    obj.Department = new Department
+                    {
+                        ID = Convert.IsDBNull(result["departmentID"]) ? 0 : Convert.ToInt32(result["departmentID"]),
+                        DepartmentName = Convert.IsDBNull(result["departmentName"]) ? "" : Convert.ToString(result["departmentName"])
+                    };
+                    obj.Post = new Post
+                    {
+                        ID = Convert.IsDBNull(result["postID"]) ? 0 : Convert.ToInt32(result["postID"]),
+                        PostName = Convert.IsDBNull(result["postName"]) ? "" : Convert.ToString(result["postName"])
+                    };
                     obj.Leader = Convert.IsDBNull(result["leader"]) ? "" : Convert.ToString(result["leader"]);
                     obj.Part_time_job = Convert.IsDBNull(result["part_time_job"]) ? "" : Convert.ToString(result["part_time_job"]);
                     obj.Part_time_position = Convert.IsDBNull(result["part_time_position"]) ? "" : Convert.ToString(result["part_time_position"]);
@@ -244,11 +255,11 @@ namespace DeFeng.DAL
                     obj.Access_authority = Convert.IsDBNull(result["access_authority"]) ? "" : Convert.ToString(result["access_authority"]);
                     list.Add(obj);
                 }
-            
+
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                
+
             }
             return list;
         }
@@ -258,10 +269,14 @@ namespace DeFeng.DAL
             var list = new List<Staff>();
             try
             {
-                var sql = "SELECT [ID] ,[password] ,[account],[photo] ,[staffNumber] ,[staffName],[birthdayType],[idCard],[dateBirth],[sex],[age],[birthday],[marital],[education],[major] ,[bloodType],[entry_time],[entry_status],[probation],[height],[probation_salary],[salary],[politics],[title],[nation],[email],[phone],[tel],[officTel],[accountType],[accountAddress],[place_origin],[address],[application_method],[family_members],[family_relationship],[family_occupation],[landscape],[family_company],[family_contact],[entry_unit],[entry_department],[entry_position],[leader],[part_time_job],[part_time_position],[branch_manager],[site_manager],[hr_clerk],[hr_manager],[general_manager],[login_name],[access_authority] FROM Staff WHERE department=@department";
+                var sql = new StringBuilder();
+                sql.Append("SELECT Department.ID AS departmentID,departmentName,Post.ID AS postID,postName, [ID] ,[password] ,[account],[photo] ,[staffNumber] ,[staffName],[birthdayType],[idCard],[dateBirth],[sex],[age],[birthday],[marital],[education],[major] ,[bloodType],[entry_time],[entry_status],[probation],[height],[probation_salary],[salary],[politics],[title],[nation],[email],[phone],[tel],[officTel],[accountType],[accountAddress],[place_origin],[address],[application_method],[family_members],[family_relationship],[family_occupation],[landscape],[family_company],[family_contact],[entry_unit],[leader],[part_time_job],[part_time_position],[branch_manager],[site_manager],[hr_clerk],[hr_manager],[general_manager],[login_name],[access_authority] FROM Staff s ");
+                sql.Append("LEFT JOIN [Department] ON s.post=[Department].ID ");
+                sql.Append("LEFT JOIN [Post] ON s.post=[Post].ID ");
+                sql.Append("WHERE department=@department ");
                 var sqlPars = new List<SqlParameter>();
                 sqlPars.Add(new SqlParameter("@department", departmentID));
-                var result = SqlHelper.ExecuteReader(sqlConn, CommandType.Text, sql, sqlPars.ToArray());
+                var result = SqlHelper.ExecuteReader(sqlConn, CommandType.Text, sql.ToString(), sqlPars.ToArray());
                 while (result.Read())
                 {
                     var obj = new Staff();
@@ -301,8 +316,16 @@ namespace DeFeng.DAL
                     obj.Family_company = Convert.IsDBNull(result["family_company"]) ? "" : Convert.ToString(result["family_company"]);
                     obj.Family_contact = Convert.IsDBNull(result["family_contact"]) ? "" : Convert.ToString(result["family_contact"]);
                     obj.Entry_unit = Convert.IsDBNull(result["entry_unit"]) ? "" : Convert.ToString(result["entry_unit"]);
-                    obj.Entry_department = Convert.IsDBNull(result["entry_department"]) ? "" : Convert.ToString(result["entry_department"]);
-                    obj.Entry_position = Convert.IsDBNull(result["entry_position"]) ? "" : Convert.ToString(result["entry_position"]);
+                    obj.Department = new Department
+                    {
+                        ID=Convert.IsDBNull(result["departmentID"])?0:Convert.ToInt32(result["departmentID"]),
+                        DepartmentName=Convert.IsDBNull(result["departmentName"])?"":Convert.ToString(result["departmentName"])
+                    };
+                    obj.Post = new Post
+                    {
+                        ID = Convert.IsDBNull(result["postID"]) ? 0 : Convert.ToInt32(result["postID"]),
+                        PostName = Convert.IsDBNull(result["postName"]) ? "" : Convert.ToString(result["postName"])
+                    };
                     obj.Leader = Convert.IsDBNull(result["leader"]) ? "" : Convert.ToString(result["leader"]);
                     obj.Part_time_job = Convert.IsDBNull(result["part_time_job"]) ? "" : Convert.ToString(result["part_time_job"]);
                     obj.Part_time_position = Convert.IsDBNull(result["part_time_position"]) ? "" : Convert.ToString(result["part_time_position"]);
@@ -323,7 +346,7 @@ namespace DeFeng.DAL
             return list;
         }
 
-        public bool DeleteStaff(List<int> idArr) 
+        public bool DeleteStaff(List<int> idArr)
         {
             var result = false;
             try
@@ -353,7 +376,8 @@ namespace DeFeng.DAL
             return result;
         }
 
-        public bool UpdateStaff() {
+        public bool UpdateStaff()
+        {
 
             return true;
         }
