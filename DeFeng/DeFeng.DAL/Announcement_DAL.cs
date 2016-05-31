@@ -49,32 +49,42 @@ namespace DeFeng.DAL
 
         public bool CreateAnnouncement(List<int> idArr, Announcement announcement)
         {
-            var sql = "INSERT INTO Announcement([staff],[announcement],[announcementType],[isRead],[lastReadDate],[createStaff],[createDate],[lastUpdateDate],[lastUpdateStaff])";
-            //SqlHelper.ExecuteScalar
-            //DataTable dt = new DataTable();
-            //dt.Columns.Add("staff");
-            //dt.Columns.Add("announcement");
-            //dt.Columns.Add("announcementType");
-            //dt.Columns.Add("isRead");
-            //dt.Columns.Add("lastReadDate");
-            //dt.Columns.Add("createStaff");
-            //dt.Columns.Add("createDate");
-            //dt.Columns.Add("lastUpdateDate");
-            //dt.Columns.Add("lastUpdateStaff");
-            //for (int i = 0; i < idArr.Count; i++)
-            //{
-            //    DataRow dr = dt.NewRow();
-            //    dr[0] = idArr[i];
-            //    dr[1] = announcement.ID;
-            //    dr[2] = announcement.AnnouncementType != null ? announcement.AnnouncementType.ID : 0;
-            //    dr[3] = 0;
-            //    dr[4] = null;
-            //    dr[5] = announcement.CreateStaff != null ? announcement.CreateStaff.ID : 0;
-            //    dr[6] = DateTime.Now;
-            //    dr[7] = DateTime.Now;
-            //    dr[8] = announcement.LastUpdateStaff != null ? announcement.LastUpdateStaff.ID : 0;
-            //    dt.Rows.Add(dr);
-            //}
+            var nowDateTime = DateTime.Now;
+            var sql = "INSERT INTO Announcement([announcementType],[message],[attachmentName],[createStaff],[createDate],[lastUpdateDate],[lastUpdateStaff]) VALUES(@announcementType,@message,@attachmentName,@createStaff,@createDate,@lastUpdateDate,@lastUpdateStaff)";
+            var sqlPars = new List<SqlParameter>();
+            sqlPars.Add(new SqlParameter("@announcementType", announcement.AnnouncementType != null ? announcement.AnnouncementType.ID : 0));
+            sqlPars.Add(new SqlParameter("@message", announcement.Message));
+            sqlPars.Add(new SqlParameter("@attachmentName", announcement.AttachmentName));
+            sqlPars.Add(new SqlParameter("@createStaff", announcement.CreateStaff != null ? announcement.CreateStaff.ID : 0));
+            sqlPars.Add(new SqlParameter("@createDate", nowDateTime));
+            sqlPars.Add(new SqlParameter("@lastUpdateDate", nowDateTime));
+            sqlPars.Add(new SqlParameter("@lastUpdateStaff", announcement.LastUpdateStaff != null ? announcement.LastUpdateStaff.ID : 0));
+            var id = (int)SqlHelper.ExecuteScalar(sqlConn, CommandType.Text, sql);
+            #region 批插入
+            DataTable dt = new DataTable();
+            dt.Columns.Add("staff");
+            dt.Columns.Add("announcement");
+            dt.Columns.Add("announcementType");
+            dt.Columns.Add("isRead");
+            dt.Columns.Add("lastReadDate");
+            dt.Columns.Add("createStaff");
+            dt.Columns.Add("createDate");
+            dt.Columns.Add("lastUpdateDate");
+            dt.Columns.Add("lastUpdateStaff");
+            for (int i = 0; i < idArr.Count; i++)
+            {
+                DataRow dr = dt.NewRow();
+                dr[0] = idArr[i];
+                dr[1] = id;
+                dr[2] = announcement.AnnouncementType != null ? announcement.AnnouncementType.ID : 0;
+                dr[3] = 0;
+                dr[4] = null;
+                dr[5] = announcement.CreateStaff != null ? announcement.CreateStaff.ID : 0;
+                dr[6] = nowDateTime;
+                dr[7] = nowDateTime;
+                dr[8] = announcement.LastUpdateStaff != null ? announcement.LastUpdateStaff.ID : 0;
+                dt.Rows.Add(dr);
+            }
 
             using (SqlConnection conn = new SqlConnection(sqlConn))
             {
@@ -95,7 +105,8 @@ namespace DeFeng.DAL
                     }
                 }
             }
-            return false;
+            #endregion
+            return true;
         }
 
     }

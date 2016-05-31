@@ -24,5 +24,21 @@ namespace DeFeng.BLL
             }
             return list;
         }
+
+        public bool CreateAnnouncement(List<int> idArr, Announcement announcement)
+        {
+            var result = false;
+            Announcement_DAL dal = new Announcement_DAL();
+            try
+            {
+                result = dal.CreateAnnouncement(idArr, announcement);
+                dal = null;
+            }
+            catch (Exception ex)
+            {
+                dal = null;
+            }
+            return true;
+        }
     }
 }
