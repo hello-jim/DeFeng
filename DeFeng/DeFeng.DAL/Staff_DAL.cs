@@ -346,28 +346,67 @@ namespace DeFeng.DAL
             return list;
         }
 
+        /// <summary>
+        /// 根据部门获取员工ID
+        /// </summary>
+        /// <param name="depIDArr">部门ID</param>
+        /// <returns></returns>
+        public List<int> GetStaffIDByDepartment(List<int> depIDArr)
+        {
+            var list = new List<int>();
+            try
+            {
+                var idArr = String.Join(",", depIDArr);
+                var sql = new StringBuilder();
+                sql.Append(string.Format("SELECT [ID] FROM Staff WHERE ID IN({0})", idArr));            
+                var result = SqlHelper.ExecuteReader(sqlConn, CommandType.Text, sql.ToString());
+                while (result.Read())
+                {        
+                    list.Add(Convert.ToInt32(result["ID"]));
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return list;
+        }
+
+
+        /// <summary>
+        /// 根据岗位获取员工ID
+        /// </summary>
+        /// <param name="postIDArr"></param>
+        /// <returns></returns>
+        public List<int> GetStaffIDByPost(List<int> postIDArr)
+        {
+            var list = new List<int>();
+            try
+            {
+                var idArr = String.Join(",", postIDArr);
+                var sql = new StringBuilder();
+                sql.Append(string.Format("SELECT [ID] FROM Staff WHERE ID IN({0})", idArr));
+                var result = SqlHelper.ExecuteReader(sqlConn, CommandType.Text, sql.ToString());
+                while (result.Read())
+                {
+                    list.Add(Convert.ToInt32(result["ID"]));
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return list;
+        }
+
         public bool DeleteStaff(List<int> idArr)
         {
             var result = false;
             try
             {
-                var whereStr = new StringBuilder();
-                whereStr.Append(" WHERE ");
-                var sqlPars = new List<SqlParameter>();
-                for (int i = 0; i < idArr.Count; i++)
-                {
-                    sqlPars.Add(new SqlParameter("@ID" + i, idArr[i]));
-                    if ((i + 1) != idArr.Count)
-                    {
-                        whereStr.Append(string.Format(" ID=@ID{0} OR", i));
-                    }
-                    else
-                    {
-                        whereStr.Append(string.Format(" ID=@ID{0} ", i));
-                    }
-                }
-                var sql = string.Format("DELETE FROM [Staff] {0}", whereStr);
-                result = SqlHelper.ExecuteNonQuery(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray()) > 0;
+                var idArrStr = String.Join(",", idArr);
+                var sql = string.Format("DELETE FROM [Staff] WHERE ID IN({0})", idArrStr);
+                result = SqlHelper.ExecuteNonQuery(sqlConn, System.Data.CommandType.Text, sql) > 0;
             }
             catch (Exception ex)
             {

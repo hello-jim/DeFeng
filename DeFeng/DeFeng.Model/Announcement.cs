@@ -12,6 +12,7 @@ namespace DeFeng.Model
         private AnnouncementType announcementType;
         private string message;
         private string attachmentName;
+        private string pushRange;//推送范围
         private Staff createStaff;
         private DateTime createDate;
         private DateTime lastUpdateDate;
@@ -118,6 +119,19 @@ namespace DeFeng.Model
             set
             {
                 lastUpdateStaff = value;
+            }
+        }
+
+        public string PushRange
+        {
+            get
+            {
+                return pushRange;
+            }
+
+            set
+            {
+                pushRange = value;
             }
         }
     }

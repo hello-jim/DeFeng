@@ -142,6 +142,48 @@ namespace DeFeng.BLL
             return list;
         }
 
+        /// <summary>
+        /// 根据部门获取员工ID
+        /// </summary>
+        /// <param name="depIDArr">部门ID</param>
+        /// <returns></returns>
+        public List<int> GetStaffIDByDepartment(List<int> depIDArr)
+        {
+            var list = new List<int>();
+            try
+            {
+                list = dal.GetStaffIDByDepartment(depIDArr);
+                dal = null;
+            }
+            catch (Exception ex)
+            {
+                dal = null;
+            }
+            return list;
+        }
+
+
+        /// <summary>
+        /// 根据岗位获取员工ID
+        /// </summary>
+        /// <param name="postIDArr"></param>
+        /// <returns></returns>
+        public List<int> GetStaffIDByPost(List<int> postIDArr)
+        {
+            var list = new List<int>();
+            Staff_DAL dal = new Staff_DAL();
+            try
+            {
+                list = dal.GetStaffIDByPost(postIDArr);
+                dal = null;
+            }
+            catch (Exception ex)
+            {
+                dal = null;
+            }
+            return list;
+        }
+
         public bool DeleteStaff(List<int> idArr)
         {
             var result = false;
