@@ -12,7 +12,8 @@ namespace DeFeng.Model
         private AnnouncementType announcementType;
         private string message;
         private string attachmentName;
-        private string pushRange;//推送范围
+        private List<string> pushRange;//推送范围
+        private DateTime lastReadDate;//截止查看时间
         private Staff createStaff;
         private DateTime createDate;
         private DateTime lastUpdateDate;
@@ -122,7 +123,7 @@ namespace DeFeng.Model
             }
         }
 
-        public string PushRange
+        public List<string> PushRange
         {
             get
             {
@@ -132,6 +133,19 @@ namespace DeFeng.Model
             set
             {
                 pushRange = value;
+            }
+        }
+
+        public DateTime LastReadDate
+        {
+            get
+            {
+                return lastReadDate;
+            }
+
+            set
+            {
+                lastReadDate = value;
             }
         }
     }

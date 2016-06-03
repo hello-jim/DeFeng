@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnnouncementType_BLL.cs" />
     <Compile Include="Announcement_BLL.cs" />
     <Compile Include="Appliance_BLL.cs" />
     <Compile Include="Area_BLL.cs" />
