@@ -84,7 +84,7 @@ namespace DeFeng.DAL
                 sqlPars.Add(new SqlParameter("@family_contact", staff.Family_contact));
                 sqlPars.Add(new SqlParameter("@entry_unit", staff.Entry_unit));
                 sqlPars.Add(new SqlParameter("@department", staff.Department != null ? staff.Department.ID : 0));
-                sqlPars.Add(new SqlParameter("@post", staff.Post!=null? staff.Post.ID:0));
+                sqlPars.Add(new SqlParameter("@post", staff.Post != null ? staff.Post.ID : 0));
                 sqlPars.Add(new SqlParameter("@leader", staff.Leader));
                 sqlPars.Add(new SqlParameter("@part_time_job", staff.Part_time_job));
                 sqlPars.Add(new SqlParameter("@part_time_position", staff.Part_time_position));
@@ -318,8 +318,8 @@ namespace DeFeng.DAL
                     obj.Entry_unit = Convert.IsDBNull(result["entry_unit"]) ? "" : Convert.ToString(result["entry_unit"]);
                     obj.Department = new Department
                     {
-                        ID=Convert.IsDBNull(result["departmentID"])?0:Convert.ToInt32(result["departmentID"]),
-                        DepartmentName=Convert.IsDBNull(result["departmentName"])?"":Convert.ToString(result["departmentName"])
+                        ID = Convert.IsDBNull(result["departmentID"]) ? 0 : Convert.ToInt32(result["departmentID"]),
+                        DepartmentName = Convert.IsDBNull(result["departmentName"]) ? "" : Convert.ToString(result["departmentName"])
                     };
                     obj.Post = new Post
                     {
@@ -358,10 +358,10 @@ namespace DeFeng.DAL
             {
                 var idArr = String.Join(",", depIDArr);
                 var sql = new StringBuilder();
-                sql.Append(string.Format("SELECT [ID] FROM Staff WHERE ID IN({0})", idArr));            
+                sql.Append(string.Format("SELECT [ID] FROM Staff WHERE [department] IN({0})", idArr));
                 var result = SqlHelper.ExecuteReader(sqlConn, CommandType.Text, sql.ToString());
                 while (result.Read())
-                {        
+                {
                     list.Add(Convert.ToInt32(result["ID"]));
                 }
             }
@@ -385,8 +385,31 @@ namespace DeFeng.DAL
             {
                 var idArr = String.Join(",", postIDArr);
                 var sql = new StringBuilder();
-                sql.Append(string.Format("SELECT [ID] FROM Staff WHERE ID IN({0})", idArr));
+                sql.Append(string.Format("SELECT [ID] FROM Staff WHERE [post] IN({0})", idArr));
                 var result = SqlHelper.ExecuteReader(sqlConn, CommandType.Text, sql.ToString());
+                while (result.Read())
+                {
+                    list.Add(Convert.ToInt32(result["ID"]));
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return list;
+        }
+    
+        /// <summary>
+        /// 获取所有员工ID
+        /// </summary>
+        /// <returns></returns>
+        public List<int> GetStaffID()
+        {
+            var list = new List<int>();
+            try
+            {
+                var sql = "SELECT [ID] FROM Staff";
+                var result = SqlHelper.ExecuteReader(sqlConn, CommandType.Text, sql);
                 while (result.Read())
                 {
                     list.Add(Convert.ToInt32(result["ID"]));
