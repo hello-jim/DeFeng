@@ -6,3 +6,7 @@ D:\Project_GIT\DeFeng\DeFeng\DeFeng.Model\bin\Debug\DeFeng.Model.dll
 D:\Project_GIT\DeFeng\DeFeng\DeFeng.Model\bin\Debug\DeFeng.Model.pdb
 D:\Project_GIT\DeFeng\DeFeng\DeFeng.Model\obj\Debug\DeFeng.Model.dll
 D:\Project_GIT\DeFeng\DeFeng\DeFeng.Model\obj\Debug\DeFeng.Model.pdb
+D:\Project_V9\DeFeng\DeFeng\DeFeng.Model\bin\Debug\DeFeng.Model.dll
+D:\Project_V9\DeFeng\DeFeng\DeFeng.Model\bin\Debug\DeFeng.Model.pdb
+D:\Project_V9\DeFeng\DeFeng\DeFeng.Model\obj\Debug\DeFeng.Model.dll
+D:\Project_V9\DeFeng\DeFeng\DeFeng.Model\obj\Debug\DeFeng.Model.pdb

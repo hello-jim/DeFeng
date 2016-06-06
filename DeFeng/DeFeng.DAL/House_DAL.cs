@@ -47,7 +47,7 @@ namespace DeFeng.DAL
                 #region 城区
                 if (districtList.Count != 0)
                 {
-                    search.Append(" h.id IN(SELECT  ID FROM House WHERE ");
+                    search.Append(" h.id IN(SELECT ID FROM House WHERE ");
                     for (int i = 0; i < districtList.Count; i++)
                     {
                         var parName = string.Format("@district{0}", i);
