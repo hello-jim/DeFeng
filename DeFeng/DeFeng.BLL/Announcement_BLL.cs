@@ -10,13 +10,14 @@ namespace DeFeng.BLL
 {
     public class Announcement_BLL
     {
+        Announcement_DAL dal = new Announcement_DAL();
         public List<Announcement> LoadAnnouncement(int staffID)
         {
             var list = new List<Announcement>();
             Announcement_DAL dal = new Announcement_DAL();
             try
             {
-                list= dal.LoadAnnouncement(staffID);
+                list = dal.LoadAnnouncement(staffID);
             }
             catch (Exception ex)
             {
@@ -25,20 +26,36 @@ namespace DeFeng.BLL
             return list;
         }
 
-        public bool CreateAnnouncement(List<int> idArr, Announcement announcement)
+        public int CreateAnnouncement(List<int> idArr, Announcement announcement)
         {
-            var result = false;
-            Announcement_DAL dal = new Announcement_DAL();
+            var id = 0;
             try
             {
-                result = dal.CreateAnnouncement(idArr, announcement);
-                dal = null;
+                id = dal.CreateAnnouncement(idArr, announcement);
             }
             catch (Exception ex)
             {
-                dal = null;
             }
-            return true;
+            return id;
+        }
+
+        /// <summary>
+        /// 根据ID获取公告信息
+        /// </summary>
+        /// <param name="announcementID">公告ID</param>
+        /// <returns></returns>
+        public Announcement GetAnnouncementByID(int announcementID)
+        {
+            var announcement = new Announcement();
+            try
+            {
+                announcement = dal.GetAnnouncementByID(announcementID);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return announcement;
         }
     }
 }

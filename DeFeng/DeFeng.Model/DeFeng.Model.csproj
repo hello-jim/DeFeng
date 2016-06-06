@@ -46,6 +46,7 @@
     <Compile Include="AnnouncementUnread.cs" />
     <Compile Include="Appliance.cs" />
     <Compile Include="Area.cs" />
+    <Compile Include="Attachment.cs" />
     <Compile Include="CarPark.cs" />
     <Compile Include="City.cs" />
     <Compile Include="CommissionPayType.cs" />

@@ -19,15 +19,18 @@ namespace DeFeng.DAL
             var list = new List<Announcement>();
             try
             {
-                var sql = "SELECT a.[ID],[typeName],[message],[attachmentName],[createStaff],[createDate],[lastUpdateDate],[lastUpdateStaff] Announcement a LEFT JOIN [Announcement] ON a.announcement=[Announcement].ID LEFT JOIN [Staff] ON a.staff=[Staff].ID WHERE ID IN( SELECT TOP 7 announcement FROM AnnouncementUnread WHERE staff=@staffID  ORDER BY CreateDate) ";
+                var sql = new StringBuilder("SELECT TOP 5 staffName,AnnouncementType.ID AS announcementTypeID,typeName,a.[ID],a.[title],[message],a.[createDate] FROM Announcement a ");
+                sql.Append(" LEFT JOIN AnnouncementType ON a.announcementType=AnnouncementType.ID ");
+                sql.Append(" LEFT JOIN Staff ON a.createStaff=Staff.ID ");
+                sql.Append(" WHERE a.ID IN(SELECT announcement FROM AnnouncementRead WHERE staff=2) ORDER BY a.createDate DESC ");
                 var sqlPars = new List<SqlParameter>();
                 sqlPars.Add(new SqlParameter("@staffID", staffID));
-                var result = SqlHelper.ExecuteReader(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray());
+                var result = SqlHelper.ExecuteReader(sqlConn, System.Data.CommandType.Text, sql.ToString(), sqlPars.ToArray());
                 while (result.Read())
                 {
                     var obj = new Announcement();
                     obj.ID = Convert.ToInt32(result["ID"]);
-                    obj.AttachmentName = Convert.IsDBNull(result["attachmentName"]) ? "" : Convert.ToString(result["attachmentName"]);
+                    obj.Title = Convert.IsDBNull(result["title"]) ? "" : Convert.ToString(result["title"]);                
                     obj.Message = Convert.IsDBNull(result["message"]) ? "" : Convert.ToString(result["message"]);
                     obj.AnnouncementType = new AnnouncementType
                     {
@@ -47,11 +50,14 @@ namespace DeFeng.DAL
             return list;
         }
 
-        public bool CreateAnnouncement(List<int> idArr, Announcement announcement)
+        public int CreateAnnouncement(List<int> idArr, Announcement announcement)
         {
             var nowDateTime = DateTime.Now;
-            var sql = "INSERT INTO Announcement([announcementType],[message],[attachmentName],[createStaff],[createDate],[lastUpdateDate],[lastUpdateStaff]) VALUES(@announcementType,@message,@attachmentName,@createStaff,@createDate,@lastUpdateDate,@lastUpdateStaff) SELECT @@IDENTITY";
+            var id = 0;
+            #region 插入公告
+            var sql = "INSERT INTO Announcement([title],[announcementType],[message],[attachmentName],[createStaff],[createDate],[lastUpdateDate],[lastUpdateStaff]) VALUES(@title,@announcementType,@message,@attachmentName,@createStaff,@createDate,@lastUpdateDate,@lastUpdateStaff) SELECT @@IDENTITY";
             var sqlPars = new List<SqlParameter>();
+            sqlPars.Add(new SqlParameter("@title", announcement.Title));
             sqlPars.Add(new SqlParameter("@announcementType", announcement.AnnouncementType != null ? announcement.AnnouncementType.ID : 0));
             sqlPars.Add(new SqlParameter("@message", announcement.Message));
             sqlPars.Add(new SqlParameter("@attachmentName", announcement.AttachmentName));
@@ -59,7 +65,9 @@ namespace DeFeng.DAL
             sqlPars.Add(new SqlParameter("@createDate", nowDateTime));
             sqlPars.Add(new SqlParameter("@lastUpdateDate", nowDateTime));
             sqlPars.Add(new SqlParameter("@lastUpdateStaff", announcement.LastUpdateStaff != null ? announcement.LastUpdateStaff.ID : 0));
-            var id = Convert.ToInt32(SqlHelper.ExecuteScalar(sqlConn, CommandType.Text, sql, sqlPars.ToArray()));
+            id = Convert.ToInt32(SqlHelper.ExecuteScalar(sqlConn, CommandType.Text, sql, sqlPars.ToArray()));
+            #endregion
+
             #region 批插入
             DataTable dt = new DataTable();
             dt.Columns.Add("staff");
@@ -106,7 +114,7 @@ namespace DeFeng.DAL
                 }
             }
             #endregion
-            return true;
+            return id;
         }
 
         /// <summary>
@@ -119,7 +127,7 @@ namespace DeFeng.DAL
             var announcement = new List<Announcement>();
             try
             {
-                var sql = new StringBuilder("SELECT s1.ID AS createStaffID,s1.staffName AS createStaffName,s2.ID AS lastUpdateStaffID,s2.staffName AS lastUpdateStaffName,[ID],[announcementType],[message],[attachmentName],[createStaff],[createDate],[lastUpdateDate],[lastUpdateStaff] FROM Announcement a ");
+                var sql = new StringBuilder("SELECT s1.ID AS createStaffID,s1.staffName AS createStaffName,s2.ID AS lastUpdateStaffID,s2.staffName AS lastUpdateStaffName,[ID],[title],[announcementType],[message],[attachmentName],[createStaff],[createDate],[lastUpdateDate],[lastUpdateStaff] FROM Announcement a ");
                 sql.Append("LEFT JOIN [AnnouncementType] ON a.announcementType=[AnnouncementType].ID ");
                 sql.Append("LEFT JOIN [Staff] s1 ON a.createStaff=s1.ID ");
                 sql.Append("LEFT JOIN [Staff] s2 ON a.lastUpdateStaff=s2.ID ");
@@ -145,8 +153,9 @@ namespace DeFeng.DAL
             var result = false;
             try
             {
-                var sql = "UPDATE Announcement SET [announcementType]=@announcementType,[message]=@message,[attachmentName]=@attachmentName,[lastUpdateDate]=@lastUpdateDate,[lastUpdateStaff]=@lastUpdateStaff WHERE ID=@ID";
+                var sql = "UPDATE Announcement SET [title]=@title,[announcementType]=@announcementType,[message]=@message,[attachmentName]=@attachmentName,[lastUpdateDate]=@lastUpdateDate,[lastUpdateStaff]=@lastUpdateStaff WHERE ID=@ID";
                 var pars = new List<SqlParameter>();
+                pars.Add(new SqlParameter("@title", announcement.Title));
                 pars.Add(new SqlParameter("@announcementType", announcement.ID));
                 pars.Add(new SqlParameter("@message", announcement.Message));
                 pars.Add(new SqlParameter("@attachmentName", announcement.AttachmentName));
@@ -175,6 +184,44 @@ namespace DeFeng.DAL
 
             }
             return result;
+        }
+
+        /// <summary>
+        /// 根据ID获取公告信息
+        /// </summary>
+        /// <param name="announcementID">公告ID</param>
+        /// <returns></returns>
+        public Announcement GetAnnouncementByID(int announcementID)
+        {
+            var announcement = new Announcement();
+            try
+            {
+                var sql = new StringBuilder("SELECT s.staffName AS createStaffName,typeName,[ID],[title],[message],[createDate] FROM Announcement a");
+                sql.Append("LEFT JOIN [AnnouncementType] ON a.announcementType=[AnnouncementType].ID ");
+                sql.Append("LEFT JOIN [Staff] s ON a.createStaff=s.ID ");
+                var read = SqlHelper.ExecuteReader(sqlConn, CommandType.Text, sql.ToString());
+                while (read.Read())
+                {
+                    announcement.ID = Convert.ToInt32(read["ID"]);
+                    announcement.Title = Convert.IsDBNull(read["title"]) ? "" : Convert.ToString(read["title"]);
+                    announcement.Message = Convert.IsDBNull(read["message"]) ? "" : Convert.ToString(read["message"]);
+                    announcement.CreateDate = Convert.IsDBNull(read["createDate"]) ? new DateTime() : Convert.ToDateTime(read["createDate"]);
+                    announcement.CreateStaff = new Staff
+                    {
+                        ID = Convert.IsDBNull(read["createStaffID"]) ? 0 : Convert.ToInt32(read["createStaffID"]),
+                        StaffName = Convert.IsDBNull(read["createStaffName"]) ? "" : Convert.ToString(read["createStaffName"])
+                    };
+                    announcement.AnnouncementType = new AnnouncementType
+                    {
+                        TypeName = Convert.IsDBNull(read["typeName"]) ? "" : Convert.ToString(read["typeName"])
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return announcement;
         }
 
     }

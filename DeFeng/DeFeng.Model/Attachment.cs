@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 
 namespace DeFeng.Model
 {
-    public class Announcement
+    public class Attachment
     {
         private int id;
-        private string title;//标题
-        private AnnouncementType announcementType;
-        private string message;
         private string attachmentName;//附件名
-        private List<string> pushRange;//推送范围
-        private DateTime lastReadDate;//截止查看时间
+        private AttachmentType attachmentType;//附件类型
+        private int ofID;//所属ID
         private Staff createStaff;
         private DateTime createDate;
         private DateTime lastUpdateDate;
@@ -33,32 +30,6 @@ namespace DeFeng.Model
             }
         }
 
-        public AnnouncementType AnnouncementType
-        {
-            get
-            {
-                return announcementType;
-            }
-
-            set
-            {
-                announcementType = value;
-            }
-        }
-
-        public string Message
-        {
-            get
-            {
-                return message;
-            }
-
-            set
-            {
-                message = value;
-            }
-        }
-
         public string AttachmentName
         {
             get
@@ -69,6 +40,32 @@ namespace DeFeng.Model
             set
             {
                 attachmentName = value;
+            }
+        }
+
+        public AttachmentType AttachmentType
+        {
+            get
+            {
+                return attachmentType;
+            }
+
+            set
+            {
+                attachmentType = value;
+            }
+        }
+
+        public int OfID
+        {
+            get
+            {
+                return ofID;
+            }
+
+            set
+            {
+                ofID = value;
             }
         }
 
@@ -123,44 +120,10 @@ namespace DeFeng.Model
                 lastUpdateStaff = value;
             }
         }
+    }
 
-        public List<string> PushRange
-        {
-            get
-            {
-                return pushRange;
-            }
-
-            set
-            {
-                pushRange = value;
-            }
-        }
-
-        public DateTime LastReadDate
-        {
-            get
-            {
-                return lastReadDate;
-            }
-
-            set
-            {
-                lastReadDate = value;
-            }
-        }
-
-        public string Title
-        {
-            get
-            {
-                return title;
-            }
-
-            set
-            {
-                title = value;
-            }
-        }
+    public enum AttachmentType
+    {
+        Announcement = 1
     }
 }

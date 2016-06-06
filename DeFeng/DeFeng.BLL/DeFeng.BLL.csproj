@@ -51,10 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnnouncementRead_BLL.cs" />
     <Compile Include="AnnouncementType_BLL.cs" />
     <Compile Include="Announcement_BLL.cs" />
     <Compile Include="Appliance_BLL.cs" />
     <Compile Include="Area_BLL.cs" />
+    <Compile Include="Attachment_BLL.cs" />
     <Compile Include="CarPark_BLL.cs" />
     <Compile Include="City_BLL.cs" />
     <Compile Include="CommissionPayType_BLL.cs" />

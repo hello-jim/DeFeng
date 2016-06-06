@@ -45,6 +45,7 @@
     <Compile Include="Announcement_DAL.cs" />
     <Compile Include="Appliance_DAL.cs" />
     <Compile Include="Area_DAL.cs" />
+    <Compile Include="Attachment_DAL.cs" />
     <Compile Include="CarPark_DAL.cs" />
     <Compile Include="City_DAL.cs" />
     <Compile Include="CommissionPayType_DAL.cs" />

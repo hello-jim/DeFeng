@@ -135,5 +135,18 @@ namespace DeFeng.Model
                 lastUpdateStaff = value;
             }
         }
+
+        public bool IsRead
+        {
+            get
+            {
+                return isRead;
+            }
+
+            set
+            {
+                isRead = value;
+            }
+        }
     }
 }
