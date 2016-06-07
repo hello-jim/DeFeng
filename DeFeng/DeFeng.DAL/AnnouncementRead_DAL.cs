@@ -52,7 +52,7 @@ namespace DeFeng.DAL
         }
 
         /// <summary>
-        /// 修改员工公告状态
+        /// 修改员工公告阅读状态
         /// </summary>
         /// <param name="announcementId">公告ID</param>
         /// <param name="staffID">员工ID</param>
@@ -62,7 +62,7 @@ namespace DeFeng.DAL
             var result = false;
             try
             {
-                var sql = string.Format("UPDATE AnnouncementRead SET isRead = {0} WHERE announcemen = {1} AND staff = {2}", true, announcementId, staffID);
+                var sql = string.Format("UPDATE AnnouncementRead SET isRead = {0} WHERE announcement = {1} AND staff = {2}", 1, announcementId, staffID);
                 result = SqlHelper.ExecuteNonQuery(sqlConn, System.Data.CommandType.Text, sql) > 0;
             }
             catch (Exception ex)

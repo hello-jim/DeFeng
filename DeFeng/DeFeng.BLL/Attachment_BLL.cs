@@ -23,5 +23,19 @@ namespace DeFeng.BLL
             }
             return id;
         }
+
+        public List<Attachment> LoadAttachment(AttachmentType type,int ofID)
+        {
+            var list = new List<Attachment>();
+            try
+            {
+                list = dal.LoadAttachment(type, ofID);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return list;
+        }
     }
 }

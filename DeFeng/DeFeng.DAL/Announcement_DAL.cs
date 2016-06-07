@@ -19,7 +19,7 @@ namespace DeFeng.DAL
             var list = new List<Announcement>();
             try
             {
-                var sql = new StringBuilder("SELECT TOP 5 staffName,AnnouncementType.ID AS announcementTypeID,typeName,a.[ID],a.[title],[message],a.[createDate] FROM Announcement a ");
+                var sql = new StringBuilder("SELECT TOP 7 staffName,AnnouncementType.ID AS announcementTypeID,typeName,a.[ID],a.[title],[message],a.[createDate] FROM Announcement a ");
                 sql.Append(" LEFT JOIN AnnouncementType ON a.announcementType=AnnouncementType.ID ");
                 sql.Append(" LEFT JOIN Staff ON a.createStaff=Staff.ID ");
                 sql.Append(" WHERE a.ID IN(SELECT announcement FROM AnnouncementRead WHERE staff=2) ORDER BY a.createDate DESC ");
@@ -30,7 +30,7 @@ namespace DeFeng.DAL
                 {
                     var obj = new Announcement();
                     obj.ID = Convert.ToInt32(result["ID"]);
-                    obj.Title = Convert.IsDBNull(result["title"]) ? "" : Convert.ToString(result["title"]);                
+                    obj.Title = Convert.IsDBNull(result["title"]) ? "" : Convert.ToString(result["title"]);
                     obj.Message = Convert.IsDBNull(result["message"]) ? "" : Convert.ToString(result["message"]);
                     obj.AnnouncementType = new AnnouncementType
                     {
@@ -40,6 +40,7 @@ namespace DeFeng.DAL
                     {
                         StaffName = Convert.IsDBNull(result["staffName"]) ? "" : Convert.ToString(result["staffName"])
                     };
+                    obj.CreateDate = Convert.IsDBNull(result["createDate"]) ? new DateTime() : Convert.ToDateTime(result["createDate"]);
                     list.Add(obj);
                 }
             }
@@ -52,68 +53,74 @@ namespace DeFeng.DAL
 
         public int CreateAnnouncement(List<int> idArr, Announcement announcement)
         {
-            var nowDateTime = DateTime.Now;
             var id = 0;
-            #region 插入公告
-            var sql = "INSERT INTO Announcement([title],[announcementType],[message],[attachmentName],[createStaff],[createDate],[lastUpdateDate],[lastUpdateStaff]) VALUES(@title,@announcementType,@message,@attachmentName,@createStaff,@createDate,@lastUpdateDate,@lastUpdateStaff) SELECT @@IDENTITY";
-            var sqlPars = new List<SqlParameter>();
-            sqlPars.Add(new SqlParameter("@title", announcement.Title));
-            sqlPars.Add(new SqlParameter("@announcementType", announcement.AnnouncementType != null ? announcement.AnnouncementType.ID : 0));
-            sqlPars.Add(new SqlParameter("@message", announcement.Message));
-            sqlPars.Add(new SqlParameter("@attachmentName", announcement.AttachmentName));
-            sqlPars.Add(new SqlParameter("@createStaff", announcement.CreateStaff != null ? announcement.CreateStaff.ID : 0));
-            sqlPars.Add(new SqlParameter("@createDate", nowDateTime));
-            sqlPars.Add(new SqlParameter("@lastUpdateDate", nowDateTime));
-            sqlPars.Add(new SqlParameter("@lastUpdateStaff", announcement.LastUpdateStaff != null ? announcement.LastUpdateStaff.ID : 0));
-            id = Convert.ToInt32(SqlHelper.ExecuteScalar(sqlConn, CommandType.Text, sql, sqlPars.ToArray()));
-            #endregion
-
-            #region 批插入
-            DataTable dt = new DataTable();
-            dt.Columns.Add("staff");
-            dt.Columns.Add("announcement");
-            dt.Columns.Add("announcementType");
-            dt.Columns.Add("isRead");
-            dt.Columns.Add("lastReadDate");
-            dt.Columns.Add("createStaff");
-            dt.Columns.Add("createDate");
-            dt.Columns.Add("lastUpdateDate");
-            dt.Columns.Add("lastUpdateStaff");
-            for (int i = 0; i < idArr.Count; i++)
+            try
             {
-                DataRow dr = dt.NewRow();
-                dr[0] = idArr[i];
-                dr[1] = id;
-                dr[2] = announcement.AnnouncementType != null ? announcement.AnnouncementType.ID : 0;
-                dr[3] = false;
-                dr[4] = announcement.LastReadDate;
-                dr[5] = announcement.CreateStaff != null ? announcement.CreateStaff.ID : 0;
-                dr[6] = nowDateTime;
-                dr[7] = nowDateTime;
-                dr[8] = announcement.LastUpdateStaff != null ? announcement.LastUpdateStaff.ID : 0;
-                dt.Rows.Add(dr);
-            }
+                var nowDateTime = DateTime.Now;
+                #region 插入公告
+                var sql = "INSERT INTO Announcement([title],[announcementType],[message],[createStaff],[createDate],[lastUpdateDate],[lastUpdateStaff]) VALUES(@title,@announcementType,@message,@createStaff,@createDate,@lastUpdateDate,@lastUpdateStaff) SELECT @@IDENTITY";
+                var sqlPars = new List<SqlParameter>();
+                sqlPars.Add(new SqlParameter("@title", announcement.Title));
+                sqlPars.Add(new SqlParameter("@announcementType", announcement.AnnouncementType != null ? announcement.AnnouncementType.ID : 0));
+                sqlPars.Add(new SqlParameter("@message", announcement.Message));
+                sqlPars.Add(new SqlParameter("@createStaff", announcement.CreateStaff != null ? announcement.CreateStaff.ID : 0));
+                sqlPars.Add(new SqlParameter("@createDate", nowDateTime));
+                sqlPars.Add(new SqlParameter("@lastUpdateDate", nowDateTime));
+                sqlPars.Add(new SqlParameter("@lastUpdateStaff", announcement.LastUpdateStaff != null ? announcement.LastUpdateStaff.ID : 0));
+                id = Convert.ToInt32(SqlHelper.ExecuteScalar(sqlConn, CommandType.Text, sql, sqlPars.ToArray()));
+                #endregion
 
-            using (SqlConnection conn = new SqlConnection(sqlConn))
-            {
-                using (SqlBulkCopy sqlbulkcopy = new SqlBulkCopy(sqlConn, SqlBulkCopyOptions.UseInternalTransaction))
+                #region 批插入
+                DataTable dt = new DataTable();
+                dt.Columns.Add("staff");
+                dt.Columns.Add("announcement");
+                dt.Columns.Add("announcementType");
+                dt.Columns.Add("isRead");
+                dt.Columns.Add("lastReadDate");
+                dt.Columns.Add("createStaff");
+                dt.Columns.Add("createDate");
+                dt.Columns.Add("lastUpdateDate");
+                dt.Columns.Add("lastUpdateStaff");
+                for (int i = 0; i < idArr.Count; i++)
                 {
-                    try
+                    DataRow dr = dt.NewRow();
+                    dr[0] = idArr[i];
+                    dr[1] = id;
+                    dr[2] = announcement.AnnouncementType != null ? announcement.AnnouncementType.ID : 0;
+                    dr[3] = false;
+                    dr[4] = announcement.LastReadDate;
+                    dr[5] = announcement.CreateStaff != null ? announcement.CreateStaff.ID : 0;
+                    dr[6] = nowDateTime;
+                    dr[7] = nowDateTime;
+                    dr[8] = announcement.LastUpdateStaff != null ? announcement.LastUpdateStaff.ID : 0;
+                    dt.Rows.Add(dr);
+                }
+
+                using (SqlConnection conn = new SqlConnection(sqlConn))
+                {
+                    using (SqlBulkCopy sqlbulkcopy = new SqlBulkCopy(sqlConn, SqlBulkCopyOptions.UseInternalTransaction))
                     {
-                        sqlbulkcopy.DestinationTableName = "AnnouncementRead";
-                        for (int i = 0; i < dt.Columns.Count; i++)
+                        try
                         {
-                            sqlbulkcopy.ColumnMappings.Add(dt.Columns[i].ColumnName, dt.Columns[i].ColumnName);
+                            sqlbulkcopy.DestinationTableName = "AnnouncementRead";
+                            for (int i = 0; i < dt.Columns.Count; i++)
+                            {
+                                sqlbulkcopy.ColumnMappings.Add(dt.Columns[i].ColumnName, dt.Columns[i].ColumnName);
+                            }
+                            sqlbulkcopy.WriteToServer(dt);
                         }
-                        sqlbulkcopy.WriteToServer(dt);
-                    }
-                    catch (System.Exception ex)
-                    {
-                        throw ex;
+                        catch (System.Exception ex)
+                        {
+                            throw ex;
+                        }
                     }
                 }
+                #endregion
             }
-            #endregion
+            catch (Exception ex)
+            {
+
+            }
             return id;
         }
 
@@ -196,9 +203,10 @@ namespace DeFeng.DAL
             var announcement = new Announcement();
             try
             {
-                var sql = new StringBuilder("SELECT s.staffName AS createStaffName,typeName,[ID],[title],[message],[createDate] FROM Announcement a");
+                var sql = new StringBuilder("SELECT s.ID AS createStaffID,s.staffName AS createStaffName,typeName,a.[ID],a.[title],a.[message],a.[createDate] FROM Announcement a ");
                 sql.Append("LEFT JOIN [AnnouncementType] ON a.announcementType=[AnnouncementType].ID ");
                 sql.Append("LEFT JOIN [Staff] s ON a.createStaff=s.ID ");
+                sql.Append(string.Format(" WHERE a.ID={0}", announcementID));
                 var read = SqlHelper.ExecuteReader(sqlConn, CommandType.Text, sql.ToString());
                 while (read.Read())
                 {
