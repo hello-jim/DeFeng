@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DeFeng.Common
 {
-    class MD5
+    class AES
     {
         // 加密字符串
         public string EncryptString(string sInputString, string sKey)
@@ -20,6 +20,7 @@ namespace DeFeng.Common
             DES.IV = ASCIIEncoding.ASCII.GetBytes(sKey);
             ICryptoTransform desencrypt = DES.CreateEncryptor();
             byte[] result = desencrypt.TransformFinalBlock(data, 0, data.Length);
+            
             return BitConverter.ToString(result);
         }
         // 解密字符串

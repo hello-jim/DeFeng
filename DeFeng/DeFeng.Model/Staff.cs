@@ -20,14 +20,14 @@ namespace DeFeng.Model
         private int age; //  年龄
         private string birthday; //生日
         private string marital;//  婚姻状况
-        private string education;//  学历
+        private string education;//学历
         private string major;// 专业
         private string bloodType; //  血型
-        private DateTime entry_time;//入职时间
+        private DateTime entryTime;//入职时间
         private string entry_status;//入职状态
         private string probation;//试用期
-        private string height; //高度
-        private decimal probation_salary;//使用薪水
+        private float height; //高度
+        private decimal probationSalary;//试用期薪水 probation_salary
         private decimal salary;//转正薪水
         private string politics;//政治面貌
         private string title;//职称
@@ -60,8 +60,12 @@ namespace DeFeng.Model
         private string login_name;//登录名
         private string access_authority;//分配权限
         private StaffStatus staffStatus;//员工状态
-
         private string phone;//电话号码
+        private bool isEnable;//是否启用
+        private Staff createStaff;
+        private DateTime createDate;
+        private DateTime lastUpdateDate;
+        private Staff lastUpdateStaff;
 
         public int ID
         {
@@ -287,16 +291,16 @@ namespace DeFeng.Model
             }
         }
 
-        public DateTime Entry_time
+        public DateTime EntryTime
         {
             get
             {
-                return entry_time;
+                return entryTime;
             }
 
             set
             {
-                entry_time = value;
+                entryTime = value;
             }
         }
 
@@ -326,7 +330,7 @@ namespace DeFeng.Model
             }
         }
 
-        public string Height
+        public float Height
         {
             get
             {
@@ -339,16 +343,16 @@ namespace DeFeng.Model
             }
         }
 
-        public decimal Probation_salary
+        public decimal ProbationSalary
         {
             get
             {
-                return probation_salary;
+                return probationSalary;
             }
 
             set
             {
-                probation_salary = value;
+                probationSalary = value;
             }
         }
 
@@ -765,6 +769,71 @@ namespace DeFeng.Model
             set
             {
                 staffStatus = value;
+            }
+        }
+
+        public bool IsEnable
+        {
+            get
+            {
+                return isEnable;
+            }
+
+            set
+            {
+                isEnable = value;
+            }
+        }
+
+        public Staff CreateStaff
+        {
+            get
+            {
+                return createStaff;
+            }
+
+            set
+            {
+                createStaff = value;
+            }
+        }
+
+        public DateTime CreateDate
+        {
+            get
+            {
+                return createDate;
+            }
+
+            set
+            {
+                createDate = value;
+            }
+        }
+
+        public DateTime LastUpdateDate
+        {
+            get
+            {
+                return lastUpdateDate;
+            }
+
+            set
+            {
+                lastUpdateDate = value;
+            }
+        }
+
+        public Staff LastUpdateStaff
+        {
+            get
+            {
+                return lastUpdateStaff;
+            }
+
+            set
+            {
+                lastUpdateStaff = value;
             }
         }
     }

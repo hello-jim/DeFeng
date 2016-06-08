@@ -54,30 +54,30 @@ namespace DeFeng.BLL
             return result;
         }
         //0用户不存在 2密码正确
-        public int UserLogin(Staff staff)
+        public Staff UserLogin(Staff obj)
         {
-            var result = 0;
+            Staff staff = null;
             try
             {
-
-                if (CheckStaff(staff.Account) < 1)
-                {
-                    return 0;
-                }
-                else
-                {
-                    if ((result = dal.UserLogin(staff)) > 0)
-                    {
-                        return 2;
-                    }
-                }
-
+                //if (CheckStaff(staff.Account) < 1)
+                //{
+                //    return 0;
+                //}
+                //else
+                //{
+                //    if ((result = dal.UserLogin(staff)) > 0)
+                //    {
+                //        return 2;
+                //    }
+                //}
+                //   dal.UserLogin();
+                staff = dal.UserLogin(obj);
             }
             catch (Exception ex)
             {
 
             }
-            return 1;
+            return staff;
         }
 
         public int CheckStaff(string account)
