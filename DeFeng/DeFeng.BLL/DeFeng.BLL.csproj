@@ -102,6 +102,7 @@
     <Compile Include="ShopArea_BLL.cs" />
     <Compile Include="ShopLocation_BLL.cs" />
     <Compile Include="Source_BLL.cs" />
+    <Compile Include="StaffPermission_BLL.cs" />
     <Compile Include="Staff_BLL.cs" />
     <Compile Include="Supporting_BLL.cs" />
     <Compile Include="TaxPayType_BLL.cs" />

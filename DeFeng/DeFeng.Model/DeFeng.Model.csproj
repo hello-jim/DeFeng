@@ -110,6 +110,7 @@
     <Compile Include="ShopLocation.cs" />
     <Compile Include="Source.cs" />
     <Compile Include="Staff.cs" />
+    <Compile Include="StaffPermission.cs" />
     <Compile Include="StaffStatus.cs" />
     <Compile Include="Supporting.cs" />
     <Compile Include="SysConfig.cs" />

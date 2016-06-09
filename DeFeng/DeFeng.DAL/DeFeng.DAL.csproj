@@ -91,6 +91,7 @@
     <Compile Include="ShopArea_DAL.cs" />
     <Compile Include="ShopLocation_DAL.cs" />
     <Compile Include="Source_DAL.cs" />
+    <Compile Include="StaffPermission_DAL.cs" />
     <Compile Include="Staff_DAL.cs" />
     <Compile Include="Supporting_DAL.cs" />
     <Compile Include="TaxPayType_DAL.cs" />

@@ -40,5 +40,29 @@ namespace DeFeng.DAL
             }
             return list;
         }
+
+        public List<Permission> GetPermissionByStaff(int staffID)
+        {
+            var list = new List<Permission>();
+            try
+            {
+                var sql = new StringBuilder("SELECT Permission.ID AS permissionID,permissionName,description FROM StaffPermission s"); string.Format(" WHERE staffID={0}", staffID);
+                sql.Append(" LEFT JOIN Permission ON p.permissionID=Permission.ID ");
+                var read = SqlHelper.ExecuteReader(sqlConn, System.Data.CommandType.Text, sql.ToString());
+                while (read.Read())
+                {
+                    var obj = new Permission();
+                    obj.ID = Convert.IsDBNull(read["permissionID"]) ? 0 : Convert.ToInt32(read["permissionID"]);
+                    obj.PermissionName = Convert.IsDBNull(read["permissionName"]) ? "" : Convert.ToString(read["permissionName"]);
+                    obj.Description = Convert.IsDBNull(read["description"]) ? "" : Convert.ToString(read["description"]);
+                    list.Add(obj);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return list;
+        }
     }
 }

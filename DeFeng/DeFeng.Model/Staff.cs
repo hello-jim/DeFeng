@@ -62,6 +62,7 @@ namespace DeFeng.Model
         private StaffStatus staffStatus;//员工状态
         private string phone;//电话号码
         private bool isEnable;//是否启用
+        private List<Permission> permission;//权限
         private Staff createStaff;
         private DateTime createDate;
         private DateTime lastUpdateDate;
@@ -834,6 +835,19 @@ namespace DeFeng.Model
             set
             {
                 lastUpdateStaff = value;
+            }
+        }
+
+        public List<Permission> Permission
+        {
+            get
+            {
+                return permission;
+            }
+
+            set
+            {
+                permission = value;
             }
         }
     }

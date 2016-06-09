@@ -25,5 +25,19 @@ namespace DeFeng.BLL
             }
             return list;
         }
+
+        public List<Permission> GetPermissionByStaff(int staffID)
+        {
+            var list = new List<Permission>();
+            try
+            {
+                list = dal.GetPermissionByStaff(staffID);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return list;
+        }
     }
 }
