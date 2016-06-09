@@ -12,3 +12,10 @@ D:\Project_GIT\DeFeng\DeFeng\DeFeng.Common\bin\Debug\DeFeng.Model.pdb
 D:\Project_GIT\DeFeng\DeFeng\DeFeng.Common\obj\Debug\DeFeng.Common.csprojResolveAssemblyReference.cache
 D:\Project_GIT\DeFeng\DeFeng\DeFeng.Common\obj\Debug\DeFeng.Common.dll
 D:\Project_GIT\DeFeng\DeFeng\DeFeng.Common\obj\Debug\DeFeng.Common.pdb
+D:\Project_V10\DeFeng\DeFeng\DeFeng.Common\bin\Debug\DeFeng.Common.dll
+D:\Project_V10\DeFeng\DeFeng\DeFeng.Common\bin\Debug\DeFeng.Common.pdb
+D:\Project_V10\DeFeng\DeFeng\DeFeng.Common\bin\Debug\DeFeng.Model.dll
+D:\Project_V10\DeFeng\DeFeng\DeFeng.Common\bin\Debug\DeFeng.Model.pdb
+D:\Project_V10\DeFeng\DeFeng\DeFeng.Common\obj\Debug\DeFeng.Common.csprojResolveAssemblyReference.cache
+D:\Project_V10\DeFeng\DeFeng\DeFeng.Common\obj\Debug\DeFeng.Common.dll
+D:\Project_V10\DeFeng\DeFeng\DeFeng.Common\obj\Debug\DeFeng.Common.pdb

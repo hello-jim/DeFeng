@@ -21,13 +21,24 @@ namespace DeFeng.BLL
 
                 if ((CheckUserName(staff.Account)) > 0)
                 {
+                    //账号已存在
                     return -1;
                 }
                 else
                 {
-
-                    result = dal.Register(staff);
-
+                    if ((CheckStaffName(staff.StaffName)>0)) {
+                        //用户名已存在
+                        return 2;
+                    }
+                    else { 
+                    if ((CheckIdCard(staff.IdCard) > 0)) {
+                        //身份证已存在
+                        return 0;
+                    }
+                    else {
+                        result = dal.Register(staff);
+                    }
+                    }
                 }
 
             }
@@ -37,7 +48,33 @@ namespace DeFeng.BLL
             }
             return result;
         }
+        //验证身份证
+        public int CheckIdCard(string idCard) {
+            var result = 0;
+            try
+            {
+                result = dal.CheckIdCard(idCard);
+            }
+            catch (Exception ex)
+            {
 
+            }
+            return result;
+        }
+        //验证用户名
+        public int CheckStaffName(string staffName)
+        {
+            var result = 0;
+            try
+            {
+                result = dal.StaffName(staffName);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return result;
+        }
 
 
         public int Information(Staff staff)

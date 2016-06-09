@@ -612,7 +612,7 @@ namespace DeFeng.Model
             }
         }
 
-        public string Part_time_job
+        public Department Part_time_job
         {
             get
             {

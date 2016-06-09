@@ -20,12 +20,13 @@ namespace DeFeng.DAL
             var result = 0;
             try
             {
-                var sql = "INSERT INTO staff (account,password,phone) VALUES (@account,@password,@phone)";
+                var sql = "INSERT INTO staff (account,staffName,password,idCard,phone) VALUES (@account,@staffName,@password,@idCard,@phone)";
                 var sqlPars = new List<SqlParameter>();
                 //sqlPars.Add(new SqlParameter("@ID", staff.ID));
                 sqlPars.Add(new SqlParameter("@account", staff.Account));
+                sqlPars.Add(new SqlParameter("@staffName", staff.StaffName));
                 sqlPars.Add(new SqlParameter("@password", staff.Password));
-                //sqlPars.Add(new SqlParameter("@idCard", staff.IdCard));
+                sqlPars.Add(new SqlParameter("@idCard", staff.IdCard));
                 sqlPars.Add(new SqlParameter("@phone", staff.Phone));
                 result = Convert.ToInt32(SqlHelper.ExecuteNonQuery(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray()));
             }
@@ -34,6 +35,48 @@ namespace DeFeng.DAL
 
             }
             return result;
+        }
+        //验证身份证
+        public int CheckIdCard(string idCard)
+        {
+            var count = 0;
+            try
+            {
+                var sql = "select count(*) from staff where idCard=@idCard";
+                var sqlPars = new List<SqlParameter>();
+                sqlPars.Add(new SqlParameter("@idCard", @idCard));
+                var result = SqlHelper.ExecuteReader(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray());
+                while (result.Read())
+                {
+                    count = Convert.ToInt32(result[0]);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return count;
+        }
+        //验证用户名
+        public int StaffName(string staffName)
+        {
+            var count = 0;
+            try
+            {
+                var sql = "select count(*) from staff where staffName=@staffName";
+                var sqlPars = new List<SqlParameter>();
+                sqlPars.Add(new SqlParameter("@staffName", @staffName));
+                var result = SqlHelper.ExecuteReader(sqlConn, System.Data.CommandType.Text, sql, sqlPars.ToArray());
+                while (result.Read())
+                {
+                    count = Convert.ToInt32(result[0]);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return count;
         }
 
 
@@ -87,7 +130,7 @@ namespace DeFeng.DAL
                 sqlPars.Add(new SqlParameter("@post", staff.Post != null ? staff.Post.ID : 0));
                 sqlPars.Add(new SqlParameter("@leader", staff.Leader));
                 sqlPars.Add(new SqlParameter("@part_time_job", staff.Part_time_job));
-                sqlPars.Add(new SqlParameter("@part_time_position", staff.Part_time_position));
+                sqlPars.Add(new SqlParameter("@part_time_position", staff.Department!=null ? staff.Department.ID:0));
                 sqlPars.Add(new SqlParameter("@branch_manager", staff.Branch_manager));
                 sqlPars.Add(new SqlParameter("@site_manager", staff.Site_manager));
                 sqlPars.Add(new SqlParameter("@hr_clerk", staff.Hr_clerk));
