@@ -13,7 +13,7 @@ namespace DeFeng.DAL
     public class StaffPermission_DAL
     {
         string sqlConn = CommonClass.GetSysConfig("DeFengDBConStr");
-        public bool AddStaffPermission(int staffID,int createStaffID,List<int> permissionIDList)
+        public bool AddStaffPermission(int staffID, int loginStaffID, List<int> permissionIDList)
         {
             var result = false;
             DataTable dt = new DataTable();
@@ -28,10 +28,10 @@ namespace DeFeng.DAL
                 DataRow dr = dt.NewRow();
                 dr[0] = staffID;
                 dr[1] = permissionIDList[i];
-                dr[2] = createStaffID;
+                dr[2] = loginStaffID;
                 dr[3] = DateTime.Now;
                 dr[4] = DateTime.Now;
-                dr[5] = createStaffID;             
+                dr[5] = loginStaffID;
                 dt.Rows.Add(dr);
             }
 
@@ -41,7 +41,7 @@ namespace DeFeng.DAL
                 {
                     try
                     {
-                        sqlbulkcopy.DestinationTableName = "AnnouncementRead";
+                        sqlbulkcopy.DestinationTableName = "StaffPermission";
                         for (int i = 0; i < dt.Columns.Count; i++)
                         {
                             sqlbulkcopy.ColumnMappings.Add(dt.Columns[i].ColumnName, dt.Columns[i].ColumnName);
@@ -55,6 +55,25 @@ namespace DeFeng.DAL
                 }
             }
             return result;
+        }
+
+        public List<int> GetPermissionByStaff(int staffID)
+        {
+            var list = new List<int>();
+            try
+            {
+                var sql = string.Format("SELECT [permissionID] FROM StaffPermission WHERE [staffID]={0}", staffID);
+                var read = SqlHelper.ExecuteReader(sqlConn, CommandType.Text, sql);
+                while (read.Read())
+                {
+                    list.Add(Convert.ToInt32(read["permissionID"]));
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return list;
         }
     }
 }

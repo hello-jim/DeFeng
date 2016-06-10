@@ -12,12 +12,12 @@ namespace DeFeng.BLL
     {
         Permission_DAL dal = new Permission_DAL();
 
-        public List<Permission> LoadPermission()
+        public List<Permission> GetPermission()
         {
             var list = new List<Permission>();
             try
             {
-                list = dal.LoadPermission();
+                list = dal.GetPermission();
             }
             catch (Exception ex)
             {

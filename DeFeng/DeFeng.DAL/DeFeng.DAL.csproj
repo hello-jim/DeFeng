@@ -82,6 +82,7 @@
     <Compile Include="LookHouseType_DAL.cs" />
     <Compile Include="OfficeLevel_DAL.cs" />
     <Compile Include="Orientation_DAL.cs" />
+    <Compile Include="PermissionType_DAL.cs" />
     <Compile Include="Permission_DAL.cs" />
     <Compile Include="Post_DAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

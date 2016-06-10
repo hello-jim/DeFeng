@@ -93,6 +93,7 @@
     <Compile Include="LookHouseType_BLL.cs" />
     <Compile Include="OfficeLevel_BLL.cs" />
     <Compile Include="Orientation_BLL.cs" />
+    <Compile Include="PermissionType_BLL.cs" />
     <Compile Include="Permission_BLL.cs" />
     <Compile Include="Post_BLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -12,7 +12,7 @@ namespace DeFeng.DAL
     {
         string sqlConn = CommonClass.GetSysConfig("DeFengDBConStr");
 
-        public List<Permission> LoadPermission()
+        public List<Permission> GetPermission()
         {
             var list = new List<Permission>();
             try
@@ -46,8 +46,8 @@ namespace DeFeng.DAL
             var list = new List<Permission>();
             try
             {
-                var sql = new StringBuilder("SELECT Permission.ID AS permissionID,permissionName,description FROM StaffPermission s"); string.Format(" WHERE staffID={0}", staffID);
-                sql.Append(" LEFT JOIN Permission ON p.permissionID=Permission.ID ");
+                var sql = new StringBuilder("SELECT Permission.ID AS permissionID,permissionName,description FROM StaffPermission s");
+                sql.Append(" LEFT JOIN Permission ON s.permissionID=Permission.ID ");
                 var read = SqlHelper.ExecuteReader(sqlConn, System.Data.CommandType.Text, sql.ToString());
                 while (read.Read())
                 {
