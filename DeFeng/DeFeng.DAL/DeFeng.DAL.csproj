@@ -88,6 +88,8 @@
     <Compile Include="PropertyOwn_DAL.cs" />
     <Compile Include="Province_DAL.cs" />
     <Compile Include="ResidentialDistrict_DAL.cs" />
+    <Compile Include="RolePermissions_DAL.cs" />
+    <Compile Include="Roles_DAL.cs" />
     <Compile Include="ShopArea_DAL.cs" />
     <Compile Include="ShopLocation_DAL.cs" />
     <Compile Include="Source_DAL.cs" />

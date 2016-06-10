@@ -31,8 +31,7 @@ namespace DeFeng.DAL
                 dr[2] = createStaffID;
                 dr[3] = DateTime.Now;
                 dr[4] = DateTime.Now;
-                dr[5] = createStaffID;
-             
+                dr[5] = createStaffID;             
                 dt.Rows.Add(dr);
             }
 

@@ -99,6 +99,8 @@
     <Compile Include="PropertyOwn_BLL.cs" />
     <Compile Include="Province_BLL.cs" />
     <Compile Include="ResidentialDistrict_BLL.cs" />
+    <Compile Include="RolePermissions_BLL.cs" />
+    <Compile Include="Roles_BLL.cs" />
     <Compile Include="ShopArea_BLL.cs" />
     <Compile Include="ShopLocation_BLL.cs" />
     <Compile Include="Source_BLL.cs" />
