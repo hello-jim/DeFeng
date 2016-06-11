@@ -184,6 +184,20 @@ namespace DeFeng.BLL
             return list;
         }
 
+        public Staff GetStaffByID(int staffID)
+        {
+            var staff = new Staff();
+            try
+            {
+                staff = dal.GetStaffByID(staffID);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return staff;
+        }
+
         /// <summary>
         /// 获取所有员工ID
         /// </summary>
