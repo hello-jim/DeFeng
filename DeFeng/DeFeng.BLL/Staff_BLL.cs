@@ -112,13 +112,14 @@ namespace DeFeng.BLL
 
         }
 
-        public List<Staff> GetStaff()
+        public List<Staff> GetStaff(int pageIndex=1)
         {
             var list = new List<Staff>();
             Staff_DAL bll = new Staff_DAL();
             try
             {
-                list = bll.GetStaff();
+                list = bll.GetStaff(pageIndex);
+                list[0].TotalCount = list[0].TotalCount + ((pageIndex - 1) * 10);
                 bll = null;
             }
             catch (Exception ex)
@@ -128,12 +129,13 @@ namespace DeFeng.BLL
             return list;
         }
 
-        public List<Staff> GetStaffByDepartment(int departmentID)
+        public List<Staff> GetStaffByDepartment(int departmentID,int pageIndex)
         {
             var list = new List<Staff>();
             try
             {
-                list = dal.GetStaffByDepartment(departmentID);
+                list = dal.GetStaffByDepartment(departmentID, pageIndex);
+                list[0].TotalCount = list[0].TotalCount + ((pageIndex - 1) * 10);
             }
             catch (Exception ex)
             {
@@ -230,6 +232,20 @@ namespace DeFeng.BLL
             catch (Exception ex)
             {
                 dal = null;
+            }
+            return result;
+        }
+
+        public bool UpdateStaff(Staff staff)
+        {
+            var result = false;
+            try
+            {
+                result= dal.UpdateStaff(staff);
+            }
+            catch (Exception ex)
+            {
+
             }
             return result;
         }

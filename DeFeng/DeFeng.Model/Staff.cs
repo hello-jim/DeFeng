@@ -9,7 +9,7 @@ namespace DeFeng.Model
     public class Staff
     {
         private int id;
-        private string account;     
+        private string account;
         private string password;//密码
         private string staffNumber; //员工号
         private string staffName;//员工名
@@ -63,6 +63,8 @@ namespace DeFeng.Model
         private string phone;//电话号码
         private bool isEnable;//是否启用
         private List<Permission> permission;//权限
+        private int totalCount;//员工总数
+        private int pageIndex;
         private Staff createStaff;
         private DateTime createDate;
         private DateTime lastUpdateDate;
@@ -848,6 +850,32 @@ namespace DeFeng.Model
             set
             {
                 permission = value;
+            }
+        }
+
+        public int TotalCount
+        {
+            get
+            {
+                return totalCount;
+            }
+
+            set
+            {
+                totalCount = value;
+            }
+        }
+
+        public int PageIndex
+        {
+            get
+            {
+                return pageIndex;
+            }
+
+            set
+            {
+                pageIndex = value;
             }
         }
     }

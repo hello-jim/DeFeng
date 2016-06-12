@@ -233,15 +233,16 @@ namespace DeFeng.DAL
             return count;
         }
 
-        public List<Staff> GetStaff()
+        public List<Staff> GetStaff(int pageIndex)
         {
             var list = new List<Staff>();
             try
             {
                 var sql = new StringBuilder();
-                sql.Append("SELECT Department.ID AS departmentID,departmentName,Post.ID AS postID,postName,s.[ID] ,[password] ,[account],[photo] ,[staffNumber] ,[staffName],[birthdayType],[idCard],[dateBirth],[sex],[age],[birthday],[marital],[education],[major] ,[bloodType],[entryTime],[entry_status],[probation],[height],[probationSalary],[salary],[politics],[title],[nation],[email],[phone],[tel],[officTel],[accountType],[accountAddress],[place_origin],[address],[application_method],[family_members],[family_relationship],[family_occupation],[landscape],[family_company],[family_contact],[entry_unit],[leader],[part_time_job],[part_time_position],[branch_manager],[site_manager],[hr_clerk],[hr_manager],[general_manager],[login_name],[access_authority] FROM Staff s ");
+                sql.Append("SELECT TOP 10 Count(*) OVER() AS totalCount,Department.ID AS departmentID,departmentName,Post.ID AS postID,postName,s.[ID] ,[password] ,[account],[photo] ,[staffNumber] ,[staffName],[birthdayType],[idCard],[dateBirth],[sex],[age],[birthday],[marital],[education],[major] ,[bloodType],[entryTime],[entry_status],[probation],[height],[probationSalary],[salary],[politics],[title],[nation],[email],[phone],[tel],[officTel],[accountType],[accountAddress],[place_origin],[address],[application_method],[family_members],[family_relationship],[family_occupation],[landscape],[family_company],[family_contact],[entry_unit],[leader],[part_time_job],[part_time_position],[branch_manager],[site_manager],[hr_clerk],[hr_manager],[general_manager],[login_name],[access_authority] FROM Staff s ");
                 sql.Append("LEFT JOIN [Department] ON s.department=[Department].ID ");
                 sql.Append("LEFT JOIN [Post] ON s.post=[Post].ID ");
+                sql.Append(string.Format("WHERE s.ID NOT IN (SELECT TOP (10 * ({0}-1)) ID FROM Staff) ", pageIndex));
                 var sqlPars = new List<SqlParameter>();
                 var read = SqlHelper.ExecuteReader(sqlConn, CommandType.Text, sql.ToString());
                 while (read.Read())
@@ -303,6 +304,7 @@ namespace DeFeng.DAL
                     obj.General_manager = Convert.IsDBNull(read["general_manager"]) ? "" : Convert.ToString(read["general_manager"]);
                     obj.Login_name = Convert.IsDBNull(read["login_name"]) ? "" : Convert.ToString(read["login_name"]);
                     obj.Access_authority = Convert.IsDBNull(read["access_authority"]) ? "" : Convert.ToString(read["access_authority"]);
+                    obj.TotalCount = Convert.ToInt32(read["totalCount"]);
                     list.Add(obj);
                 }
 
@@ -314,16 +316,16 @@ namespace DeFeng.DAL
             return list;
         }
 
-        public List<Staff> GetStaffByDepartment(int departmentID)
+        public List<Staff> GetStaffByDepartment(int departmentID, int pageIndex)
         {
             var list = new List<Staff>();
             try
             {
                 var sql = new StringBuilder();
-                sql.Append("SELECT Department.ID AS departmentID,departmentName,Post.ID AS postID,postName, [ID] ,[password] ,[account],[photo] ,[staffNumber] ,[staffName],[birthdayType],[idCard],[dateBirth],[sex],[age],[birthday],[marital],[education],[major] ,[bloodType],[entryTime],[entry_status],[probation],[height],[probationSalary],[salary],[politics],[title],[nation],[email],[phone],[tel],[officTel],[accountType],[accountAddress],[place_origin],[address],[application_method],[family_members],[family_relationship],[family_occupation],[landscape],[family_company],[family_contact],[entry_unit],[leader],[part_time_job],[part_time_position],[branch_manager],[site_manager],[hr_clerk],[hr_manager],[general_manager],[login_name],[access_authority] FROM Staff s ");
-                sql.Append("LEFT JOIN [Department] ON s.post=[Department].ID ");
+                sql.Append("SELECT TOP 10 Count(*) OVER() AS totalCount,Department.ID AS departmentID,departmentName,Post.ID AS postID,postName, s.[ID],[password],[account],[photo],[staffNumber],[staffName],[birthdayType],[idCard],[dateBirth],[sex],[age],[birthday],[marital],[education],[major] ,[bloodType],[entryTime],[entry_status],[probation],[height],[probationSalary],[salary],[politics],[title],[nation],[email],[phone],[tel],[officTel],[accountType],[accountAddress],[place_origin],[address],[application_method],[family_members],[family_relationship],[family_occupation],[landscape],[family_company],[family_contact],[entry_unit],[leader],[part_time_job],[part_time_position],[branch_manager],[site_manager],[hr_clerk],[hr_manager],[general_manager],[login_name],[access_authority] FROM Staff s ");
+                sql.Append("LEFT JOIN [Department] ON s.department=[Department].ID ");
                 sql.Append("LEFT JOIN [Post] ON s.post=[Post].ID ");
-                sql.Append("WHERE department=@department ");
+                sql.Append(string.Format("WHERE s.ID NOT IN (SELECT TOP (10 * ({0}-1)) ID FROM Staff WHERE department=@department) AND s.department=@department ", pageIndex));
                 var sqlPars = new List<SqlParameter>();
                 sqlPars.Add(new SqlParameter("@department", departmentID));
                 var read = SqlHelper.ExecuteReader(sqlConn, CommandType.Text, sql.ToString(), sqlPars.ToArray());
@@ -386,6 +388,7 @@ namespace DeFeng.DAL
                     obj.General_manager = Convert.IsDBNull(read["general_manager"]) ? "" : Convert.ToString(read["general_manager"]);
                     obj.Login_name = Convert.IsDBNull(read["login_name"]) ? "" : Convert.ToString(read["login_name"]);
                     obj.Access_authority = Convert.IsDBNull(read["access_authority"]) ? "" : Convert.ToString(read["access_authority"]);
+                    obj.TotalCount = Convert.ToInt32(read["totalCount"]);
                     list.Add(obj);
                 }
             }
@@ -538,6 +541,7 @@ namespace DeFeng.DAL
                     staff.General_manager = Convert.IsDBNull(read["general_manager"]) ? "" : Convert.ToString(read["general_manager"]);
                     staff.Login_name = Convert.IsDBNull(read["login_name"]) ? "" : Convert.ToString(read["login_name"]);
                     staff.Access_authority = Convert.IsDBNull(read["access_authority"]) ? "" : Convert.ToString(read["access_authority"]);
+                    staff.IsEnable = Convert.IsDBNull(read["isEnable"]) ? false : Convert.ToBoolean(read["isEnable"]);
                 }
             }
             catch (Exception ex)
@@ -563,19 +567,29 @@ namespace DeFeng.DAL
             return read;
         }
 
-        public bool UpdateStaff()
+        public bool UpdateStaff(Staff staff)
         {
-            var read = false;
+            var result = false;
             try
             {
-                var sql = "UPDATE Staff SET [password]=@password,[account]=@account,[photo]=@photo,[staffNumber]=@staffNumber,[staffName]=@staffName,[birthdayType]=@birthdayType,[idCard]=@idCard,[dateBirth]=@dateBirth,[sex]=@sex,[age]=@age,[birthday]=@birthday,[marital]=@marital,[education]=@education,[major]=@major,[bloodType]=@bloodType,[entryTime]=@entryTime,[entry_status]=@entry_status,[probation]=@probation,[height]=@height,[probationSalary]=@probationSalary,[salary]=@salary,[politics]=@politics,[title]=@title,[nation]=@nation,[email]=@email,[phone]=@phone,[tel]=@tel,[officTel]=@officTel,[accountType]=@accountType,[accountAddress]=@accountAddress,[place_origin]=@place_origin,[address]=@address,[application_method]=@application_method,[family_members]=@family_members,[family_relationship]=@family_relationship,[family_occupation]=@family_occupation,[landscape]=@landscape,[family_company]=@family_company,[family_contact]=@family_contact,[entry_unit]=@entry_unit,[department]=@department,[post]=@post,[leader]=@leader,[part_time_job]=@part_time_job,[part_time_position]=@part_time_position,[branch_manager]=@branch_manager,[site_manager]=@site_manager,[hr_clerk]=@hr_clerk,[hr_manager]=@hr_manager,[general_manager]=@general_manager,[login_name]=@login_name,[access_authority]=@access_authority,[isEnable]=@isEnable,[lastUpdateDate]=@lastUpdateDate,[lastUpdateStaff]=@lastUpdateStaff WHERE ID=@ID";
-                read = SqlHelper.ExecuteNonQuery(sql, CommandType.Text, sql) > 0;
+                var sql = "UPDATE Staff SET [staffName]=@staffName,[sex]=@sex,[age]=@age,[idCard]=@idCard,[officTel]=@officTel,[phone]=@phone,[birthday]=@birthday,[isEnable]=@isEnable WHERE ID=@ID";
+                var sqlpars = new List<SqlParameter>();
+                sqlpars.Add(new SqlParameter("@ID", staff.ID));
+                sqlpars.Add(new SqlParameter("@staffName", staff.StaffName));
+                sqlpars.Add(new SqlParameter("@sex", staff.Sex));
+                sqlpars.Add(new SqlParameter("@age", staff.Age));
+                sqlpars.Add(new SqlParameter("@idCard", staff.IdCard));
+                sqlpars.Add(new SqlParameter("@officTel", staff.OfficTel));
+                sqlpars.Add(new SqlParameter("@phone", staff.Phone));
+                sqlpars.Add(new SqlParameter("@birthday", staff.Birthday));
+                sqlpars.Add(new SqlParameter("@isEnable", staff.IsEnable));
+                result = SqlHelper.ExecuteNonQuery(sqlConn, CommandType.Text, sql, sqlpars.ToArray()) > 0;
             }
             catch (Exception ex)
             {
 
             }
-            return true;
+            return result;
         }
     }
 }
