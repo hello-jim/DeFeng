@@ -10,13 +10,15 @@ namespace DeFeng.BLL
 {
     public class Post_BLL
     {
-        public List<Post> GetPostByDepartment(int departmentID)
+        public List<Post> GetPostByDepartment(int departmentID,int pageIndex=1)
         {
             var list = new List<Post>();
             Post_DAL dal = new Post_DAL();
             try
             {           
-                list = dal.GetPostByDepartment(departmentID);
+                list = dal.GetPostByDepartment(departmentID, pageIndex);
+                list[0].TotalCount = list[0].TotalCount + ((pageIndex - 1) * 10);
+                list[0].PageIndex = pageIndex;
                 dal = null;
             }
             catch (Exception ex)
@@ -26,13 +28,15 @@ namespace DeFeng.BLL
             return list;
         }
 
-        public List<Post> GetPost()
+        public List<Post> GetPost(int pageIndex=1)
         {
             var list = new List<Post>();
             Post_DAL dal = new Post_DAL();
             try
             {
-                list = dal.GetPost();
+                list = dal.GetPost(pageIndex);
+                list[0].TotalCount = list[0].TotalCount + ((pageIndex - 1) * 10);
+                list[0].PageIndex = pageIndex;
                 dal = null;
             }
             catch (Exception ex)

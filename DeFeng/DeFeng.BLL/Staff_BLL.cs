@@ -120,6 +120,7 @@ namespace DeFeng.BLL
             {
                 list = bll.GetStaff(pageIndex);
                 list[0].TotalCount = list[0].TotalCount + ((pageIndex - 1) * 10);
+                list[0].PageIndex = pageIndex;
                 bll = null;
             }
             catch (Exception ex)
@@ -129,13 +130,14 @@ namespace DeFeng.BLL
             return list;
         }
 
-        public List<Staff> GetStaffByDepartment(int departmentID,int pageIndex)
+        public List<Staff> GetStaffByDepartment(int departmentID,int pageIndex=1)
         {
             var list = new List<Staff>();
             try
             {
                 list = dal.GetStaffByDepartment(departmentID, pageIndex);
                 list[0].TotalCount = list[0].TotalCount + ((pageIndex - 1) * 10);
+                list[0].PageIndex = pageIndex;
             }
             catch (Exception ex)
             {

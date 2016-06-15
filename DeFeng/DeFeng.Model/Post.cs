@@ -14,6 +14,8 @@ namespace DeFeng.Model
         private string description;//描述
         private bool isEnable;
         private int postGrade;//岗位等级
+        private int pageIndex;
+        private int totalCount;
         private Staff createStaff;
         private DateTime createDate;
         private DateTime lastUpdateDate;
@@ -146,6 +148,32 @@ namespace DeFeng.Model
             set
             {
                 postGrade = value;
+            }
+        }
+
+        public int PageIndex
+        {
+            get
+            {
+                return pageIndex;
+            }
+
+            set
+            {
+                pageIndex = value;
+            }
+        }
+
+        public int TotalCount
+        {
+            get
+            {
+                return totalCount;
+            }
+
+            set
+            {
+                totalCount = value;
             }
         }
     }
